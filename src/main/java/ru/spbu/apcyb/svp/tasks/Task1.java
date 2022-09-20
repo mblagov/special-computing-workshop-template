@@ -67,7 +67,7 @@ public class Task1 {
       this.logger.setUseParentHandlers(false);
       this.logger.addHandler(streamHandler);
     } catch (FileNotFoundException e) {
-      e.printStackTrace();
+      this.logger.log(Level.INFO, e.toString());
     }
 
 
@@ -83,7 +83,7 @@ public class Task1 {
       data = bufferedReader.readLine();
     } catch (java.io.IOException e) {
       this.logger.log(Level.INFO, "Error with input, cant read");
-      e.printStackTrace();
+      this.logger.log(Level.INFO, e.toString());
       return null;
     }
     return data;
@@ -185,6 +185,10 @@ public class Task1 {
     return result;
   }
 
+  /**
+   *
+   * @param args
+   */
 
   public static void main(String[] args) {
 
