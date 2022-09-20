@@ -1,0 +1,111 @@
+Index: src/main/java/ru/spbu/apcyb/svp/tasks/Task1.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ru/spbu/apcyb/svp/tasks/Task1.java b/src/main/java/ru/spbu/apcyb/svp/tasks/Task1.java
+--- a/src/main/java/ru/spbu/apcyb/svp/tasks/Task1.java	
++++ b/src/main/java/ru/spbu/apcyb/svp/tasks/Task1.java	(date 1662885310779)
+@@ -10,6 +10,7 @@
+ import java.util.Collections;
+ import java.util.HashSet;
+ import java.util.Set;
++import javax.lang.model.element.Element;
+ import org.apache.maven.surefire.shared.compress.archivers.ar.ArArchiveEntry;
+ 
+ /**
+@@ -20,15 +21,36 @@
+ 
+ public class Task1 {
+ 
++  private class Element{
++    private int val=0;
++    private ArrayList<Integer> perv;
++
++
++    public int getVal(){
++      return this.val;
++    }
++
++    public ArrayList<Integer> getPerv() {
++      return this.perv;
++    }
++
++    public void addPerv(Integer num) {
++      this.perv.add(num);
++    }
++
++    public void incrVal(int num) {
++      this.val += num;
++    }
++  }
+   private class Input{
+     private int sum;
+     private int[] values;
+ 
+     public int getSum(){
+-      return sum;
++      return this.sum;
+     }
+     public int[] getValues(){
+-      return values;
++      return this.values;
+     }
+ 
+     public void setSum(int sum) {
+@@ -102,24 +124,32 @@
+     return data;
+   }
+ 
+-  private int[] GetVariantsArray(Input data) {
++  private ArrayList<Element> GetVariantsArray(Input data) {
+ 
+     int[] values= data.getValues();
+     int sum= data.getSum();
+-    int[] variants = new int[sum + 1];
++    ArrayList<Element> variants=new ArrayList<Element>();
++
++    for (int i=0;i<=sum;i++){
++      Element el=new Element();
++      variants.add(el);
++    }
++
+ 
+     for (int i = 0; i <= sum ; i++) {
+ 
+       if (i == 0) {
+         for (int value : values) {
+           if (value <= sum) {
+-            variants[value]++;
++            variants.get(value).incrVal(1);
++            variants.get(value).addPerv(i);
+           }
+         }
+       } else {
+         for (int value : values) {
+           if (i + value <= sum) {
+-            variants[i + value] += variants[i];
++            variants.get(i + value).incrVal(variants.get(i).getVal());
++            variants.get(i+value).addPerv(i);
+           }
+         }
+       }
+@@ -129,14 +159,14 @@
+ 
+   }
+ 
+-  private  void GetRoute (int[] values,int[] variants, ArrayList<Integer> route, int currentSum) {
++  private  void GetRoute (int[] values,ArrayList<Element> variants, ArrayList<Integer> route, int currentSum) {
+ 
+-    if (currentSum==0 || variants[currentSum]==0){
++    if (currentSum==0 || variants.get(currentSum).getVal()==0){
+       return;
+     }
+-    variants[currentSum]--;
++
+     for (int i: values){
+-      if (currentSum-i>0 && (variants[currentSum-i]>0 || currentSum-i==0) ){
++      if (currentSum-i>=0 && (variants[currentSum-i]>0 || currentSum-i==0) ){
+         route.add(i);
+         GetRoute(values,variants,route,currentSum-i);
+         break;
