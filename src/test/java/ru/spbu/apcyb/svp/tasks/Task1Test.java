@@ -59,13 +59,13 @@ class Task1Test {
     Task1 testClass = new Task1();
     String inputFirst = "-1 2 3";
     String inputSecond = "1 2 -3";
-    String intputThird = "1   ";
+    String inputThird = "1   ";
     Exception firstException = assertThrows(ArithmeticException.class, () ->
         testClass.parseString(inputFirst));
     Exception secondException = assertThrows(ArithmeticException.class, () ->
         testClass.parseString(inputSecond));
     Exception thirdException = assertThrows(ArithmeticException.class, () ->
-        testClass.parseString(intputThird));
+        testClass.parseString(inputThird));
     String expectedMessage = "invalid";
     String firstActualMessage = firstException.getMessage();
     String secondActualMessage = secondException.getMessage();
@@ -132,9 +132,5 @@ class Task1Test {
     } catch (FileNotFoundException e) {
       testClass.getLogger().log(Level.INFO, e.toString());
     }
-
-
   }
-
-
 }

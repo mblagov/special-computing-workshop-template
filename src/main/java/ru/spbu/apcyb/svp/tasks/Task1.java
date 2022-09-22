@@ -65,8 +65,10 @@ public class Task1 {
       PrintStream outputStream = new PrintStream(fileOutputStream);
       SimpleFormatter simpleFormatter = new SimpleFormatter();
       StreamHandler streamHandler = new StreamHandler(outputStream, simpleFormatter);
+
       this.logger.setUseParentHandlers(false);
       this.logger.addHandler(streamHandler);
+
     } catch (FileNotFoundException e) {
       this.logger.log(Level.INFO, e.toString());
     }
@@ -80,6 +82,7 @@ public class Task1 {
     Reader inputStreamReader = new InputStreamReader(inputStream);
     BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
     String data;
+
     try {
       data = bufferedReader.readLine();
     } catch (java.io.IOException e) {
@@ -95,15 +98,19 @@ public class Task1 {
     String[] inputFormat = input.trim().replaceAll("\\s{2,}", " ").split(" ");
     long num;
     Set<Long> tmpValues = new TreeSet<>();
+
     try {
       num = Long.parseLong(inputFormat[0]);
       if (num <= 0) {
         throw new ArithmeticException("invalid sum");
       }
+
       this.sum = num;
+
     } catch (NumberFormatException e) {
       throw new NumberFormatException("Input error");
     }
+
     for (int i = 1; i < inputFormat.length; i++) {
       try {
         long value = Long.parseLong(inputFormat[i]);
@@ -118,11 +125,13 @@ public class Task1 {
       }
 
     }
+
     Object[] tmpArray = tmpValues.toArray();
     this.values = new long[tmpArray.length];
     for (int j = 0; j < tmpArray.length; j++) {
       this.values[j] = Long.parseLong(tmpArray[j].toString());
     }
+
     if (this.values.length == 0) {
       throw new ArithmeticException("invalid values");
     }
@@ -150,14 +159,16 @@ public class Task1 {
         if (currentValue > currentSum) {
           continue;
         }
+
+
         for (List<Long> remain : getNumsOfCombinations(currentSum - currentValue, i,
             values)) {
           List<Long> currentCombination = new ArrayList<>();
           currentCombination.add(currentValue);
           currentCombination.addAll(remain);
+
           if (currentSum == this.sum) {
             this.ans += 1;
-
           } else {
             result.add(currentCombination);
           }
@@ -177,11 +188,14 @@ public class Task1 {
         if (currentValue > currentSum) {
           continue;
         }
+
+
         for (List<Long> remain : getCombinations(currentSum - currentValue, i,
             values)) {
           List<Long> currentCombination = new ArrayList<>();
           currentCombination.add(currentValue);
           currentCombination.addAll(remain);
+
           if (currentSum == this.sum) {
             printCombination(this.logger, currentCombination);
 
@@ -211,8 +225,5 @@ public class Task1 {
     task.getNumsOfCombinations(task.sum, task.values.length - 1, task.values);
     task.printCombination(task.logger, task.ans);
     task.getCombinations(task.sum, task.values.length - 1, task.values);
-
-
   }
-
 }
