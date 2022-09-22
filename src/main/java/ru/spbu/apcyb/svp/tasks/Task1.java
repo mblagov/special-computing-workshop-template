@@ -90,6 +90,7 @@ public class Task1 {
   }
 
 
+
   protected void parseString(String input) throws NumberFormatException, ArithmeticException {
     String[] inputFormat = input.trim().replaceAll("\\s{2,}", " ").split(" ");
     int num;
@@ -186,8 +187,9 @@ public class Task1 {
   }
 
   /**
+   * Функция интерфейс.
    *
-   * @param args
+   * @param args аргументы
    */
 
   public static void main(String[] args) {
