@@ -23,8 +23,8 @@ class Task1Test {
     Task1 testClass = new Task1();
     String input = "5 3 2";
     testClass.parseString(input);
-    int expectedSum = 5;
-    int[] expectedValues = new int[]{2, 3};
+    long expectedSum = 5;
+    long[] expectedValues = new long[]{2, 3};
     Assertions.assertEquals(expectedSum, testClass.getSum());
     Assertions.assertArrayEquals(expectedValues, testClass.getValues());
 
@@ -59,16 +59,21 @@ class Task1Test {
     Task1 testClass = new Task1();
     String inputFirst = "-1 2 3";
     String inputSecond = "1 2 -3";
+    String intputThird = "1   ";
     Exception firstException = assertThrows(ArithmeticException.class, () ->
         testClass.parseString(inputFirst));
     Exception secondException = assertThrows(ArithmeticException.class, () ->
         testClass.parseString(inputSecond));
+    Exception thirdException = assertThrows(ArithmeticException.class, () ->
+        testClass.parseString(intputThird));
     String expectedMessage = "invalid";
     String firstActualMessage = firstException.getMessage();
     String secondActualMessage = secondException.getMessage();
+    String thirdActualMessage = thirdException.getMessage();
     assertAll(
         () -> assertTrue(firstActualMessage.contains(expectedMessage)),
-        () -> assertTrue(secondActualMessage.contains(expectedMessage))
+        () -> assertTrue(secondActualMessage.contains(expectedMessage)),
+        () -> assertTrue(thirdActualMessage.contains(expectedMessage))
     );
 
   }
@@ -76,9 +81,9 @@ class Task1Test {
   @Test
   @DisplayName("getNumsOfCombinationTest")
   void getNumsOfCombinationTest() {
-    int[] testValues = new int[]{1, 2};
-    final int expectedAns = 3;
-    final int testSum = 4;
+    long[] testValues = new long[]{1, 2};
+    final long expectedAns = 3;
+    final long testSum = 4;
 
     Task1 testClass = new Task1();
     testClass.setSum(testSum);
@@ -92,10 +97,10 @@ class Task1Test {
   @DisplayName("getCombinationsTest")
   void getCombinationsTest() {
     Task1 testClass = new Task1();
-    int inputSum = 2;
-    int[] inputValues = new int[]{1, 2};
-    int[] firstExpected = new int[]{2};
-    int[] secondExpected = new int[]{1, 1};
+    long inputSum = 2;
+    long[] inputValues = new long[]{1, 2};
+    long[] firstExpected = new long[]{2};
+    long[] secondExpected = new long[]{1, 1};
     testClass.setSum(inputSum);
     testClass.setValues(inputValues);
     testClass.loggerConfiguration();
@@ -108,14 +113,14 @@ class Task1Test {
       reader.nextLine();
       String firstOutput = reader.nextLine().replaceAll("[A-Z:\\[\\],]", "").trim();
       String[] strOutput = firstOutput.split(" ");
-      int[] firstAnswer = new int[strOutput.length];
+      long[] firstAnswer = new long[strOutput.length];
       for (int i = 0; i < firstAnswer.length; i++) {
         firstAnswer[i] = Integer.parseInt(strOutput[i]);
       }
       reader.nextLine();
       String secondOutput = reader.nextLine().replaceAll("[A-Z:\\[\\],]", "").trim();
       strOutput = secondOutput.split(" ");
-      int[] secondAnswer = new int[strOutput.length];
+      long[] secondAnswer = new long[strOutput.length];
       for (int i = 0; i < secondAnswer.length; i++) {
         secondAnswer[i] = Integer.parseInt(strOutput[i]);
       }

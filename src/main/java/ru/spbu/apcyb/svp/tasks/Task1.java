@@ -9,8 +9,9 @@ import java.io.OutputStream;
 import java.io.PrintStream;
 import java.io.Reader;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
+import java.util.Set;
+import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
@@ -24,20 +25,20 @@ import java.util.logging.StreamHandler;
 
 public class Task1 {
 
-  private int sum;
-  private int[] values;
+  private long sum;
+  private long[] values;
   private final java.util.logging.Logger logger =
       java.util.logging.Logger.getLogger(Task1.class.getName());
 
 
-  private int ans = 0;
+  private long ans = 0;
 
 
-  public int getSum() {
+  public long getSum() {
     return this.sum;
   }
 
-  public int[] getValues() {
+  public long[] getValues() {
     return this.values;
   }
 
@@ -45,15 +46,15 @@ public class Task1 {
     return this.logger;
   }
 
-  public void setSum(int sum) {
+  public void setSum(long sum) {
     this.sum = sum;
   }
 
-  public int getAns() {
+  public long getAns() {
     return this.ans;
   }
 
-  public void setValues(int[] values) {
+  public void setValues(long[] values) {
     this.values = values;
   }
 
@@ -90,14 +91,13 @@ public class Task1 {
   }
 
 
-
   protected void parseString(String input) throws NumberFormatException, ArithmeticException {
     String[] inputFormat = input.trim().replaceAll("\\s{2,}", " ").split(" ");
-    int num;
-    this.values = new int[inputFormat.length - 1];
+    long num;
+    Set<Long> tmpValues = new TreeSet<>();
     try {
-      num = Integer.parseInt(inputFormat[0]);
-      if (num < 0) {
+      num = Long.parseLong(inputFormat[0]);
+      if (num <= 0) {
         throw new ArithmeticException("invalid sum");
       }
       this.sum = num;
@@ -106,44 +106,53 @@ public class Task1 {
     }
     for (int i = 1; i < inputFormat.length; i++) {
       try {
-        this.values[i - 1] = Integer.parseInt(inputFormat[i]);
-        if (this.values[i - 1] < 0) {
+        long value = Long.parseLong(inputFormat[i]);
+        if (value <= 0) {
           throw new ArithmeticException("invalid value");
         }
+        tmpValues.add(value);
+
 
       } catch (NumberFormatException e) {
         throw new NumberFormatException("Input error");
       }
 
     }
-    Arrays.sort(this.values);
+    Object[] tmpArray = tmpValues.toArray();
+    this.values = new long[tmpArray.length];
+    for (int j = 0; j < tmpArray.length; j++) {
+      this.values[j] = Long.parseLong(tmpArray[j].toString());
+    }
+    if (this.values.length == 0) {
+      throw new ArithmeticException("invalid values");
+    }
   }
 
 
-  protected void printCombination(java.util.logging.Logger logger, List<Integer> combination) {
+  protected void printCombination(java.util.logging.Logger logger, List<Long> combination) {
     String out = combination.toString();
     logger.log(java.util.logging.Level.INFO, out);
   }
 
-  protected void printCombination(java.util.logging.Logger logger, int ans) {
-    String out = Integer.toString(ans);
+  protected void printCombination(java.util.logging.Logger logger, long ans) {
+    String out = Long.toString(ans);
     logger.log(java.util.logging.Level.INFO, out);
   }
 
-  protected List<List<Integer>> getNumsOfCombinations(int currentSum, int maxIndex,
-      int[] values) {
-    List<List<Integer>> result = new ArrayList<>();
+  protected List<List<Long>> getNumsOfCombinations(long currentSum, int maxIndex,
+      long[] values) {
+    List<List<Long>> result = new ArrayList<>();
     if (currentSum == 0) {
       result.add(new ArrayList<>());
     } else {
       for (int i = maxIndex; i >= 0; i--) {
-        int currentValue = values[i];
+        long currentValue = values[i];
         if (currentValue > currentSum) {
           continue;
         }
-        for (List<Integer> remain : getNumsOfCombinations(currentSum - currentValue, i,
+        for (List<Long> remain : getNumsOfCombinations(currentSum - currentValue, i,
             values)) {
-          List<Integer> currentCombination = new ArrayList<>();
+          List<Long> currentCombination = new ArrayList<>();
           currentCombination.add(currentValue);
           currentCombination.addAll(remain);
           if (currentSum == this.sum) {
@@ -158,20 +167,19 @@ public class Task1 {
     return result;
   }
 
-  protected List<List<Integer>> getCombinations(int currentSum, int maxIndex, int[] values
-  ) {
-    List<List<Integer>> result = new ArrayList<>();
+  protected List<List<Long>> getCombinations(long currentSum, int maxIndex, long[] values) {
+    List<List<Long>> result = new ArrayList<>();
     if (currentSum == 0) {
       result.add(new ArrayList<>());
     } else {
       for (int i = maxIndex; i >= 0; i--) {
-        int currentValue = values[i];
+        long currentValue = values[i];
         if (currentValue > currentSum) {
           continue;
         }
-        for (List<Integer> remain : getCombinations(currentSum - currentValue, i,
+        for (List<Long> remain : getCombinations(currentSum - currentValue, i,
             values)) {
-          List<Integer> currentCombination = new ArrayList<>();
+          List<Long> currentCombination = new ArrayList<>();
           currentCombination.add(currentValue);
           currentCombination.addAll(remain);
           if (currentSum == this.sum) {
@@ -187,9 +195,11 @@ public class Task1 {
   }
 
   /**
-   * Функция интерфейс.
+   * На вход принимается строка, состоящая из целых чисел, все числа разделены пробелом.
+   * Первое число трактуется как сумма, все последующие - как существующие номиналы.
+   * Программа выводит количество комбинаций и сами комбинации.
    *
-   * @param args аргументы
+   * @param args .
    */
 
   public static void main(String[] args) {
