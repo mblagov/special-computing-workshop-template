@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 
 /**
- * Задание 1. Банкомат.
+ * Задание 1. Банкомат. final check before the real pull
  */
 
 public class Task1 {
