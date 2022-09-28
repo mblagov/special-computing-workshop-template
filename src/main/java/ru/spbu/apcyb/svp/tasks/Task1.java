@@ -1,7 +1,7 @@
 package ru.spbu.apcyb.svp.tasks;
 
 /**
- * Задание 1.
+ * Задание 1. ////Test push
  */
 public class Task1 {
 
