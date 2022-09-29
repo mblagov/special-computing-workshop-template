@@ -40,12 +40,7 @@ public class Task1 {
     }
     for (int j : arr) {
       if ((prevNominal >= j) && (sum >= j) && (j != 0)) {
-        try {
-          count += combinations(sum - j, j, values + " " + j + " ", arr);
-        } catch (Exception e) {
-          logger.info(" - ОШИБКА -");
-          return 0;
-        }
+        count += combinations(sum - j, j, values + " " + j + " ", arr);
       }
     }
     return count;

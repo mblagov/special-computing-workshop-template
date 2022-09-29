@@ -6,54 +6,48 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import org.junit.jupiter.api.Test;
 
 
-
-
-
 class Task1Test {
-
-    @Test
+  @Test
 
     void combinations() {
-        int[] arr = {100, 50, 10};
-        int actual = Task1.combinations(620, 100, "", arr);
-        int expected = 49;
-        assertEquals(expected, actual);
+    int[] arr = {100, 50, 10};
+    int actual = Task1.combinations(620, 100, "", arr);
+    int expected = 49;
+    assertEquals(expected, actual);
     }
-
     @Test
 
     void combinations2() {
-        int[] arr = {100, 50, 20};
-        int actual = Task1.combinations(200, 100, "", arr);
-        int expected = 6;
-        assertEquals(expected, actual);
+    int[] arr = {100, 50, 20};
+    int actual = Task1.combinations(200, 100, "", arr);
+    int expected = 6;
+    assertEquals(expected, actual);
     }
 
-    @Test
-
+  @Test
     void combinations3() {
-        int[] arr = {3, 2};
-        int actual = Task1.combinations(5, 3, "", arr);
-        int expected = 1;
-        assertEquals(expected, actual);
+    int[] arr = {3, 2};
+    int actual = Task1.combinations(5, 3, "", arr);
+    int expected = 1;
+    assertEquals(expected, actual);
     }
 
     @Test
 
     void combinations4() {
-        int[] arr = {2, 1};
-        int actual = Task1.combinations(4, 2, "", arr);
-        int expected = 3;
-        assertEquals(expected, actual);
+    int[] arr = {2, 1};
+    int actual = Task1.combinations(4, 2, "", arr);
+    int expected = 3;
+    assertEquals(expected, actual);
     }
 
     @Test
 
     void combinations5() {
-        int[] arr = {1, 2};
-        int actual = Task1.combinations(4, 2, "", arr);
-        int expected = 3;
-        assertEquals(expected, actual);
+    int[] arr = {1, 2};
+    int actual = Task1.combinations(4, 2, "", arr);
+    int expected = 3;
+    assertEquals(expected, actual);
     }
 
     @Test
@@ -107,6 +101,15 @@ class Task1Test {
 
     void numIn2() {
         String test = "-100 20 50";
+        int[] expected = {};
+        int[] actual = Task1.nomIn(test);
+        assertArrayEquals(actual, expected);
+    }
+
+    @Test
+
+    void numIn3() {
+        String test = "a";
         int[] expected = {};
         int[] actual = Task1.nomIn(test);
         assertArrayEquals(actual, expected);
