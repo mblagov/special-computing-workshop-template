@@ -78,9 +78,13 @@ public class Task1 {
   public static Long[] inputDenom() {
     Scanner in = new Scanner(System.in);
     Logger logger = Logger.getLogger(Task1.class.getName());
-    logger.info("Введите номиналы через пробел: ");
-    String str = in.nextLine();
-    return inDenom(str);
+    Long[] denom = new Long[]{};
+    while (denom.length == 0) {
+      logger.info("Введите номиналы через пробел: ");
+      String str = in.nextLine();
+      denom = inDenom(str);
+    }
+    return denom;
   }
 
   /**
@@ -102,9 +106,13 @@ public class Task1 {
   public static long inputSum() {
     Scanner in = new Scanner(System.in);
     Logger logger = Logger.getLogger(Task1.class.getName());
-    logger.info("Введите сумму: ");
-    String str = in.nextLine();
-    return inSum(str);
+    long sum = 0;
+    while (sum <= 0) {
+      logger.info("Введите сумму: ");
+      String str = in.nextLine();
+      sum = inSum(str);
+    }
+    return sum;
   }
 
   /**
@@ -112,14 +120,8 @@ public class Task1 {
    */
   public static void main(String[] args) {
     Logger logger = Logger.getLogger(Task1.class.getName());
-    long sum = 0;
-    while (sum <= 0) {
-      sum = inputSum();
-    }
+    long sum = inputSum();
     Long[] denom = inputDenom();
-    while (denom.length == 0) {
-      denom = inputDenom();
-    }
     logger.info("Комбинации:");
     int count = variants(denom, sum, denom[0], "");
     Supplier<String> strSupplier = () -> ("Количество комбинаций: " + count);

@@ -11,19 +11,69 @@ import org.junit.jupiter.api.Test;
 public class Task1Test {
 
   @Test
-  public void inDenom_1() {
+  void inDenom_ints() {
     Long[] exp = new Long[]{34L, 2L, 1L};
     assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inDenom("1 34 2")));
   }
 
   @Test
-  public void variants_1() {
-    Long[] denom = new Long[]{100L, 50L, 20L};
-    assertEquals(Task1.variants(denom, 200, denom[0], ""), 6);
+  void inDenom_double() {
+    Long[] exp = new Long[]{};
+    assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inDenom("1 34,1 2")));
   }
 
   @Test
-  public void inSum_1(){
-    assertEquals(Task1.inSum("15"),15);
+  void inDenom_empty() {
+    Long[] exp = new Long[]{};
+    assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inDenom("")));
+  }
+
+  @Test
+  void inDenom_str() {
+    Long[] exp = new Long[]{};
+    assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inDenom("2 a 3")));
+  }
+
+  @Test
+  void inDenom_negative() {
+    Long[] exp = new Long[]{};
+    assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inDenom("1 34 -2")));
+  }
+
+  @Test
+  void variants_right() {
+    Long[] denom = new Long[]{100L, 50L, 20L};
+    assertEquals(6, Task1.variants(denom, 200, denom[0], ""));
+  }
+
+  @Test
+  void variants_noChange() {
+    Long[] denom = new Long[]{100L};
+    assertEquals(0, Task1.variants(denom, 110, denom[0], ""));
+  }
+
+  @Test
+  void inSum_int() {
+    assertEquals(15, Task1.inSum("15"));
+  }
+
+  @Test
+  void inSum_str() {
+    assertEquals(-1, Task1.inSum("a"));
+  }
+
+  @Test
+  void inSum_double() {
+    assertEquals(-1, Task1.inSum("1,5"));
+  }
+
+  @Test
+  void inSum_negative() {
+    assertEquals(-300, Task1.inSum("-300"));
+  }
+
+  @Test
+  void inSum_empty() {
+    assertEquals(-1, Task1.inSum(""));
   }
 }
