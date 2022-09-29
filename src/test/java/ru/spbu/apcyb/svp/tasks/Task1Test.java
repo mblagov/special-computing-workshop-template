@@ -17,27 +17,12 @@ public class Task1Test {
   }
 
   @Test
-  void inDenom_double() {
-    Long[] exp = new Long[]{};
-    assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inDenom("1 34,1 2")));
-  }
-
-  @Test
-  void inDenom_empty() {
-    Long[] exp = new Long[]{};
-    assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inDenom("")));
-  }
-
-  @Test
-  void inDenom_str() {
-    Long[] exp = new Long[]{};
-    assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inDenom("2 a 3")));
-  }
-
-  @Test
   void inDenom_negative() {
     Long[] exp = new Long[]{};
     assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inDenom("1 34 -2")));
+    assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inDenom("2 a 3")));
+    assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inDenom("")));
+    assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inDenom("1 34,1 2")));
   }
 
   @Test
