@@ -5,7 +5,7 @@ import java.util.logging.Logger;
 
 
 /**
- * Задание 1. Банкомат. final check before the real pull
+ * Задание 1. Банкомат.
  */
 
 public class Task1 {
@@ -36,10 +36,9 @@ public class Task1 {
     if (sum == 0) {
       count++;
       logger.info(values);
-      logger.info("\n");
     }
     for (int j : arr) {
-      if ((prevNominal >= j) && (sum >= j) && (j != 0)) {
+      if ((prevNominal >= j) && (sum >= j)) {
         count += combinations(sum - j, j, values + " " + j + " ", arr);
       }
     }
@@ -55,9 +54,14 @@ public class Task1 {
     int sum;
     try {
       sum = Integer.parseInt(str);
-      return sum;
     } catch (Exception e) {
       logger.info("- ОШИБКА - поймали Exception при вводе суммы");
+      return -1;
+    }
+    if (sum > 0) {
+      return sum;
+    } else {
+      logger.info("- ОШИБКА - сумма < 0 ?!");
       return -1;
     }
   }
@@ -92,22 +96,13 @@ public class Task1 {
   public static void main(String[] args) {
     Logger logger = Logger.getLogger(Task1.class.getName());
     Scanner scanner = new Scanner(System.in);
-    int sum = 0;
-    int[] arr = {};
-    while (sum <= 0) {
-      logger.info("Введите сумму - >");
-      String str1 = scanner.nextLine();
-      sum = sumIn(str1);
-    }
-    while (arr.length == 0) {
-      logger.info("Введите номиналы купюр - > ");
-      String str2 = scanner.nextLine();
-      arr = nomIn(str2);
-    }
-    String values = "";
-    int count = combinations(sum, arr[0], values, arr);
+    logger.info("Введите сумму - >");
+    String str1 = scanner.nextLine();
+    logger.info("Введите номиналы купюр - > ");
+    String str2 = scanner.nextLine();
+    int count = combinations(sumIn(str1), nomIn(str2)[0], " ", nomIn(str2));
     logger.info("Всего комбинаций: ");
-    String strCount = String.valueOf(count);
-    logger.info(strCount);
+    String str = String.valueOf(count);
+    logger.info(str);
   }
 }
