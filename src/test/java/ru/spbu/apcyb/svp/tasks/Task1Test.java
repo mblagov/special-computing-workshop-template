@@ -3,38 +3,40 @@ package ru.spbu.apcyb.svp.tasks;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 import org.junit.jupiter.api.Test;
 
 /**
  * Тесты для задания 1.
  */
-public class Task1Test {
+class Task1Test {
 
   @Test
-  void inDenom_ints() {
+  void inNotes_ints() {
     Long[] exp = new Long[]{34L, 2L, 1L};
-    assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inDenom("1 34 2")));
+    assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inNotes("1 34 2")));
   }
 
   @Test
-  void inDenom_negative() {
-    Long[] exp = new Long[]{};
-    assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inDenom("1 34 -2")));
-    assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inDenom("2 a 3")));
-    assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inDenom("")));
-    assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inDenom("1 34,1 2")));
+  void inNotes_negative() {
+    List<Long> exp = Collections.emptyList();
+    assertEquals(exp, Arrays.asList(Task1.inNotes("1 34 -2")));
+    assertEquals(exp, Arrays.asList(Task1.inNotes("2 a 3")));
+    assertEquals(exp, Arrays.asList(Task1.inNotes("")));
+    assertEquals(exp, Arrays.asList(Task1.inNotes("1 34,1 2")));
   }
 
   @Test
   void variants_right() {
-    Long[] denom = new Long[]{100L, 50L, 20L};
-    assertEquals(6, Task1.variants(denom, 200, denom[0], ""));
+    Long[] notes = new Long[]{100L, 50L, 20L};
+    assertEquals(6, Task1.variants(notes, 200, notes[0], ""));
   }
 
   @Test
   void variants_noChange() {
-    Long[] denom = new Long[]{100L};
-    assertEquals(0, Task1.variants(denom, 110, denom[0], ""));
+    Long[] notes = new Long[]{100L};
+    assertEquals(0, Task1.variants(notes, 110, notes[0], ""));
   }
 
   @Test
