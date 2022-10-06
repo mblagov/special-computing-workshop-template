@@ -45,7 +45,7 @@ public class Task1 {
     return res;
   }
 
-  public static void recursion(
+  public static void fillCombinationsList(
       List<ArrayList<Long>> combinations,
       List<Long> values,
       Long currentSum,
@@ -58,7 +58,7 @@ public class Task1 {
       for (long i = 0; i * values.get(valueIndex) <= currentSum; i++) {
         ArrayList<Long> nextCombination = new ArrayList<>(combination);
         nextCombination.add(i);
-        recursion(
+        fillCombinationsList(
             combinations,
             values,
             currentSum - i * values.get(valueIndex),
@@ -107,7 +107,7 @@ public class Task1 {
     values.sort(Collections.reverseOrder());
     ArrayList<ArrayList<Long>> combinations = new ArrayList<>();
 
-    recursion(
+    fillCombinationsList(
         combinations,
         values,
         sum,
