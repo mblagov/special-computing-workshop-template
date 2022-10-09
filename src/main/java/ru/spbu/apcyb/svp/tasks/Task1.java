@@ -3,6 +3,7 @@ package ru.spbu.apcyb.svp.tasks;
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.io.OutputStream;
@@ -12,7 +13,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
-import java.util.logging.Level;
 import java.util.logging.Logger;
 import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
@@ -31,7 +31,7 @@ public class Task1 {
       java.util.logging.Logger.getLogger(Task1.class.getName());
 
 
-  private long ans = 0;
+  private long numOfCombinations = 0;
 
 
   public long getSum() {
@@ -50,8 +50,8 @@ public class Task1 {
     this.sum = sum;
   }
 
-  public long getAns() {
-    return this.ans;
+  public long getNumOfCombinations() {
+    return this.numOfCombinations;
   }
 
   public void setValues(long[] values) {
@@ -59,7 +59,10 @@ public class Task1 {
   }
 
 
-  protected void loggerConfiguration() {
+  /**
+   * Перенаправление логирования в файл для тестирования.
+   */
+  protected void loggerConfiguration() throws FileNotFoundException {
     try {
       OutputStream fileOutputStream = new FileOutputStream("output.log");
       PrintStream outputStream = new PrintStream(fileOutputStream);
@@ -70,14 +73,14 @@ public class Task1 {
       this.logger.addHandler(streamHandler);
 
     } catch (FileNotFoundException e) {
-      this.logger.log(Level.INFO, e.toString());
+      throw new FileNotFoundException("logfile not found");
     }
 
 
   }
 
 
-  protected String readString() {
+  protected String readString() throws IOException {
     InputStream inputStream = System.in;
     Reader inputStreamReader = new InputStreamReader(inputStream);
     BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
@@ -86,9 +89,7 @@ public class Task1 {
     try {
       data = bufferedReader.readLine();
     } catch (java.io.IOException e) {
-      this.logger.log(Level.INFO, "Error with input, cant read");
-      this.logger.log(Level.INFO, e.toString());
-      return null;
+      throw new java.io.IOException("input error, cant read");
     }
     return data;
   }
@@ -108,7 +109,7 @@ public class Task1 {
       this.sum = num;
 
     } catch (NumberFormatException e) {
-      throw new NumberFormatException("Input error");
+      throw new NumberFormatException("its not a number");
     }
 
     for (int i = 1; i < inputFormat.length; i++) {
@@ -121,7 +122,7 @@ public class Task1 {
 
 
       } catch (NumberFormatException e) {
-        throw new NumberFormatException("Input error");
+        throw new NumberFormatException("its not a number");
       }
 
     }
@@ -143,12 +144,12 @@ public class Task1 {
     logger.log(java.util.logging.Level.INFO, out);
   }
 
-  protected void printCombination(java.util.logging.Logger logger, long ans) {
+  protected void printNumber(java.util.logging.Logger logger, long ans) {
     String out = Long.toString(ans);
     logger.log(java.util.logging.Level.INFO, out);
   }
 
-  protected List<List<Long>> getNumsOfCombinations(long currentSum, int maxIndex,
+  protected List<List<Long>> setNumOfCombinations(long currentSum, int maxIndex,
       long[] values) {
     List<List<Long>> result = new ArrayList<>();
     if (currentSum == 0) {
@@ -160,15 +161,14 @@ public class Task1 {
           continue;
         }
 
-
-        for (List<Long> remain : getNumsOfCombinations(currentSum - currentValue, i,
+        for (List<Long> remain : setNumOfCombinations(currentSum - currentValue, i,
             values)) {
           List<Long> currentCombination = new ArrayList<>();
           currentCombination.add(currentValue);
           currentCombination.addAll(remain);
 
           if (currentSum == this.sum) {
-            this.ans += 1;
+            this.numOfCombinations += 1;
           } else {
             result.add(currentCombination);
           }
@@ -189,7 +189,6 @@ public class Task1 {
           continue;
         }
 
-
         for (List<Long> remain : getCombinations(currentSum - currentValue, i,
             values)) {
           List<Long> currentCombination = new ArrayList<>();
@@ -209,21 +208,26 @@ public class Task1 {
   }
 
   /**
-   * На вход принимается строка, состоящая из целых чисел, все числа разделены пробелом.
-   * Первое число трактуется как сумма, все последующие - как существующие номиналы.
-   * Программа выводит количество комбинаций и сами комбинации.
+   * На вход принимается строка, состоящая из целых чисел, все числа разделены пробелом. Первое
+   * число трактуется как сумма, все последующие - как существующие номиналы. Программа выводит
+   * количество комбинаций и сами комбинации.
    *
    * @param args .
    */
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
 
     Task1 task = new Task1();
-    String input = task.readString();
+    String input;
+    try {
+      input = task.readString();
+    } catch (IOException e) {
+      throw new IOException("input error");
+    }
     task.parseString(input);
 
-    task.getNumsOfCombinations(task.sum, task.values.length - 1, task.values);
-    task.printCombination(task.logger, task.ans);
+    task.setNumOfCombinations(task.sum, task.values.length - 1, task.values);
+    task.printNumber(task.logger, task.numOfCombinations);
     task.getCombinations(task.sum, task.values.length - 1, task.values);
   }
 }

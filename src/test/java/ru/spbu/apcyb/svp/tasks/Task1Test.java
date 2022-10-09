@@ -2,7 +2,6 @@ package ru.spbu.apcyb.svp.tasks;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -11,6 +10,8 @@ import java.util.logging.Level;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Тесты для задания 1.
@@ -25,57 +26,32 @@ class Task1Test {
     testClass.parseString(input);
     long expectedSum = 5;
     long[] expectedValues = new long[]{2, 3};
-    Assertions.assertEquals(expectedSum, testClass.getSum());
-    Assertions.assertArrayEquals(expectedValues, testClass.getValues());
+    assertAll(
+        () -> Assertions.assertEquals(expectedSum, testClass.getSum()),
+        () -> Assertions.assertArrayEquals(expectedValues, testClass.getValues())
+    );
+
 
   }
 
-  @Test
+  @ParameterizedTest
+  @ValueSource(strings = {"1 a 3", "c 7 8"})
   @DisplayName("parseStringTest2")
-  void parseStringTest2() {
+  void parseStringTest2(String input) {
     Task1 testClass = new Task1();
-    String inputFirst = "1  a  3";
-    String inputSecond = "c   7   8";
-    Exception firstException = assertThrows(NumberFormatException.class,
+    assertThrows(NumberFormatException.class,
         () -> testClass.parseString(
-            inputFirst));
-    Exception secondException = assertThrows(NumberFormatException.class,
-        () -> testClass.parseString(
-            inputSecond));
+            input));
 
-    String expectedMessage = "Input error";
-    String firstActualMessage = firstException.getMessage();
-    String secondActualMessage = secondException.getMessage();
-
-    assertAll(
-        () -> assertTrue(firstActualMessage.contains(expectedMessage)),
-        () -> assertTrue(secondActualMessage.contains(expectedMessage))
-    );
   }
 
-  @Test
+  @ParameterizedTest
+  @ValueSource(strings = {"-1 2 3", "1 2 -3", "1   "})
   @DisplayName("parseStringTest3")
-  void parseStringTest3() {
+  void parseStringTest3(String input) {
     Task1 testClass = new Task1();
-    String inputFirst = "-1 2 3";
-    String inputSecond = "1 2 -3";
-    String inputThird = "1   ";
-    Exception firstException = assertThrows(ArithmeticException.class, () ->
-        testClass.parseString(inputFirst));
-    Exception secondException = assertThrows(ArithmeticException.class, () ->
-        testClass.parseString(inputSecond));
-    Exception thirdException = assertThrows(ArithmeticException.class, () ->
-        testClass.parseString(inputThird));
-    String expectedMessage = "invalid";
-    String firstActualMessage = firstException.getMessage();
-    String secondActualMessage = secondException.getMessage();
-    String thirdActualMessage = thirdException.getMessage();
-    assertAll(
-        () -> assertTrue(firstActualMessage.contains(expectedMessage)),
-        () -> assertTrue(secondActualMessage.contains(expectedMessage)),
-        () -> assertTrue(thirdActualMessage.contains(expectedMessage))
-    );
-
+    assertThrows(ArithmeticException.class, () ->
+        testClass.parseString(input));
   }
 
   @Test
@@ -88,14 +64,14 @@ class Task1Test {
     Task1 testClass = new Task1();
     testClass.setSum(testSum);
     testClass.setValues(testValues);
-    testClass.getNumsOfCombinations(testClass.getSum(), testClass.getValues().length - 1,
+    testClass.setNumOfCombinations(testClass.getSum(), testClass.getValues().length - 1,
         testClass.getValues());
-    Assertions.assertEquals(expectedAns, testClass.getAns());
+    Assertions.assertEquals(expectedAns, testClass.getNumOfCombinations());
   }
 
   @Test
   @DisplayName("getCombinationsTest")
-  void getCombinationsTest() {
+  void getCombinationsTest() throws FileNotFoundException {
     Task1 testClass = new Task1();
     long inputSum = 2;
     long[] inputValues = new long[]{1, 2};
@@ -103,7 +79,11 @@ class Task1Test {
     long[] secondExpected = new long[]{1, 1};
     testClass.setSum(inputSum);
     testClass.setValues(inputValues);
-    testClass.loggerConfiguration();
+    try {
+      testClass.loggerConfiguration();
+    } catch (java.io.FileNotFoundException e) {
+      throw new FileNotFoundException("logfile not found");
+    }
     testClass.getCombinations(inputSum, inputValues.length - 1, inputValues);
     testClass.getLogger().getHandlers()[0].close();
 
@@ -124,13 +104,14 @@ class Task1Test {
       for (int i = 0; i < secondAnswer.length; i++) {
         secondAnswer[i] = Integer.parseInt(strOutput[i]);
       }
-
-      Assertions.assertArrayEquals(firstExpected, firstAnswer);
-      Assertions.assertArrayEquals(secondExpected, secondAnswer);
+      assertAll(
+          () -> Assertions.assertArrayEquals(firstExpected, firstAnswer),
+          () -> Assertions.assertArrayEquals(secondExpected, secondAnswer)
+      );
 
 
     } catch (FileNotFoundException e) {
-      testClass.getLogger().log(Level.INFO, e.toString());
+      testClass.getLogger().log(Level.SEVERE, e.toString());
     }
   }
 }
