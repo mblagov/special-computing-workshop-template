@@ -1,5 +1,7 @@
 package ru.spbu.apcyb.svp.tasks;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -11,98 +13,88 @@ import java.util.logging.Logger;
 public class Task1 {
 
   /**
-   * Упорядочим массив в порядке убывания.
+   * Метод для получения комбинаций купюр данной суммы.
+   *
+   * @param sum - переменная для передачи суммы
+   * @param prevNominal - переменная для хранения предыдущего номинала, участвующего в размене.
+   * @param combination - строка для хранения и вывода комбинации
+   * @param nomArr - массив номиналов
+   * @return число комбинаций
    */
-
-  public static int[] ord(int[] arr) {
-    for (int j = 1; j < arr.length; j++) {
-      for (int i = 0; i < arr.length; i++) {
-        if (arr[j] > arr[i]) {
-          int tmp = arr[j];
-          arr[j] = arr[i];
-          arr[i] = tmp;
-        }
-      }
-    }
-    return arr;
-  }
-
-  /**
-   * Функция для получения комбинаций купюр данной суммы.
-   */
-  public static int combinations(int sum, int prevNominal, String values, int[] arr) {
+  public static int combinations(int sum, int prevNominal, String combination, Integer[] nomArr) {
     Logger logger = Logger.getLogger(Task1.class.getName());
     int count = 0;
     if (sum == 0) {
       count++;
-      logger.info(values);
+      logger.info(combination);
     }
-    for (int j : arr) {
+    for (int j : nomArr) {
       if ((prevNominal >= j) && (sum >= j)) {
-        count += combinations(sum - j, j, values + " " + j + " ", arr);
+        count += combinations(sum - j, j, combination + " " + j + " ", nomArr);
       }
     }
     return count;
   }
 
   /**
-   * Функция для ввода суммы.
+   * Метод для ввода суммы.
+   *
+   * @param str - строка для ввода суммы
+   * @return сумма
    */
 
   public  static int sumIn(String str) {
-    Logger logger = Logger.getLogger(Task1.class.getName());
     int sum;
     try {
       sum = Integer.parseInt(str);
     } catch (Exception e) {
-      logger.info("- ОШИБКА - поймали Exception при вводе суммы");
-      return -1;
+      throw new IllegalArgumentException(" - ОШИБКА - поймали Exception при вводе суммы");
     }
     if (sum > 0) {
       return sum;
     } else {
-      logger.info("- ОШИБКА - сумма < 0 ?!");
-      return -1;
+      throw new ArithmeticException(" - ОШИБКА - поймали Exception при вводе суммы");
     }
   }
 
   /**
-   * Функция для ввода номиналов.
+   * Метод для ввода номиналов.
+   *
+   * @param str - строка с номиналами, введеными с консоли
+   * @return массив номиналов
    */
 
-  public  static int[] nomIn(String str) {
-    Logger logger = Logger.getLogger(Task1.class.getName());
+  public  static Integer[] nomIn(String str) {
     String[] strMas = str.split(" ");
-    int[] arr = new int[strMas.length];
-    for (int i = 0; i < arr.length; i++) {
+    Integer[] nomArr = new Integer[strMas.length];
+    for (int i = 0; i < nomArr.length; i++) {
       try {
-        arr[i] = Integer.parseInt(strMas[i]);
-        if (arr[i] <= 0) {
-          logger.info("- ОШИБКА - таких купюр не бывает");
-          return new int[0];
+        nomArr[i] = Integer.parseInt(strMas[i]);
+        if (nomArr[i] <= 0) {
+          throw new ArithmeticException(" - ОШИБКА - поймали Exception при вводе номиналов");
         }
-      } catch (NumberFormatException nfe) {
-        logger.info(" - ОШИБКА - поймали Exception при вводе номиналов");
-        return new int[0];
+      } catch (Exception e) {
+        throw new IllegalArgumentException(" - ОШИБКА - поймали Exception при вводе номиналов");
       }
     }
-    return ord(arr);
+    Arrays.sort(nomArr, Collections.reverseOrder());
+    return (nomArr);
   }
 
   /**
-   * Main  - мать всего программирования без нее никуда.
-   * */
+   * Main.
+   * программа принимает от пользователя две строки из консоли
+   * str1 - сумма
+   * str2 - номиналы через пробел
+   * выводит комбинации и их число
+   */
 
   public static void main(String[] args) {
     Logger logger = Logger.getLogger(Task1.class.getName());
     Scanner scanner = new Scanner(System.in);
-    logger.info("Введите сумму - >");
-    String str1 = scanner.nextLine();
-    logger.info("Введите номиналы купюр - > ");
-    String str2 = scanner.nextLine();
-    int count = combinations(sumIn(str1), nomIn(str2)[0], " ", nomIn(str2));
-    logger.info("Всего комбинаций: ");
-    String str = String.valueOf(count);
+    String sum = scanner.nextLine();
+    String nominal = scanner.nextLine();
+    String str = String.valueOf(combinations(sumIn(sum), nomIn(nominal)[0], " ", nomIn(nominal)));
     logger.info(str);
   }
 }
