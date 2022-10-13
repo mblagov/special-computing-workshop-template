@@ -11,7 +11,6 @@ public class Task1 {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         //List<String> banknotes = new ArrayList<>();
-
         System.out.print("input the amount: ");
         int amount = in.nextInt();
 
@@ -28,35 +27,42 @@ public class Task1 {
 
         System.out.print("----------------------\n");
 
+
+        //сделать норм тесты
+        //сделать норм вывод
+        //как обработать исключения?
+        //при нуле выдает ошибку и при отриц значениях тоже
+        //тест на обычные числа
+        //тест на большую купюру
+
+
+        List<List<Integer>> result = exchangeOfBanknotes(amount, banknotes);
+        System.out.printf("number of combinations:  %d\n", result.size());
+        if (result.size() != 0) {
+            System.out.print("combinations:\n");
+            for (var combination : result) {
+                for (int banknote : combination) {
+                    System.out.printf("%d ", banknote);
+                }
+                System.out.println();
+            }
+        } else { System.out.print("Sorry, not today"); }
+        in.close();
+
+    }
+
+    public static List<List<Integer>> exchangeOfBanknotes(int amount, int[] banknotes) {
+        banknotes = Arrays.stream(banknotes).distinct().toArray(); //дубликаты убирает
         int maxBanknote = -1;
         for (int num : banknotes) { //а как иначе найти максимум?
             if (maxBanknote < num) {
                 maxBanknote = num;
             }
         }
-        List<List<Integer>> result = exchangeOfBanknotes(amount, maxBanknote, banknotes);
-        System.out.print("number of combinations: ");
-        System.out.println(result.size());
-        if (result.size() != 0) {
-            System.out.print("combinations:\n");
-            for (var combination : result) {
-                for (int banknote : combination) {
-                    System.out.print(banknote);
-                    System.out.print(" ");
-                }
-                System.out.print("\n");
-            }
-        } else {
-            System.out.print("Sorry, not today");
-        }
-        in.close();
 
-    }
-
-    public static List<List<Integer>> exchangeOfBanknotes(int amount, int minvalue, int[] banknotes) {
         List<List<Integer>> result = new ArrayList<>();
         List<Integer> valueList = new ArrayList<>();
-        return exchangeOfBanknotes(amount, minvalue, banknotes, valueList, result);
+        return exchangeOfBanknotes(amount, maxBanknote, banknotes, valueList, result);
     }
 
     private static List<List<Integer>> exchangeOfBanknotes(int amount, int minvalue, int[] banknotes, List<Integer> valueList, List<List<Integer>> result) {
@@ -81,6 +87,4 @@ public class Task1 {
             exchangeOfBanknotes(amount - b, b, banknotes, copyValueList, result);
 
         }
-        return result;
-    }
-}
+        return result;}}
