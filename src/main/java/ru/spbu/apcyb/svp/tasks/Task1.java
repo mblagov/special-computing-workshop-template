@@ -43,27 +43,11 @@ public class Task1 {
   /**
    * Строка в массив.
    */
-  public static Long[] inNotes(String str) {
+  public static Long[] strToLongArray(String str) {
     ArrayList<Long> notes = new ArrayList<>();
-    int numBeg = 0;
-    int numEnd = 0;
-    while (numEnd < str.length()) {
-      if (str.charAt(numBeg) == ' ') {
-        numBeg++;
-      }
-      for (numEnd = numBeg; (str.length() > numEnd) && (str.charAt(numEnd) != ' '); ) {
-        numEnd++;
-      }
-      String tmp = str.substring(numBeg, numEnd);
-      numBeg = numEnd;
-      try {
-        notes.add(Long.parseLong(tmp));
-        if (notes.get(notes.size() - 1) <= 0) {
-          return new Long[0];
-        }
-      } catch (NumberFormatException e) {
-        return new Long[0];
-      }
+    String[] substrings = str.split(" ");
+    for (String tmp : substrings) {
+      notes.add(strToLong(tmp));
     }
     Set<Long> set = new HashSet<>(notes);
     notes.clear();
@@ -78,17 +62,23 @@ public class Task1 {
   public static Long[] inputNotes() {
     logger.info("Введите номиналы через пробел: ");
     String str = in.nextLine();
-    return inNotes(str);
+    return strToLongArray(str);
   }
 
   /**
    * Строка в сумму.
    */
-  public static long inSum(String str) {
+  public static long strToLong(String str) {
+    long result;
     try {
-      return Long.parseLong(str);
-    } catch (NumberFormatException e) {
-      return -1;
+      result = Long.parseLong(str);
+    } catch (Exception e) {
+      throw new IllegalArgumentException("Ошибка - не целое число!");
+    }
+    if (result > 0) {
+      return result;
+    } else {
+      throw new ArithmeticException("Ошибка - не натуральное число!");
     }
   }
 
@@ -98,7 +88,7 @@ public class Task1 {
   public static long inputSum() {
     logger.info("Введите сумму: ");
     String str = in.nextLine();
-    return inSum(str);
+    return strToLong(str);
   }
 
   /**
@@ -107,13 +97,9 @@ public class Task1 {
   public static void main(String[] args) {
     long sum = inputSum();
     Long[] notes = inputNotes();
-    if (sum > 0 && notes.length > 0) {
-      logger.info("Комбинации:");
-      int count = variants(notes, sum, notes[0], "");
-      Supplier<String> strSupplier = () -> ("Количество комбинаций: " + count);
-      logger.info(strSupplier);
-    } else {
-      logger.info("Ошибка ввода!");
-    }
+    logger.info("Комбинации:");
+    int count = variants(notes, sum, notes[0], "");
+    Supplier<String> strSupplier = () -> ("Количество комбинаций: " + count);
+    logger.info(strSupplier);
   }
 }

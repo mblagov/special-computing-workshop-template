@@ -3,9 +3,10 @@ package ru.spbu.apcyb.svp.tasks;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import java.util.Arrays;
-import java.util.Collections;
-import java.util.List;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 /**
  * Тесты для задания 1.
@@ -13,18 +14,21 @@ import org.junit.jupiter.api.Test;
 class Task1Test {
 
   @Test
-  void inNotes_ints() {
+  void strToLongArray_ints() {
     Long[] exp = new Long[]{34L, 2L, 1L};
-    assertEquals(Arrays.asList(exp), Arrays.asList(Task1.inNotes("1 34 2")));
+    assertEquals(Arrays.asList(exp), Arrays.asList(Task1.strToLongArray("1 34 2")));
   }
 
-  @Test
-  void inNotes_negative() {
-    List<Long> exp = Collections.emptyList();
-    assertEquals(exp, Arrays.asList(Task1.inNotes("1 34 -2")));
-    assertEquals(exp, Arrays.asList(Task1.inNotes("2 a 3")));
-    assertEquals(exp, Arrays.asList(Task1.inNotes("")));
-    assertEquals(exp, Arrays.asList(Task1.inNotes("1 34,1 2")));
+  @ParameterizedTest
+  @ValueSource(strings = {"1 34 -2", "2 a 3", "", "1 34,1 2"})
+  void strToLongArray_error(String str) {
+    boolean exception = false;
+    try {
+      Task1.strToLongArray(str);
+    } catch (Exception e) {
+      exception = true;
+    }
+    Assertions.assertTrue(exception);
   }
 
   @Test
@@ -40,27 +44,31 @@ class Task1Test {
   }
 
   @Test
-  void inSum_int() {
-    assertEquals(15, Task1.inSum("15"));
+  void variants_test1() {
+    Long[] notes = new Long[]{3L, 2L};
+    assertEquals(1, Task1.variants(notes, 5, notes[0], ""));
   }
 
   @Test
-  void inSum_str() {
-    assertEquals(-1, Task1.inSum("a"));
+  void variants_test2() {
+    Long[] notes = new Long[]{2L, 1L};
+    assertEquals(3, Task1.variants(notes, 4, notes[0], ""));
   }
 
   @Test
-  void inSum_double() {
-    assertEquals(-1, Task1.inSum("1,5"));
+  void strToLong_int() {
+    assertEquals(15, Task1.strToLong("15"));
   }
 
-  @Test
-  void inSum_negative() {
-    assertEquals(-300, Task1.inSum("-300"));
-  }
-
-  @Test
-  void inSum_empty() {
-    assertEquals(-1, Task1.inSum(""));
+  @ParameterizedTest
+  @ValueSource(strings = {"", "-300", "1,5", "a"})
+  void strToLong_error(String str) {
+    boolean exception = false;
+    try {
+      Task1.strToLong(str);
+    } catch (Exception e) {
+      exception = true;
+    }
+    Assertions.assertTrue(exception);
   }
 }
