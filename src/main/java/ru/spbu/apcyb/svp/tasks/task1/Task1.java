@@ -1,4 +1,4 @@
-package ru.spbu.apcyb.svp.tasks;
+package ru.spbu.apcyb.svp.tasks.task1;
 
 import java.io.BufferedReader;
 import java.io.FileNotFoundException;
@@ -14,7 +14,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 import java.util.logging.Logger;
-import java.util.logging.SimpleFormatter;
 import java.util.logging.StreamHandler;
 
 
@@ -24,6 +23,7 @@ import java.util.logging.StreamHandler;
 
 
 public class Task1 {
+
 
   private long sum;
   private long[] values;
@@ -66,7 +66,7 @@ public class Task1 {
     try {
       OutputStream fileOutputStream = new FileOutputStream("output.log");
       PrintStream outputStream = new PrintStream(fileOutputStream);
-      SimpleFormatter simpleFormatter = new SimpleFormatter();
+      MyFormatter simpleFormatter = new MyFormatter();
       StreamHandler streamHandler = new StreamHandler(outputStream, simpleFormatter);
 
       this.logger.setUseParentHandlers(false);
@@ -140,6 +140,7 @@ public class Task1 {
 
 
   protected void printCombination(java.util.logging.Logger logger, List<Long> combination) {
+
     String out = combination.toString();
     logger.log(java.util.logging.Level.INFO, out);
   }
@@ -207,6 +208,19 @@ public class Task1 {
     return result;
   }
 
+
+  protected void mainLogic(InputStream stream) throws IOException {
+    System.setIn(stream);
+    String input;
+
+    input = readString();
+    parseString(input);
+
+    setNumOfCombinations(sum, values.length - 1, values);
+    printNumber(logger, numOfCombinations);
+    getCombinations(sum, values.length - 1, values);
+  }
+
   /**
    * На вход принимается строка, состоящая из целых чисел, все числа разделены пробелом. Первое
    * число трактуется как сумма, все последующие - как существующие номиналы. Программа выводит
@@ -218,16 +232,6 @@ public class Task1 {
   public static void main(String[] args) throws IOException {
 
     Task1 task = new Task1();
-    String input;
-    try {
-      input = task.readString();
-    } catch (IOException e) {
-      throw new IOException("input error");
-    }
-    task.parseString(input);
-
-    task.setNumOfCombinations(task.sum, task.values.length - 1, task.values);
-    task.printNumber(task.logger, task.numOfCombinations);
-    task.getCombinations(task.sum, task.values.length - 1, task.values);
+    task.mainLogic(System.in);
   }
 }

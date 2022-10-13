@@ -1,17 +1,26 @@
-package ru.spbu.apcyb.svp.tasks;
+package ru.spbu.apcyb.svp.tasks.task1;
 
 import static org.junit.jupiter.api.Assertions.assertAll;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
+import java.io.IOException;
+import java.io.InputStream;
+import java.nio.file.Files;
 import java.util.Scanner;
-import java.util.logging.Level;
+import java.util.logging.Handler;
+import java.util.stream.Stream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
+
 
 /**
  * Тесты для задания 1.
@@ -69,49 +78,75 @@ class Task1Test {
     Assertions.assertEquals(expectedAns, testClass.getNumOfCombinations());
   }
 
-  @Test
-  @DisplayName("getCombinationsTest")
-  void getCombinationsTest() throws FileNotFoundException {
+
+  private static Stream<Arguments> getCombinationsTestArguments() throws FileNotFoundException {
+
     Task1 testClass = new Task1();
     long inputSum = 2;
     long[] inputValues = new long[]{1, 2};
-    long[] firstExpected = new long[]{2};
-    long[] secondExpected = new long[]{1, 1};
     testClass.setSum(inputSum);
     testClass.setValues(inputValues);
-    try {
-      testClass.loggerConfiguration();
-    } catch (java.io.FileNotFoundException e) {
-      throw new FileNotFoundException("logfile not found");
-    }
+    testClass.loggerConfiguration();
     testClass.getCombinations(inputSum, inputValues.length - 1, inputValues);
     testClass.getLogger().getHandlers()[0].close();
 
-    try {
-      File file = new File("output.log");
-      Scanner reader = new Scanner(file);
-      reader.nextLine();
-      String firstOutput = reader.nextLine().replaceAll("[A-Z:\\[\\],]", "").trim();
-      String[] strOutput = firstOutput.split(" ");
-      long[] firstAnswer = new long[strOutput.length];
-      for (int i = 0; i < firstAnswer.length; i++) {
-        firstAnswer[i] = Integer.parseInt(strOutput[i]);
-      }
-      reader.nextLine();
-      String secondOutput = reader.nextLine().replaceAll("[A-Z:\\[\\],]", "").trim();
-      strOutput = secondOutput.split(" ");
-      long[] secondAnswer = new long[strOutput.length];
-      for (int i = 0; i < secondAnswer.length; i++) {
-        secondAnswer[i] = Integer.parseInt(strOutput[i]);
-      }
-      assertAll(
-          () -> Assertions.assertArrayEquals(firstExpected, firstAnswer),
-          () -> Assertions.assertArrayEquals(secondExpected, secondAnswer)
-      );
+    File file = new File("output.log");
+    Scanner reader = new Scanner(file);
 
+    Arguments[] args = new Arguments[2];
+    args[0] = Arguments.of(reader.nextLine(), "[2]");
+    args[1] = Arguments.of(reader.nextLine(), "[1, 1]");
 
-    } catch (FileNotFoundException e) {
-      testClass.getLogger().log(Level.SEVERE, e.toString());
-    }
+    reader.close();
+
+    return Stream.of(args);
   }
+
+  @ParameterizedTest
+  @MethodSource("getCombinationsTestArguments")
+  @DisplayName("getCombinationsTest")
+  void getCombinationsTest(String input, String expected) {
+
+    assertEquals(expected, input);
+  }
+
+
+  private static InputStream prepareFileForTest() throws IOException {
+    File file = new File("input.in");
+    Files.writeString(file.toPath(), "4 2 1");
+    return new FileInputStream(file);
+  }
+
+
+  private static Stream<Arguments> prepareValuesForTest()
+      throws IOException {
+    InputStream stream = prepareFileForTest();
+    Task1 testClass = new Task1();
+    testClass.loggerConfiguration();
+    testClass.mainLogic(stream);
+    for (Handler i : testClass.getLogger().getHandlers()) {
+      i.close();
+    }
+
+    File file = new File("output.log");
+    Scanner reader = new Scanner(file);
+
+    Arguments[] args = new Arguments[4];
+    args[0] = Arguments.of(reader.nextLine(), "3");
+    args[1] = Arguments.of(reader.nextLine(), "[2, 2]");
+    args[2] = Arguments.of(reader.nextLine(), "[2, 1, 1]");
+    args[3] = Arguments.of(reader.nextLine(), "[1, 1, 1, 1]");
+
+    return Stream.of(args);
+  }
+
+
+  @ParameterizedTest
+  @MethodSource("prepareValuesForTest")
+  @DisplayName("mainLogicTest")
+  void mainLogicTest(String input, String expected) {
+
+    assertEquals(expected, input);
+  }
+
 }
