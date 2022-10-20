@@ -10,20 +10,17 @@ import java.util.Arrays;
  */
 public class Task3 {
 
-  private static void getFileStructure(String dirPath, int level, FileWriter out) {
+  private static void getFileStructure(String dirPath, int level, FileWriter out)
+      throws IOException {
     File dir = new File(dirPath);
     String[] indentation = new String[level];
     Arrays.fill(indentation, "    ");
-    try {
-      out.write(
-          String.join("", Arrays.asList(indentation)) +
-              dir.getName() +
-              (dir.isDirectory() ? ":" : "") +
-              "\n"
-      );
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    out.write(
+        String.join("", Arrays.asList(indentation)) +
+            dir.getName() +
+            (dir.isDirectory() ? ":" : "") +
+            "\n"
+    );
     File[] files = dir.listFiles();
     if (files != null) {
       for (File file : files) {
@@ -32,15 +29,11 @@ public class Task3 {
     }
   }
 
-  public static void main(String[] args) {
+  public static void main(String[] args) throws IOException {
     String dirPath = args[0];
     String outPath = args[1];
-    try {
-      FileWriter out = new FileWriter(outPath);
-      getFileStructure(dirPath, 0, out);
-      out.close();
-    } catch (IOException e) {
-      e.printStackTrace();
-    }
+    FileWriter out = new FileWriter(outPath);
+    getFileStructure(dirPath, 0, out);
+    out.close();
   }
 }
