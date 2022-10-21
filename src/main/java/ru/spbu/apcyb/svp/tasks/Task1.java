@@ -11,37 +11,52 @@ public class Task1 {
     public static void main(String[] args) {
         Scanner in = new Scanner(System.in);
         System.out.print("input the amount: ");
-        int amount = in.nextInt();
+        String stringAmount = in.nextLine();
 
         System.out.print("input banknotes: ");
-        in.nextLine();
-        String list1 = in.nextLine();
+        String stringBanknotes = in.nextLine();
 
-        String[] splitStr = list1.split("\\D+");
-        int[] banknotes = new int[splitStr.length];
-        for (int i = 0; i < banknotes.length; i++) {
-            banknotes[i] = Integer.parseInt(splitStr[i]);
-        }
         in.close();
 
-        exchangeOfBanknotes(amount, banknotes);
+        exchangeOfBanknotes(stringAmount, stringBanknotes);
     }
 
-    public static void printExchangeOfBanknotes(List<List<Integer>> result, int amount, int[] banknotes){
+    public static long[] inputLongList(String stringBanknotes){
+
+        String[] splitStr = stringBanknotes.split("\\D+");
+
+
+        long[] banknotes = new long[splitStr.length];
+
+        for (int i = 0; i < banknotes.length; i++) {
+            try {
+                banknotes[i] = Long.parseLong(splitStr[i]);
+                if (banknotes[i] <= 0){throw new NumberFormatException();}
+                }catch(NumberFormatException e) {
+                System.out.println("incorrect input banknotes");
+                throw e;}
+        }
+        if (banknotes.length == 0){
+            System.out.println("incorrect input banknotes");
+            throw new NumberFormatException();}
+        return banknotes;
+    }
+
+    public static void printExchangeOfBanknotes(List<List<Long>> result, long amount, long[] banknotes){
         System.out.println("----------------------");
 
         System.out.printf("amount: %d\n", amount);
         System.out.print("banknotes: ");
 
-        for (var banknote : banknotes){
+        for (long banknote : banknotes){
             System.out.printf("%d ", banknote);
         }
         System.out.println();
         System.out.printf("number of combinations:  %d\n", result.size());
         if (result.size() != 0) {
             System.out.print("combinations:\n");
-            for (var combination : result) {
-                for (int banknote : combination) {
+            for (List<Long> combination : result) {
+                for (Long banknote : combination) {
                     System.out.printf("%d ", banknote);
                 }
                 System.out.println();
@@ -49,40 +64,49 @@ public class Task1 {
         } else { System.out.println("Sorry, not today"); }
     }
 
-    public static List<List<Integer>> exchangeOfBanknotes(int amount, int[] banknotes) {
+    public static List<List<Long>> exchangeOfBanknotes(String stringAmount, String stringBanknotes){
+        List<List<Long>> result = new ArrayList<>();
+        List<Long> valueList = new ArrayList<>();
+        long amount;
+        try {
+        amount = Long.parseLong(stringAmount); } catch(NumberFormatException e){
+            System.out.println("incorrect input amount");
+            throw e;
+        }
+        if (amount<=0){
+            System.out.println("incorrect input amount");
+            throw new NumberFormatException();
+        }
+        long[] banknotes = inputLongList(stringBanknotes);
         banknotes = Arrays.stream(banknotes).distinct().toArray(); //дубликаты убирает
-        int maxBanknote = -1;
-        for (int num : banknotes) { //а как иначе найти максимум?
+        long maxBanknote = -1;
+        for (long num : banknotes) { //а как иначе найти максимум?
             if (maxBanknote < num) {
                 maxBanknote = num;
             }
         }
 
-        List<List<Integer>> result = new ArrayList<>();
-        List<Integer> valueList = new ArrayList<>();
         exchangeOfBanknotes(amount, maxBanknote, banknotes, valueList, result);
         printExchangeOfBanknotes(result, amount, banknotes);
+
         return result;
     }
 
-    private static void exchangeOfBanknotes(int amount, int minvalue, int[] banknotes, List<Integer> valueList, List<List<Integer>> result) {
+    private static void exchangeOfBanknotes(long amount, long minvalue, long[] banknotes, List<Long> valueList, List<List<Long>> result) {
         if (amount == 0) {
             result.add(valueList);
             return;
         }
-        int b,i;
+        long b;
+        int i;
         for (i = 0; i < banknotes.length; i++) {
             b = banknotes[i];
             if ((minvalue >= b) && (amount >= b)) {
-                List<Integer> copyValueList = new ArrayList<>(valueList);
+                List<Long> copyValueList = new ArrayList<>(valueList);
                 copyValueList.add(b);
                 exchangeOfBanknotes(amount - b, b, banknotes, copyValueList, result);
 
             }
-        }}}
-
-//        if ((amount >= b) && i == 0) {
-//            List<Integer> copyValueList = new ArrayList<>(valueList);
-//            copyValueList.add(b);
-//            exchangeOfBanknotes(amount - b, b, banknotes, copyValueList, result);
-//        }
+        }
+    }
+}
