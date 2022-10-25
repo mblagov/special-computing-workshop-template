@@ -44,11 +44,56 @@ public class Task1 {
     }
     return coins;
   }
-
+  public static long[] order(long[] arr)
+  {
+    int i,j,k=0;
+    long[] temp = new long[arr.length];
+    for (i = 0; i < arr.length; i++)
+    {
+      for (j = 0; j < k; j++)
+      {
+        if (arr[i] == temp[j])
+          break;
+      }
+      if (j == k)
+      {
+        temp[k] = arr[i];
+        k++;
+      }
+    }
+    long[] arrayWithoutDupclicate = Arrays.copyOfRange(temp, 0, k);
+    Arrays.sort(arrayWithoutDupclicate);
+    return arrayWithoutDupclicate;
+  }
+  public static long[] deleteUselessElements(long[] arr, long limit)
+  {
+    int i, j;
+    for(i=0; i<arr.length;i++)
+    {
+      if(arr[i]>0)
+        break;
+    }
+    for(j=arr.length-1;j>0;j--)
+    {
+      if(arr[j] <= limit)
+        break;
+    }
+    return Arrays.copyOfRange(arr, i, j+1);
+  }
+  public static void print(long[] coins, long[] numberOfUses, long num)
+  {
+    System.out.print("Размен №"+num+"= [");
+    for(int i=0; i<numberOfUses.length; i++)
+      if(numberOfUses[i]!=0)
+        System.out.print(numberOfUses[i]+"x("+coins[i]+")");
+    System.out.println("];");
+  }
   public static void main(String[] args)
   {
     long Sum = enterSum();
     long AmountOfCoins = enterAmount();
     long [] coins = enterCoins(AmountOfCoins);
+    coins = order(coins);
+    coins = deleteUselessElements(coins, Sum);
   }
 }
