@@ -1,8 +1,6 @@
 package ru.spbu.apcyb.svp.tasks;
 import java.util.Arrays;
 import java.util.Scanner;
-
-
 /**
  * Задание 1.
  */
@@ -88,6 +86,26 @@ public class Task1 {
         System.out.print(numberOfUses[i]+"x("+coins[i]+")");
     System.out.println("];");
   }
+  public static int searchOfOptions(long Sum, long tempSum, long[] coins, long[] numberOfUses, int index, int num)
+  {
+    long div = Sum / coins[index];
+    for (long i = 0; i <= div; i++)
+    {
+      if (tempSum >= 0)
+      {
+        numberOfUses[index] = i;
+        if (tempSum == 0)
+        {
+          num++;
+          print(coins, numberOfUses, num);
+        }
+        else if (index + 1 < coins.length)
+          num = searchOfOptions(Sum, tempSum, coins, numberOfUses, index + 1, num);
+      }
+      tempSum -= coins[index];
+    }
+    return num;
+  }
   public static void main(String[] args)
   {
     long Sum = enterSum();
@@ -95,5 +113,7 @@ public class Task1 {
     long [] coins = enterCoins(AmountOfCoins);
     coins = order(coins);
     coins = deleteUselessElements(coins, Sum);
+    long[] numberOfUses = new long[coins.length];
+    searchOfOptions(Sum,Sum, coins, numberOfUses, 0, 0);
   }
 }
