@@ -1,60 +1,118 @@
 package ru.spbu.apcyb.svp.tasks;
+
 import java.util.Arrays;
 import java.util.Scanner;
+import org.apache.logging.log4j.Level;
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
+
 /**
  * Задание 1.
  */
 public class Task1 {
-  public static long check(long number)
-  {
+
+  private static final Logger logger = LogManager.getLogger(Task1.class);
+  private static final String SYNTAX_ERROR = "Ошибка: неверный ввод;";
+
+  /**
+   * Проверка число на положительность.
+   *
+   * @param number число для проверки.
+   * @return новое число.
+   */
+
+  public static long check(long number) {
     Scanner in = new Scanner(System.in);
-    while(number<=0)
-    {
-      System.out.print("Ошибка; Введите значение > 0: ");
-      number = in.nextLong();
+    while (number <= 0) {
+      logger.log(Level.ERROR, "Ошибка; Введите значение > 0: ");
+      try {
+        number = in.nextLong();
+      } catch (Exception e) {
+        throw new IllegalArgumentException(SYNTAX_ERROR);
+      }
     }
     return number;
   }
-  public static long enterSum()
-  {
+
+  /**
+   * Вводим необходимую сумму .
+   */
+
+  public static long enterSum() {
+    long sum;
     Scanner in = new Scanner(System.in);
-    System.out.print("Введите сумму S = ");
-    long sum = in.nextLong();
+    logger.log(Level.INFO, "Введите сумму S = ");
+    try {
+      sum = in.nextLong();
+    } catch (Exception e) {
+      throw new IllegalArgumentException(SYNTAX_ERROR);
+    }
     sum = check(sum);
     return sum;
   }
-  public static long enterAmount()
-  {
+
+
+  /**
+   * Вводим кол- во монет.
+   */
+
+  public static long enterAmount() {
+    long n;
     Scanner in = new Scanner(System.in);
-    System.out.print("Введите количество монет n = ");
-    long n= in.nextLong();
+    logger.log(Level.INFO, "Введите количество монет n = ");
+    try {
+      n = in.nextLong();
+    } catch (Exception e) {
+      throw new IllegalArgumentException(SYNTAX_ERROR);
+    }
     n = check(n);
     return n;
   }
+
+  /**
+   * Вводим номиналы монеты .
+   *
+   * @param n Кол- во монет.
+   * @return массив монет.
+   */
+
   public static long[] enterCoins(long n) {
     int size = (int) n;
     long[] coins = new long[size];
     Scanner in = new Scanner(System.in);
-    System.out.println("Введите номиналы: ");
+    logger.log(Level.INFO, "Введите номиналы:\n");
     for (int i = 0; i < size; i++) {
-      System.out.print("a[" + i + "] = ");
-      coins[i] = in.nextLong();
+      logger.log(Level.INFO, "a[{}] = ", i);
+      try {
+        coins[i] = in.nextLong();
+      } catch (Exception e) {
+        throw new IllegalArgumentException(SYNTAX_ERROR);
+      }
+      coins[i] = check(coins[i]);
     }
     return coins;
   }
-  public static long[] order(long[] arr)
-  {
-    int i,j,k=0;
+
+  /**
+   * Сортируем и убираем повторяющиеся номиналы .
+   *
+   * @param arr массив для обработки.
+   * @return отсортированный массив без повторяющихся элементов .
+   */
+
+  public static long[] order(long[] arr) {
+    int i;
+    int j;
+    int k = 0;
     long[] temp = new long[arr.length];
-    for (i = 0; i < arr.length; i++)
-    {
-      for (j = 0; j < k; j++)
-      {
-        if (arr[i] == temp[j])
+    for (i = 0; i < arr.length; i++) {
+      for (j = 0; j < k; j++) {
+        if (arr[i] == temp[j]) {
           break;
+        }
       }
-      if (j == k)
-      {
+      if (j == k) {
         temp[k] = arr[i];
         k++;
       }
@@ -63,57 +121,91 @@ public class Task1 {
     Arrays.sort(arrayWithoutDupclicate);
     return arrayWithoutDupclicate;
   }
-  public static long[] deleteUselessElements(long[] arr, long limit)
-  {
-    int i, j;
-    for(i=0; i<arr.length;i++)
-    {
-      if(arr[i]>0)
+
+  /**
+   * Убираем неположительные номиналы и те, что больше заданной суммы.
+   *
+   * @param coins массив номиналов .
+   * @param sum   сумма.
+   * @return обработанный массив.
+   */
+
+  public static long[] deleteUselessElements(long[] coins, long sum) {
+    int i;
+    for (i = coins.length - 1; i > 0; i--) {
+      if (coins[i] <= sum) {
         break;
+      }
     }
-    for(j=arr.length-1;j>0;j--)
-    {
-      if(arr[j] <= limit)
-        break;
+    if (coins[i] > sum) {
+      logger.log(Level.INFO, "Все номиналы больше суммы;");
+      return new long[1];
     }
-    return Arrays.copyOfRange(arr, i, j+1);
+    return Arrays.copyOfRange(coins, 0, i + 1);
   }
-  public static void print(long[] coins, long[] numberOfUses, long num)
-  {
-    System.out.print("Размен №"+num+"= [");
-    for(int i=0; i<numberOfUses.length; i++)
-      if(numberOfUses[i]!=0)
-        System.out.print(numberOfUses[i]+"x("+coins[i]+")");
-    System.out.println("];");
+
+  /**
+   * Красивый вывод.
+   *
+   * @param coins        массив номиналов .
+   * @param numberOfUses массив использований каждого номинала .
+   * @param num          номер размена .
+   */
+
+  public static void print(long[] coins, long[] numberOfUses, long num) {
+    logger.log(Level.INFO, "Размен № {} - ", num);
+    for (int i = 0; i < numberOfUses.length; i++) {
+      if (numberOfUses[i] != 0) {
+        logger.log(Level.INFO, "{}x({}); ", numberOfUses[i], coins[i]);
+      }
+    }
+    logger.log(Level.INFO, "\n");
   }
-  public static int searchOfOptions(long Sum, long tempSum, long[] coins, long[] numberOfUses, int index, int num)
-  {
-    long div = Sum / coins[index];
-    for (long i = 0; i <= div; i++)
-    {
-      if (tempSum >= 0)
-      {
+
+
+  /**
+   * Поиск комбинаций.
+   *
+   * @param sum          Необходимая сумма .
+   * @param tempSum      Сумма после вычета номинала .
+   * @param coins        Массив номиналов .
+   * @param numberOfUses Массив использований каждого номинала .
+   * @param index        Индекс указывающий на используемый номинал.
+   * @param num          Счётчик размена .
+   * @return Номер размена.
+   */
+
+  public static int searchOfOptions(long sum, long tempSum, long[] coins, long[] numberOfUses,
+      int index, int num) {
+    long div = sum / coins[index];
+    for (long i = 0; i <= div; i++) {
+      if (tempSum >= 0) {
         numberOfUses[index] = i;
-        if (tempSum == 0)
-        {
+        if (tempSum == 0) {
           num++;
           print(coins, numberOfUses, num);
+        } else if (index + 1 < coins.length) {
+          num = searchOfOptions(sum, tempSum, coins, numberOfUses, index + 1, num);
         }
-        else if (index + 1 < coins.length)
-          num = searchOfOptions(Sum, tempSum, coins, numberOfUses, index + 1, num);
       }
       tempSum -= coins[index];
     }
     return num;
   }
-  public static void main(String[] args)
-  {
-    long Sum = enterSum();
-    long AmountOfCoins = enterAmount();
-    long [] coins = enterCoins(AmountOfCoins);
+
+  /**
+   * Мэйн .
+   *
+   * @param args вспомгательный аргумент .
+   */
+
+  public static void main(String[] args) {
+    long sum = enterSum();
+    long amountOfCoins = enterAmount();
+    long[] coins = enterCoins(amountOfCoins);
     coins = order(coins);
-    coins = deleteUselessElements(coins, Sum);
+    coins = deleteUselessElements(coins, sum);
     long[] numberOfUses = new long[coins.length];
-    searchOfOptions(Sum,Sum, coins, numberOfUses, 0, 0);
+    searchOfOptions(sum, sum, coins, numberOfUses, 0, 0);
   }
 }
