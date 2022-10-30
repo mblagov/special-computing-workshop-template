@@ -1,9 +1,9 @@
 package ru.spbu.apcyb.svp.tasks;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.ByteArrayInputStream;
 import org.junit.jupiter.api.Test;
@@ -17,57 +17,35 @@ class Task1Test {
   void print() {
     long[] coins = {1};
     long[] use = {0, 2, 3};
-    long num = 5;
-    boolean thrown = false;
-    try {
-      Task1.print(coins, use, num);
-    } catch (Exception e) {
-      thrown = true;
-    }
-    assertTrue(thrown);
+    assertThrows(ArrayIndexOutOfBoundsException.class, () -> Task1.print(coins, use, 5));
   }
 
   @Test
   void enterSum() {
     System.setIn(new ByteArrayInputStream("5".getBytes()));
-    long n = Task1.enterSum();
+    assertEquals(5, Task1.enterSum());
     System.setIn(System.in);
-    assertEquals(5, n);
   }
 
   @Test
   void enterSum1() {
-    boolean thrown = true;
-    try {
-      System.setIn(new ByteArrayInputStream("asadasd".getBytes()));
-      System.setIn(System.in);
-      Task1.enterSum();
-    } catch (Exception e) {
-      thrown = false;
-    }
-    assertFalse(thrown);
+    System.setIn(new ByteArrayInputStream("asadasd".getBytes()));
+    assertThrows(IllegalArgumentException.class, Task1::enterSum);
+    System.setIn(System.in);
   }
 
   @Test
   void enterAmount1() {
     System.setIn(new ByteArrayInputStream("5".getBytes()));
-    long actual = Task1.enterAmount();
+    assertEquals(5, Task1.enterAmount());
     System.setIn(System.in);
-    long expected = 5;
-    assertEquals(expected, actual);
   }
 
   @Test
   void enterAmount2() {
-    boolean thrown = false;
-    try {
-      System.setIn(new ByteArrayInputStream("asdfsa".getBytes()));
-      Task1.enterAmount();
-      System.setIn(System.in);
-    } catch (Exception e) {
-      thrown = true;
-    }
-    assertTrue(thrown);
+    System.setIn(new ByteArrayInputStream("asdfsa".getBytes()));
+    assertThrows(IllegalArgumentException.class, Task1::enterSum);
+    System.setIn(System.in);
   }
 
   @Test
@@ -81,22 +59,12 @@ class Task1Test {
 
   @Test
   void check1() {
-    long n = 6;
-    long expected = 6;
-    long actual = Task1.check(n);
-    assertEquals(expected, actual);
+    assertEquals(6, Task1.checkForPositive(6));
   }
 
   @Test
   void check2() {
-    long n = 1;
-    boolean thrown = false;
-    try {
-      Task1.check(n);
-    } catch (Exception e) {
-      thrown = true;
-    }
-    assertFalse(thrown);
+    assertDoesNotThrow(() -> Task1.checkForPositive(1));
   }
 
   @Test
@@ -109,17 +77,16 @@ class Task1Test {
 
   @Test
   void order1() {
-    long[] arr = { };
+    long[] arr = {};
     long[] actual = Task1.order(arr);
-    long[] expected = { };
+    long[] expected = {};
     assertArrayEquals(expected, actual);
   }
 
   @Test
   void deleteUselessElements() {
     long[] coins = {1, 5, 6};
-    long sum = 2;
-    long[] actual = Task1.deleteUselessElements(coins, sum);
+    long[] actual = Task1.deleteUselessElements(coins, 2);
     long[] expected = {1};
     assertArrayEquals(expected, actual);
   }
@@ -127,95 +94,65 @@ class Task1Test {
   @Test
   void deleteUselessElements1() {
     long[] coins = {4, 5, 6};
-    long sum = 1;
-    long[] actual = Task1.deleteUselessElements(coins, sum);
+    long[] actual = Task1.deleteUselessElements(coins, 1);
     long[] expected = {0};
     assertArrayEquals(expected, actual);
   }
 
   @Test
   void searchOfOptions() {
-    long sum = 5;
     long[] coins = {1, 2};
     long[] use = new long[coins.length];
-    long actual = Task1.searchOfOptions(sum, sum, coins, use, 0, 0);
-    long expected = 3;
-    assertEquals(expected, actual);
+    long actual = Task1.searchOfOptions(5, 5, coins, use, 0, 0);
+    assertEquals(3, actual);
   }
 
   @Test
   void searchOfOptions1() {
-    boolean thrown = false;
-    long sum = 1;
     long[] coins = {0};
     long[] use = new long[coins.length];
-    try {
-      Task1.searchOfOptions(sum, sum, coins, use, 0, 0);
-    } catch (Exception e) {
-      thrown = true;
-    }
-    assertTrue(thrown);
+    assertThrows(ArithmeticException.class,
+        () -> Task1.searchOfOptions(1, 1, coins, use, 0, 0));
   }
+
 
   @Test
   void searchOfOptions2() {
-    long sum = 5;
     long[] coins = {5};
     long[] use = new long[coins.length];
-    long actual = Task1.searchOfOptions(sum, 0, coins, use, 0, 0);
-    long expected = 1;
-    assertEquals(expected, actual);
+    long actual = Task1.searchOfOptions(5, 0, coins, use, 0, 0);
+    assertEquals(1, actual);
   }
 
   @Test
   void searchOfOptions3() {
-    long sum = -4;
     long[] coins = {1};
     long[] use = new long[coins.length];
-    long actual = Task1.searchOfOptions(sum, sum, coins, use, 0, 0);
-    long expected = 0;
-    assertEquals(expected, actual);
+    long actual = Task1.searchOfOptions(-4, -4, coins, use, 0, 0);
+    assertEquals(0, actual);
   }
 
   @Test
   void searchOfOptions4() {
-    boolean thrown = false;
-    long sum = 5;
     long[] coins = {1};
     long[] use = new long[coins.length];
-    try {
-      Task1.searchOfOptions(sum, sum, coins, use, 3, 0);
-    } catch (Exception e) {
-      thrown = true;
-    }
-    assertTrue(thrown);
+    assertThrows(ArrayIndexOutOfBoundsException.class,
+        () -> Task1.searchOfOptions(5, 5, coins, use, 3, 0));
   }
 
   @Test
   void searchOfOptions5() {
-    long sum = 5;
     long[] coins = {1};
     long[] use = {0, 1, 2};
-    boolean thrown = false;
-    try {
-      Task1.searchOfOptions(sum, 5, coins, use, 0, 0);
-    } catch (Exception e) {
-      thrown = true;
-    }
-    assertTrue(thrown);
+    assertThrows(ArrayIndexOutOfBoundsException.class,
+        () -> Task1.searchOfOptions(5, 5, coins, use, 0, 0));
   }
 
   @Test
   void searchOfOptions6() {
-    long sum = 5;
     long[] coins = {1, 2, 3};
     long[] use = {0};
-    boolean thrown = false;
-    try {
-      Task1.searchOfOptions(sum, 5, coins, use, 0, 0);
-    } catch (Exception e) {
-      thrown = true;
-    }
-    assertTrue(thrown);
+    assertThrows(ArrayIndexOutOfBoundsException.class,
+        () -> Task1.searchOfOptions(5, 5, coins, use, 0, 0));
   }
 }

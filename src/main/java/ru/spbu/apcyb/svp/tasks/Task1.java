@@ -22,9 +22,9 @@ public class Task1 {
    * @return новое число.
    */
 
-  public static long check(long number) {
+  public static long checkForPositive(long number) {
     Scanner in = new Scanner(System.in);
-    while (number <= 0) {
+    if (number <= 0) {
       logger.log(Level.ERROR, "Ошибка; Введите значение > 0: ");
       try {
         number = in.nextLong();
@@ -48,7 +48,7 @@ public class Task1 {
     } catch (Exception e) {
       throw new IllegalArgumentException(SYNTAX_ERROR);
     }
-    sum = check(sum);
+    sum = checkForPositive(sum);
     return sum;
   }
 
@@ -66,7 +66,7 @@ public class Task1 {
     } catch (Exception e) {
       throw new IllegalArgumentException(SYNTAX_ERROR);
     }
-    n = check(n);
+    n = checkForPositive(n);
     return n;
   }
 
@@ -89,7 +89,7 @@ public class Task1 {
       } catch (Exception e) {
         throw new IllegalArgumentException(SYNTAX_ERROR);
       }
-      coins[i] = check(coins[i]);
+      coins[i] = checkForPositive(coins[i]);
     }
     return coins;
   }
@@ -100,26 +100,9 @@ public class Task1 {
    * @param arr массив для обработки.
    * @return отсортированный массив без повторяющихся элементов .
    */
-
   public static long[] order(long[] arr) {
-    int i;
-    int j;
-    int k = 0;
-    long[] temp = new long[arr.length];
-    for (i = 0; i < arr.length; i++) {
-      for (j = 0; j < k; j++) {
-        if (arr[i] == temp[j]) {
-          break;
-        }
-      }
-      if (j == k) {
-        temp[k] = arr[i];
-        k++;
-      }
-    }
-    long[] arrayWithoutDupclicate = Arrays.copyOfRange(temp, 0, k);
-    Arrays.sort(arrayWithoutDupclicate);
-    return arrayWithoutDupclicate;
+    Arrays.sort(arr);
+    return Arrays.stream(arr).distinct().toArray();
   }
 
   /**
