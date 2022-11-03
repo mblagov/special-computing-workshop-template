@@ -41,7 +41,10 @@ public class Task3 {
       throw new FileNotFoundException("Incorrect Path: " + outPath);
     }
     FileWriter out = new FileWriter(outPath);
-    getFileStructure(dirPath, 0, out);
-    out.close();
+    try {
+      getFileStructure(dirPath, 0, out);
+    } finally {
+      out.close();
+    }
   }
 }
