@@ -39,6 +39,9 @@ public class Task3 {
   public static void main(String[] args) {
     try (FileWriter writer = new FileWriter(args[1], false)) {
       File folder = new File(args[0]);
+      if (!folder.exists()) {
+        throw new IOException();
+      }
       String fileTree = String.valueOf(fileTree(folder, ""));
       writer.write(fileTree);
       writer.flush();
