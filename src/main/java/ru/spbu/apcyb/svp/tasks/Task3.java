@@ -11,7 +11,7 @@ import java.util.logging.Logger;
  */
 public class Task3 {
 
-  static void walk(String path, FileWriter writer, int c) throws FileNotFoundException {
+  static void walk(String path, FileWriter writer, int c) throws IOException {
 
     Logger logger = Logger.getLogger(Task3.class.getName());
 
@@ -44,7 +44,8 @@ public class Task3 {
     }
   }
 
-  public static void main(String[] args) {
-    //empty
+  public static void main(String[] args) throws IOException {
+    FileWriter writer = new FileWriter("answer.txt", false);
+    walk("..//", writer, 0);
   }
 }

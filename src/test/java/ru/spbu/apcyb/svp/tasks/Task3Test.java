@@ -1,10 +1,13 @@
 package ru.spbu.apcyb.svp.tasks;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertThrows;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.NotDirectoryException;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -13,26 +16,27 @@ import org.junit.jupiter.api.Test;
 class Task3Test {
 
   @Test
-  void testEmptyInput() throws IOException {
+  void testNotExistingDirectoryInput() throws IOException {
     String[] args = new String[2];
-    args[0] = "";
+    args[0] = "con";
     args[1] = "answer.txt";
-    try (FileWriter writer = new FileWriter(args[1], false)) {
-      Task3.walk(args[0], writer, 0);
-    } catch (FileNotFoundException thrown) {
-      assertEquals("java.io.FileNotFoundException", thrown.toString());
-    }
+    FileWriter writer = new FileWriter(args[1], false);
+    FileNotFoundException thrown = assertThrows(FileNotFoundException.class, () -> Task3.walk(args[0], writer, 0));
+    assertEquals("java.io.FileNotFoundException", thrown.toString());
   }
 
   @Test
-  void testInput() throws IOException {
+  void testNormalInput() throws IOException {
     String[] args = new String[2];
-    args[0] = "src/main";
+    args[0] = "..//";
     args[1] = "answer.txt";
-    try (FileWriter writer = new FileWriter(args[1], false)) {
+    FileWriter writer = new FileWriter(args[1], false);
+    boolean isEmpty = true;
+    try {
       Task3.walk(args[0], writer, 0);
-    } catch (FileNotFoundException thrown) {
-      assertEquals("java.io.FileNotFoundException", thrown.toString());
+    } catch (IOException thrown) {
+      isEmpty = false;
     }
+    assertTrue(isEmpty);
   }
 }
