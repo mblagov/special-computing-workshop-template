@@ -36,7 +36,7 @@ public class multiThreadTan implements Runnable {
             multiThreadResFile.write(String.valueOf(Math.tan(Double.parseDouble(sCurrentLine))) + " ");
             multiThreadResFile.write("\n");
         } catch (IOException e) {
-            throw new FileNotFoundException();
+            throw new FileNotFoundException("не нашелся файл data");
         }
 
 

@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -19,6 +20,7 @@ class Task4Test {
     @Test
     void singleThreadTest() throws IOException {
         int numberOfLines = 100;
+        Logger logger = Logger.getLogger(Task4.class.getName());
         FileWriter singleThreadTestResFile = new FileWriter("singleThreadTest.txt", false);
         Task4.singleThread(singleThreadTestResFile, numberOfLines);
         Path filePath1 = Path.of("data.txt");
@@ -32,6 +34,7 @@ class Task4Test {
             res = fromData.readLine();
             res = String.valueOf(Math.tan(Double.parseDouble((res))));
             if (!currentLine.contains(res)) {
+                logger.info("Не нашли эту строку: " + res);
                 check = false;
             }
             assertTrue(check);
@@ -68,7 +71,7 @@ class Task4Test {
             }
             assertEquals(seenAmount, checkedAmount);
         } catch (IOException e) {
-            throw new FileNotFoundException();
+            throw new FileNotFoundException("Не нашелся файл multiThreadTest");
         }
     }
 
@@ -78,7 +81,7 @@ class Task4Test {
         res.close();
         FileNotFoundException thrown =
                 assertThrows(FileNotFoundException.class, () -> Task4.singleThread(res, 100));
-        assertEquals("", thrown.getMessage());
+        assertEquals("не нашелся файл data", thrown.getMessage());
     }
 
 }

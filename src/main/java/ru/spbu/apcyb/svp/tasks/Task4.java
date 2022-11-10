@@ -21,16 +21,15 @@ public class Task4 {
         Logger logger = Logger.getLogger(Task4.class.getName());
         long start = System.nanoTime();
         Path filePath = Path.of("data.txt");
-        try (BufferedReader fromData = new BufferedReader(new FileReader(filePath.toFile()))) {
+        try (singleThreadResFile; singleThreadResFile; BufferedReader fromData = new BufferedReader(new FileReader(filePath.toFile()))) {
             String currentLine;
             for (int i = 0; i < numberOfLines; i++) {
                 currentLine = fromData.readLine();
                 currentLine = String.valueOf(Math.tan(Double.parseDouble(currentLine)) + " ");
                 singleThreadResFile.write(currentLine);
             }
-            singleThreadResFile.close();
         } catch (IOException e) {
-            throw new FileNotFoundException("");
+            throw new FileNotFoundException("не нашелся файл data");
         }
         long finish = System.nanoTime();
         long time = finish - start;
@@ -49,12 +48,16 @@ public class Task4 {
         Logger logger = Logger.getLogger(Task4.class.getName());
         ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
         long start = System.nanoTime();
-        for (int i = 0; i < numberOfLines / numberOfThreads; i++) {
-            for (int j = 1; j <= numberOfThreads; j++) {
-                executorService.execute(new multiThreadTan(j + i * numberOfThreads, multiThreadResFile));
+        try {
+            for (int i = 0; i < numberOfLines / numberOfThreads; i++) {
+                for (int j = 1; j <= numberOfThreads; j++) {
+                    executorService.execute(new multiThreadTan(j + i * numberOfThreads, multiThreadResFile));
+                }
             }
+        } finally {
+            executorService.shutdown();
         }
-        executorService.shutdown();
+
         long finish = System.nanoTime();
         long time = finish - start;
         logger.info("MultiThread:   " + (time));
@@ -66,9 +69,9 @@ public class Task4 {
      * Вызывает методы multiThread и singleThread.
      */
     public static void main(String[] args) throws IOException {
-        FileWriter multiThreadResFile = new FileWriter("MultiRes.txt", false);
-        multiThread(multiThreadResFile, 1000, 10);
-        multiThreadResFile.flush();
+        try (FileWriter multiThreadResFile = new FileWriter("MultiRes.txt", false)) {
+            multiThread(multiThreadResFile, 1000, 10);
+        }
         FileWriter singleThreadResFile = new FileWriter("SingleRes.txt", false);
         singleThread(singleThreadResFile, 1000);
     }
