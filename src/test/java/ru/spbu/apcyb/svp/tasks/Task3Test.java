@@ -81,8 +81,8 @@ class Task3Test {
         //Попытка зайти в несуществующую директорию
         Arguments.of("./src/main/resources/Task3/nonExistentDirectory",
             "./src/main/resources/Task3/output.txt"),
-        //Попытка создать txt файл, когда существует папка с таким названием
-        Arguments.of("./src/main/resources/Task3/outputBlocking.txt",
+        //Попытка создать outputBlocking.txt файл, когда существует папка с таким названием
+        Arguments.of("./src/main/resources/Task3/test",
             "./src/main/resources/Task3/outputBlocking.txt"),
         //Попытка зайти в несуществующую директорию
         Arguments.of("./src/main/resources/Task3/test",
