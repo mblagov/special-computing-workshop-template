@@ -43,9 +43,10 @@ class Task3Test {
          * "C:\\Test\\test", "C:\\Test\\test.txt" - верный вариант
          */
         //Попытка записи в существующий файл
-        Arguments.of("C:\\Test\\test", "C:\\Test\\test.txt"),
+        Arguments.of("./src/main/resources/Task3/test", "./src/main/resources/Task3/output.txt"),
         //Попытка записи в несуществующий файл
-        Arguments.of("C:\\Test\\test", "C:\\Test\\testNew.txt"));
+        Arguments.of("./src/main/resources/Task3/test",
+            "./src/main/resources/Task3/outputNew.txt"));
   }
 
   @ParameterizedTest
@@ -76,11 +77,16 @@ class Task3Test {
          * "C:\\Test\\test", "C:\\Test\\test.txt" - верный вариант
          */
         //Попытка записи в директорию вместо файла
-        Arguments.of("C:\\Test\\test", "C:\\Test\\test"),
+        Arguments.of("./src/main/resources/Task3/test", "./src/main/resources/Task3/test"),
         //Попытка зайти в несуществующую директорию
-        Arguments.of("C:\\Test\\nonExistentDirectory", "C:\\Test\\test.txt"),
+        Arguments.of("./src/main/resources/Task3/nonExistentDirectory",
+            "./src/main/resources/Task3/output.txt"),
+        //Попытка создать txt файл, когда существует папка с таким названием
+        Arguments.of("./src/main/resources/Task3/outputBlocking.txt",
+            "./src/main/resources/Task3/outputBlocking.txt"),
         //Попытка зайти в несуществующую директорию
-        Arguments.of("C:\\Test\\test", "C:\\Test\\nonExistentDirectory\\test.txt"));
+        Arguments.of("./src/main/resources/Task3/test",
+            "./src/main/resources/Task3/nonExistentDirectory/output.txt"));
   }
 
   @ParameterizedTest

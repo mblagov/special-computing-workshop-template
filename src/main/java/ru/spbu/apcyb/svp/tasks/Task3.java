@@ -37,16 +37,18 @@ public class Task3 {
    * @param args - args[0], args[1].
    */
   public static void main(String[] args) {
-    try (FileWriter writer = new FileWriter(args[1], false)) {
-      File folder = new File(args[0]);
-      if (!folder.exists()) {
-        throw new IOException();
+    File folder = new File(args[0]);
+    if (folder.exists()) {
+      try (FileWriter writer = new FileWriter(args[1], false)) {
+        String fileTree = String.valueOf(fileTree(folder, ""));
+        writer.write(fileTree);
+        writer.flush();
+      } catch (IOException exception) {
+        logger.info(exception.getMessage());
       }
-      String fileTree = String.valueOf(fileTree(folder, ""));
-      writer.write(fileTree);
-      writer.flush();
-    } catch (IOException exception) {
-      logger.info(exception.getMessage());
+    } else {
+      logger.info("Директория для обхода не существует(неверный путь)");
     }
+
   }
 }
