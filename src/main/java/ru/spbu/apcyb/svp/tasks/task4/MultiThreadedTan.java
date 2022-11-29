@@ -2,7 +2,6 @@ package ru.spbu.apcyb.svp.tasks.task4;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,34 +11,34 @@ import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 
-public class MultiThreadedTan implements Runnable{
+public class MultiThreadedTan implements Computable {
 
-  private int THREADS = 10;
-  private final TanTask[] buffer = new TanTask[this.THREADS];
-  private String numsPath;
-  private String outPath;
-  private long total;
+  private int threads = 10;
+  private final TanTask[] buffer = new TanTask[this.threads];
+  private final String numsPath;
+  private final String outPath;
+  private final long total;
 
-  MultiThreadedTan(String numsPath, String outPath, long total) {
+  public MultiThreadedTan(String numsPath, String outPath, long total) {
     this.numsPath = numsPath;
     this.outPath = outPath;
     this.total = total;
   }
 
   private Scanner readToBuffer(Scanner scanner) {
-    int cnt = 0;
-    while (cnt != 10 && scanner.hasNext()) {
+    int idx = 0;
+    while (idx != 10 && scanner.hasNext()) {
       String[] pairIntDouble = scanner.next().split(" ");
       int index = Integer.parseInt(pairIntDouble[0]);
       if (index > total) {
         break;
       }
       double num = Double.parseDouble(pairIntDouble[1]);
-      this.buffer[cnt] = new TanTask(index, this.total, num);
-      cnt++;
+      this.buffer[idx] = new TanTask(index, this.total, num);
+      idx++;
     }
-    if (cnt != 10) {
-      this.THREADS = cnt;
+    if (idx != 10) {
+      this.threads = idx;
     }
     return scanner;
   }
@@ -47,63 +46,47 @@ public class MultiThreadedTan implements Runnable{
   protected FileWriter writeToFile(FileWriter fileWriter, Future<String>[] outBuffer)
       throws IOException, ExecutionException, InterruptedException {
 
-    for (int i = 0; i < this.THREADS; i++) {
+    for (int i = 0; i < this.threads; i++) {
       fileWriter.write(outBuffer[i].get());
     }
     return fileWriter;
   }
 
   @Override
-  public void run() {
+  public void compute() throws IOException, ExecutionException {
     File numsFile = new File(numsPath);
-    InputStream inputStream = null;
-    try {
-      inputStream = new FileInputStream(numsFile);
-    } catch (FileNotFoundException e) {
-      throw new RuntimeException(e);
-    }
+    InputStream inputStream = new FileInputStream(numsFile);
     Scanner inputScanner = new Scanner(inputStream);
     inputScanner.useDelimiter("\n");
 
     File outFile = new File(outPath);
-    FileWriter fileWriter = null;
-    try {
-      fileWriter = new FileWriter(outFile);
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    FileWriter fileWriter = new FileWriter(outFile);
 
-    Future<String>[] outBuffer = new Future[this.THREADS];
+    Future<String>[] outBuffer = new Future[this.threads];
 
+    ExecutorService executorService = Executors.newFixedThreadPool(this.threads);
     inputScanner = readToBuffer(inputScanner);
-    ExecutorService executorService = Executors.newFixedThreadPool(this.THREADS);
+    while (this.threads != 0) {
 
-    while (this.THREADS != 0) {
-
-      for (int i = 0; i < this.THREADS; i++) {
-        Future<String> value = executorService.submit(buffer[i]);
-        outBuffer[i] = value;
+      for (int i = 0; i < this.threads; i++) {
+        Future<String> out = executorService.submit(buffer[i]);
+        outBuffer[i] = out;
       }
 
       try {
         fileWriter = writeToFile(fileWriter, outBuffer);
-      } catch (IOException e) {
-        throw new RuntimeException(e);
-      } catch (ExecutionException e) {
-        throw new RuntimeException(e);
       } catch (InterruptedException e) {
-        throw new RuntimeException(e);
+        e.printStackTrace();
+        for (Future<String> stringFuture : outBuffer) {
+          stringFuture.cancel(true);
+        }
       }
       inputScanner = readToBuffer(inputScanner);
     }
 
     inputScanner.close();
-    try {
-      fileWriter.close();
-    } catch (IOException e) {
-      throw new RuntimeException(e);
-    }
+    fileWriter.close();
     executorService.shutdown();
-
   }
+
 }

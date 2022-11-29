@@ -5,26 +5,25 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.Scanner;
 
-public class SingleThreadedTan implements Runnable{
+public class SingleThreadedTan implements Computable {
 
-  private String numsPath;
-  private String outPath;
-  private long total;
+  private final String numsPath;
+  private final String outPath;
+  private final long total;
 
-  SingleThreadedTan(String numsPath, String outPath, int total) {
+  public SingleThreadedTan(String numsPath, String outPath, long total) {
     this.numsPath = numsPath;
     this.outPath = outPath;
     this.total = total;
   }
 
   @Override
-  public void run() {
+  public void compute() {
     try (FileWriter out = new FileWriter(this.outPath)) {
       try (Scanner scanner = new Scanner(new File(this.numsPath))) {
         scanner.useDelimiter("\n");
-        int cnt = 0;
+        int idx = 0;
         while (scanner.hasNext()) {
-          cnt++;
           String[] pairIntDouble = scanner.next().split(" ");
           int index = Integer.parseInt(pairIntDouble[0]);
           if (index > this.total) {
@@ -32,11 +31,11 @@ public class SingleThreadedTan implements Runnable{
           }
           double num = Double.parseDouble(pairIntDouble[1]);
           double tan = Math.tan(num);
-          out.write(String.format("[%s/%s]: %s%n", cnt, this.total, tan));
+          out.write(String.format("[%s/%s]: %s%n", idx++, this.total, tan));
         }
       }
     } catch (IOException e) {
-      throw new RuntimeException(e);
+      e.printStackTrace();
     }
   }
 

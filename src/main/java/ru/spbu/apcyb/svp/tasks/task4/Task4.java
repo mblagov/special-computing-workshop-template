@@ -3,15 +3,20 @@ package ru.spbu.apcyb.svp.tasks.task4;
 import java.io.IOException;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
+import java.util.logging.Logger;
 
 /**
  * Задание 4.
  */
 public class Task4 {
 
-  private static long timed(Runnable function) {
+  private static long timed(Computable algorithm){
     long start = System.nanoTime();
-    function.run();
+    try {
+      algorithm.compute();
+    } catch (IOException | ExecutionException e) {
+      e.printStackTrace();
+    }
     long time = System.nanoTime() - start;
     return TimeUnit.NANOSECONDS.convert(time, TimeUnit.NANOSECONDS);
   }
@@ -21,15 +26,15 @@ public class Task4 {
     String outPath1 = "src/main/java/ru/spbu/apcyb/svp/tasks/task4/SingleThreadedTanOutput.txt";
     String outPath2 = "src/main/java/ru/spbu/apcyb/svp/tasks/task4/MultiThreadedTanOutput.txt";
 
-    int numberOfValuesToProcess = 100000;
+    long total = 100000;
 
-    SingleThreadedTan singleThreadedTan = new SingleThreadedTan(numsPath, outPath1,
-        numberOfValuesToProcess);
+    SingleThreadedTan singleThreadedTan = new SingleThreadedTan(numsPath, outPath1, total);
 
-    MultiThreadedTan multiThreadedTan = new MultiThreadedTan(numsPath, outPath2,
-        numberOfValuesToProcess);
+    MultiThreadedTan multiThreadedTan = new MultiThreadedTan(numsPath, outPath2, total);
 
-    System.out.println("Single-Threaded Time: " + timed(singleThreadedTan));
-    System.out.println("Multi-Threaded Time: " + timed(multiThreadedTan));
+    Logger logger = Logger.getLogger(Task4.class.getName());
+
+    logger.info(() -> "Single-Threaded Time: " + timed(singleThreadedTan));
+    logger.info(() -> "Multi-Threaded Time: " + timed(multiThreadedTan));
   }
 }

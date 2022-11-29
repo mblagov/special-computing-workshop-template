@@ -15,7 +15,7 @@ public class TanTask implements Callable<String> {
   }
 
   @Override
-  public String call() throws Exception {
+  public String call() {
     double tan = Math.tan(num);
     return String.format("[%s/%s]: %s%n", index, total, tan);
   }
