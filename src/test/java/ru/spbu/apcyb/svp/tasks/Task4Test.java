@@ -12,7 +12,7 @@ import org.junit.jupiter.api.Test;
 /**
  * Тесты для задания 4.
  */
-public class Task4Test {
+class Task4Test {
 
   String numsPath = "src/main/resources/nums.txt";
   String outPath1 = "src/main/java/ru/spbu/apcyb/svp/tasks/task4/SingleThreadedTanOutput.txt";
