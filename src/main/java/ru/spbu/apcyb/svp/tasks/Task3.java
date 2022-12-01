@@ -37,18 +37,21 @@ public class Task3 {
    * @param args - args[0], args[1].
    */
   public static void main(String[] args) {
-    File folder = new File(args[0]);
-    if (folder.exists()) {
-      try (FileWriter writer = new FileWriter(args[1], false)) {
-        String fileTree = String.valueOf(fileTree(folder, ""));
-        writer.write(fileTree);
-        writer.flush();
-      } catch (IOException exception) {
-        logger.info(exception.getMessage());
+    if (args.length >= 2) {
+      File folder = new File(args[0]);
+      if (folder.exists()) {
+        try (FileWriter writer = new FileWriter(args[1], false)) {
+          String fileTree = String.valueOf(fileTree(folder, ""));
+          writer.write(fileTree);
+          writer.flush();
+        } catch (IOException exception) {
+          logger.info(exception.getMessage());
+        }
+      } else {
+        logger.info("Директория для обхода не существует(неверный путь)");
       }
     } else {
-      logger.info("Директория для обхода не существует(неверный путь)");
+      logger.info("В функцию main передано недостаточно аргументов");
     }
-
   }
 }
