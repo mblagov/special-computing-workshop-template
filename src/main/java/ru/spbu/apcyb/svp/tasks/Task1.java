@@ -72,9 +72,7 @@ public class Task1 {
         if (result.size() != 0) {
             logger.log(Level.INFO,"combinations:");
             for (List<Long> combination : result) {
-                for (Long banknote : combination) {
-                    logger.log(Level.INFO,"{} ", banknote);
-                }
+                logger.log(Level.INFO, combination);
             }
         } else { logger.log(Level.INFO,"Sorry, not today"); }
     }
@@ -124,7 +122,7 @@ public class Task1 {
      */
     private static void exchangeOfBanknotes(long amount, long minvalue, long[] banknotes, List<Long> valueList, List<List<Long>> result) {
         if (amount == 0) {
-            result.add(valueList);
+            result.add(new ArrayList<>(valueList));
             return;
         }
         long b;
@@ -132,10 +130,10 @@ public class Task1 {
         for (i = 0; i < banknotes.length; i++) {
             b = banknotes[i];
             if ((minvalue >= b) && (amount >= b)) {
-                List<Long> copyValueList = new ArrayList<>(valueList);
-                copyValueList.add(b);
-                exchangeOfBanknotes(amount - b, b, banknotes, copyValueList, result);
-
+//                List<Long> copyValueList = new ArrayList<>(valueList);
+                valueList.add(b);
+                exchangeOfBanknotes(amount - b, b, banknotes, valueList, result);
+                valueList.remove(valueList.size() - 1);
             }
         }
     }

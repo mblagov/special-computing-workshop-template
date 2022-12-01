@@ -39,7 +39,7 @@ public class Task1Test {
 
     @Test
     void isBillionAmount(){
-        List<List<Long>> result = Task1.exchangeOfBanknotes("3000000000",  "2 1");
+        List<List<Long>> result = Task1.exchangeOfBanknotes("10000",  "2 1");
         Assertions.assertFalse(result.size() == 0);
     }
 
