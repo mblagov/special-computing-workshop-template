@@ -63,25 +63,25 @@ public class MultiThreadedTan implements Computable {
       inputScanner.useDelimiter("\n");
 
       File outFile = new File(outPath);
-      FileWriter fileWriter = new FileWriter(outFile);
 
-      Future<String>[] outBuffer = new Future[threads];
+      try (FileWriter fileWriter = new FileWriter(outFile)) {
+        Future<String>[] outBuffer = new Future[threads];
 
-      ExecutorService executorService = Executors.newFixedThreadPool(threads);
-      readToBuffer(inputScanner);
-      while (threads != 0) {
+        ExecutorService executorService = Executors.newFixedThreadPool(threads);
+        readToBuffer(inputScanner);
+        while (threads != 0) {
 
-        for (int i = 0; i < threads; i++) {
-          Future<String> out = executorService.submit(buffer[i]);
-          outBuffer[i] = out;
+          for (int i = 0; i < threads; i++) {
+            Future<String> out = executorService.submit(buffer[i]);
+            outBuffer[i] = out;
+          }
+
+          writeToFile(fileWriter, outBuffer);
+          readToBuffer(inputScanner);
         }
 
-        writeToFile(fileWriter, outBuffer);
-        readToBuffer(inputScanner);
+        executorService.shutdown();
       }
-
-      fileWriter.close();
-      executorService.shutdown();
     }
   }
 
