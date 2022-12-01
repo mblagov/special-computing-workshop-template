@@ -1,8 +1,8 @@
 package ru.spbu.apcyb.svp.tasks;
 
-import java.util.Arrays;
-import java.util.Collections;
-import java.util.Scanner;
+
+
+import java.util.*;
 import java.util.logging.Logger;
 
 
@@ -11,6 +11,9 @@ import java.util.logging.Logger;
  */
 
 public class Task1 {
+
+    private static Logger logger = Logger.getLogger(Task1.class.getName());
+    private static ArrayList<String> combinations = new ArrayList<>();
 
     /**
      * Метод для получения числа комбинаций купюр данной суммы.
@@ -21,12 +24,12 @@ public class Task1 {
      * @param nomArr - массив номиналов
      * @return число комбинаций
      */
-    public static int getCombinations(int sum, int prevNominal, String combination, Integer[] nomArr) {
-        Logger logger = Logger.getLogger(Task1.class.getName());
+    public static int getCombinations(int sum, int prevNominal, String combination, Integer [] nomArr) {
         int count = 0;
         if (sum == 0) {
             count++;
             logger.info(combination);
+            combinations.add(combination);
         }
         for (int curNominal : nomArr) {
             if ((prevNominal >= curNominal) && (sum >= curNominal)) {
@@ -44,17 +47,7 @@ public class Task1 {
      */
 
     public  static int parseSum(String str) {
-        int sum;
-        try {
-            sum = Integer.parseInt(str);
-        } catch (Exception e) {
-            throw new IllegalArgumentException("Ошибка! Сумма - нецелое число.");
-        }
-        if (sum > 0) {
-            return sum;
-        } else {
-            throw new ArithmeticException("Ошибка! Сумма <= 0");
-        }
+        return parseToInteger(str);
     }
 
     /**
@@ -64,21 +57,46 @@ public class Task1 {
      * @return отсортированный массив номиналов
      */
 
-    public  static Integer[] parseNominal(String str) {
+    public  static Integer [] parseNominal(String str) {
+        if(str.equals(" ")){
+            throw new IllegalArgumentException("Ошибка! Пустая строка.");
+        }
         String[] strMas = str.split(" ");
-        Integer[] nomArr = new Integer[strMas.length];
+        Integer [] nomArr = new Integer[strMas.length];
         for (int i = 0; i < nomArr.length; i++) {
-            try {
-                nomArr[i] = Integer.parseInt(strMas[i]);
-                if (nomArr[i] <= 0) {
-                    throw new ArithmeticException("Ошибка! Значение номинала <= 0!");
-                }
-            } catch (Exception e) {
-                throw new IllegalArgumentException("Ошибка! Значение номинала не целое число!");
+            nomArr[i] = parseToInteger(strMas[i]);
+        }
+        return Arrays.stream(nomArr)
+                .sorted(Comparator.reverseOrder())
+                .distinct()
+                .toArray(Integer[]::new);
+    }
+
+    /**
+     * Метод для парсинга из String в Integer
+     * @param str - число в типе String
+     * @return число типа Integer
+     */
+    public static int parseToInteger(String str){
+        int value;
+        try{
+            value = Integer.parseInt(str);
+            if(value <= 0) {
+                throw new ArithmeticException("Ошибка! Значение номинала <= 0");
             }
         }
-        Arrays.sort(nomArr, Collections.reverseOrder());
-        return (nomArr);
+        catch (Exception e){
+            throw new IllegalArgumentException("Ошибка! Значение номинала не целое число!");
+        }
+        return value;
+    }
+
+    public static List<String> getCombinations(){
+        return combinations;
+    }
+
+    public static void clearAnswers(){
+        combinations.clear();
     }
 
     /**
