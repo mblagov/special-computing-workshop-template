@@ -4,7 +4,6 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.logging.Logger;
 
 /**
  * Задание 3.
@@ -15,49 +14,64 @@ public class Task3 {
    * Вывод списков файлов и папок в заданном директории.
    *
    * @param dir (directory) директория
-   * @param fw файл для вывода
+   * @param file файл для вывода
    * @param s вспомогательная переменная для красивого вывода с пробелами
-   * @throws FileNotFoundException если директория не существует
+   * @throws FileNotFoundException если директория не существует или файл является директорией
    */
-  static void walk(String dir, FileWriter fw, int s) throws FileNotFoundException {
+  static void fileFinder(String dir, File file, int s) throws IOException {
     
-    Logger logger = Logger.getLogger(Task3.class.getName());
-    
-    File root = new File(dir);
-    File[] list = root.listFiles();
-    
-    if (list == null) {
-      throw new FileNotFoundException();
+    //Проверка на директорию
+    if (file.isDirectory()) {
+      throw new FileNotFoundException("Записывающий файл является директорией!");
     }
+  
+    try (FileWriter fr = new FileWriter(file, false)) {
     
-    try {
+      File root = new File(dir);
+      File[] list = root.listFiles();
+    
+      //Проверка на существование
+      if (list == null) {
+        throw new FileNotFoundException("Директория не существует");
+      }
+    
       for (File f : list) {
         
         if (f.isDirectory()) {
+          
           for (int i = 0; i < s; i++) {
-            fw.append(' ');
+            fr.append(' ');
           }
           
-          fw.write("Directory: " + f.getPath());
-          fw.append('\n');
+          fr.write("Директория: " + f.getPath());
+          fr.append('\n');
+  
+          fileFinder(f.getAbsolutePath(), file, s + 1);
           
-          walk(f.getAbsolutePath(), fw, s + 1);
         } else {
           
           for (int i = 0; i < s; i++) {
-            fw.append(' ');
+            fr.append(' ');
           }
           
-          fw.write("File: " + f.getAbsoluteFile());
-          fw.append('\n');
+          fr.write("Файл: " + f.getAbsoluteFile());
+          fr.append('\n');
         }
       }
-    } catch (IOException ex) {
-      logger.info(ex.getMessage());
     }
+
   }
   
-  public static void main(String[] args) {
-    //useless :(
+  /**
+   * Самый обычный мейн.
+   *
+   * @param args самый обычный args
+   * @throws IOException самый обычный exception
+   */
+  public static void main(String[] args) throws IOException {
+    
+    File file = new File("answer.txt");
+  
+    fileFinder("..//", file, 0);
   }
 }

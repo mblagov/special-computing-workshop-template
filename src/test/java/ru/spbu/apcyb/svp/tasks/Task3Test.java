@@ -1,11 +1,12 @@
 package ru.spbu.apcyb.svp.tasks;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-
+import java.io.File;
 import java.io.FileNotFoundException;
-import java.io.FileWriter;
 import java.io.IOException;
+
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Тесты для задания 3.
@@ -13,30 +14,46 @@ import org.junit.jupiter.api.Test;
 class Task3Test {
   
   @Test
-  void testInput1() throws IOException {
+  void fileFinderTest1() {
+    
+    String dir1 = "IAmNotExist";
+    File file1 = new File("answer.txt");
+    
+    FileNotFoundException thrown = assertThrows(FileNotFoundException.class, () -> Task3.fileFinder(dir1, file1, 0));
+    
+    assertEquals("java.io.FileNotFoundException: Директория не существует", thrown.toString());
   
-    String path = "";
-    String file = "answer.txt";
-    
-    try (FileWriter writer = new FileWriter(file, false)) {
-      Task3.walk(path, writer, 0);
-    } catch (FileNotFoundException thrown) {
-      assertEquals("java.io.FileNotFoundException", thrown.toString());
-    }
-    
+    String dir2  = "..//";
+    //Здесь file вляется директорией
+    File file2 = new File("ans.txt");
+  
+    thrown = assertThrows(FileNotFoundException.class, () -> Task3.fileFinder(dir2, file2, 0));
+  
+    assertEquals("java.io.FileNotFoundException: Записывающий файл является директорией!", thrown.toString());
+  
+    String dir3  = "..//";
+    File file3 = new File("..//");
+  
+    thrown = assertThrows(FileNotFoundException.class, () -> Task3.fileFinder(dir3, file3, 0));
+  
+    assertEquals("java.io.FileNotFoundException: Записывающий файл является директорией!", thrown.toString());
   }
   
   @Test
-  void testInput2() throws IOException {
-  
-    String path = "FFF";
-    String file = "answer.txt";
+  void fileFinderTest2() {
     
-    try (FileWriter writer = new FileWriter(file, false)) {
-      Task3.walk(path, writer, 0);
-    } catch (FileNotFoundException thrown) {
-      assertEquals("java.io.FileNotFoundException", thrown.toString());
+    String dir = "..//";
+    File file = new File("answer.txt");
+    boolean isWorking = true;
+    
+    try {
+      Task3.fileFinder(dir, file, 0);
+    } catch (IOException thrown) {
+      isWorking = false;
     }
     
+    assertTrue(isWorking);
   }
+  
+  
 }
