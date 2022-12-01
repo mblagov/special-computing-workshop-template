@@ -1,8 +1,7 @@
 package ru.spbu.apcyb.svp.tasks;
 
-import java.io.BufferedReader;
-import java.io.InputStreamReader;
 import java.util.Arrays;
+import java.util.Scanner;
 import org.apache.logging.log4j.Level;
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -19,22 +18,20 @@ public class Task1 {
   * @param args вспопомагетельная переменная.
   */
   public static void main(String[] args) {
+    
     //Число для размена
     long numb;
     //Номиналы, на которые надо разменять
     long[] val;
-
-    InputStreamReader r = new InputStreamReader(System.in);
-    BufferedReader br = new BufferedReader(r);
   
     logger.log(Level.INFO, "Ввод данных!\nВведите число для размена: ");
-    
+  
     try {
-      numb = readNumb(br.readLine());
-
+      numb = readNumb();
+    
       logger.log(Level.INFO, "Введите номиналы, на которые надо разменять через пробел: ");
-      val = transformVal(numb, readVal(br.readLine()));
-      
+      val = transformVal(numb, readVal());
+    
       if (exchange(numb, numb, val, new long[val.length], 0, 0) == 0) {
         logger.log(Level.INFO, "Разменов нет!");
       }
@@ -43,23 +40,26 @@ public class Task1 {
     }
   }
   
+  
   /**
    * Читает и проверяет число для размена.
    *
-   * @param str строчка с числом для размена.
    * @return проверенное число для разменов
    */
-  public static long readNumb(String str) {
+  public static long readNumb() {
+  
+    Scanner scanner = new Scanner(System.in);
+    String str = scanner.nextLine();
     long numb;
     
     try {
       numb = Long.parseLong(str);
     } catch (Exception e) {
-      throw new RuntimeException("Ошибка ввода! Неправильно введена строка номиналов!");
+      throw new RuntimeException("Ошибка ввода! Неправильно введено число для разменов!");
     }
   
     if (numb <= 0) {
-      throw new RuntimeException("Неверный ввод! Число для размена должна быть больше нуля!");
+      throw new RuntimeException("Ошибка ввода! Число для размена должна быть больше нуля!");
     }
     
     return numb;
@@ -68,10 +68,13 @@ public class Task1 {
   /**
   * Метод преобразования строки в массив чисел.
   *
-  * @param str строчка пользователя.
   * @return массив чисел из строчки.
   */
-  public static long[] readVal(String str) {
+  public static long[] readVal() {
+  
+    Scanner scanner = new Scanner(System.in);
+    String str = scanner.nextLine();
+    
     if (str.matches("(\\d+\\s*)+")) {
       String[] noms = str.split(" ");
 
@@ -96,46 +99,31 @@ public class Task1 {
   */
   public static long[] transformVal(long numb, long[] val) {
     
-    int n = val.length;
-    
+    //Сортировка по возрастанию
     Arrays.sort(val);
-
-    //Убираем повторы
-    if (val.length > 1) {
-      for (int i = 0, m; i != n; i++, n = m) {
-        for (int j = m = i + 1; j != n; j++) {
-          if (val[j] != val[i]) {
-            if (m != j) {
-              val[m] = val[j];
-            }
-        
-            m++;
-          }
-        }
-      }
-    }
-
-    //Убираем заранее номиналы, которые больше числа и проверка на отрицательность или равенство 0
+  
+    //Проверка на неотрицательность
     if (val[0] <= 0) {
       throw new RuntimeException("Ошибка ввода! Номинал не может быть меньше или равен 0!");
     }
-    
+  
+    //Проверка, что существуют номиналы меньше числа
     if (numb < val[0]) {
       throw new RuntimeException("Разменов нет! Все номиналы больше числа для размена!");
     }
     
-    for (int i = 1; i < n; i++) {
+    //Убираем повторы
+    val = Arrays.stream(val).distinct().toArray();
+    
+    //Уборка номинало, которые больше числа
+    for (int i = 1; i < val.length; i++) {
       if (numb < val[i]) {
-        n = i;
+        val = cutMassive(val, i);
         break;
       }
     }
-
-    if (n == val.length) {
-      return val;
-    } else {
-      return cutMassive(val, n);
-    }
+    
+    return val;
   }
 
   /**
@@ -201,14 +189,14 @@ public class Task1 {
   private static void output(long[] val, long[] count, long n) {
     
     if (n == 1) {
-      logger.log(Level.INFO, "Возможный(ые) размен(ы) ({n} - номинал):\n");
+      logger.log(Level.INFO, "Возможный(ые) размен(ы) ((n) - номинал):\n");
     }
     
     logger.log(Level.INFO, "{} размен - [ ", n);
 
     for (int i = 0; i < count.length; i++) {
       if (count[i] != 0) {
-        logger.log(Level.INFO, "{} x ( {} ) ", count[i], val[i]);
+        logger.log(Level.INFO, "{} x ({}) ", count[i], val[i]);
       }
     }
     
