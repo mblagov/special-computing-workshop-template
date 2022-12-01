@@ -28,9 +28,9 @@ public class Task1 {
             count++;
             logger.info(combination);
         }
-        for (int j : nomArr) {
-            if ((prevNominal >= j) && (sum >= j)) {
-                count += getCombinations(sum - j, j, combination + " " + j + " ", nomArr);
+        for (int curNominal : nomArr) {
+            if ((prevNominal >= curNominal) && (sum >= curNominal)) {
+                count += getCombinations(sum - curNominal, curNominal, combination + " " + curNominal + " ", nomArr);
             }
         }
         return count;
@@ -82,7 +82,6 @@ public class Task1 {
     }
 
     /**
-     * Main.
      * Программа принимает от пользователя две строки из консоли
      * str1 - сумма
      * str2 - номиналы через пробел
