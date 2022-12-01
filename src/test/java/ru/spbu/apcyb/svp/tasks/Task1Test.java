@@ -18,22 +18,22 @@ class Task1Test {
     Assertions.assertIterableEquals(calculatedAns, trueAns);
   }
 
-  @Test
-  void incorrectCoins() {
-    boolean exception = false;
-    try {
-      Task1.findSolutions(10, Arrays.asList("Buenos Aires", "Córdoba", "La Plata"));
-    } catch (Exception failRun) {
-      exception = true;
-    }
-    Assertions.assertTrue(exception);
-  }
+//  @Test
+//  void incorrectCoins() {
+//    boolean exception = false;
+//    try {
+//      Task1.findSolutions(10, Arrays.asList("Buenos Aires", "Córdoba", "La Plata"));
+//    } catch (Exception failRun) {
+//      exception = true;
+//    }
+//    Assertions.assertTrue(exception);
+//  }
 
   @Test
   void correctRun() {
     boolean exception = false;
     try {
-      Task1.findSolutions(10, Arrays.asList("1", "2", "5"));
+      Task1.findSolutions(10, Arrays.asList(1, 2, 5));
     } catch (Exception failRun) {
       exception = true;
     }
@@ -43,7 +43,7 @@ class Task1Test {
   @Test
   void correctAnswer1() {
     List<HashMap<Integer, Integer>> calculatedAns =
-        Task1.findSolutions(5, Arrays.asList("2", "3"));
+        Task1.findSolutions(5, Arrays.asList(2, 3));
     List<HashMap<Integer, Integer>> trueAns = new ArrayList<>();
     HashMap<Integer, Integer> answerOne = new HashMap<>();
     answerOne.put(2, 1);
@@ -55,7 +55,7 @@ class Task1Test {
   @Test
   void correctAnswer2() {
     List<HashMap<Integer, Integer>> calculatedAns =
-        Task1.findSolutions(4, Arrays.asList("2", "1"));
+        Task1.findSolutions(4, Arrays.asList(2, 1));
     List<HashMap<Integer, Integer>> trueAns = new ArrayList<>();
 
     HashMap<Integer, Integer> answerOne = new HashMap<>();
@@ -77,7 +77,7 @@ class Task1Test {
   @Test
   void correctAnswer3() {
     List<HashMap<Integer, Integer>> calculatedAns =
-        Task1.findSolutions(1000, List.of("1"));
+        Task1.findSolutions(1000, List.of(1));
     List<HashMap<Integer, Integer>> trueAns = new ArrayList<>();
     HashMap<Integer, Integer> answerOne = new HashMap<>();
     answerOne.put(1, 1000);
@@ -88,7 +88,7 @@ class Task1Test {
   @Test
   void correctAnswer4() {
     List<HashMap<Integer, Integer>> calculatedAns =
-        Task1.findSolutions(5, List.of("10", "6"));
+        Task1.findSolutions(5, List.of(10, 6));
     List<HashMap<Integer, Integer>> trueAns = new ArrayList<>();
     Assertions.assertIterableEquals(calculatedAns, trueAns);
   }

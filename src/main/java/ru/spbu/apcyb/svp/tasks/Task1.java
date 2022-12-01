@@ -15,9 +15,7 @@ public class Task1 {
    *         coinsStr -- exchange values; list of strings
    * returns: solutions in next format "coin:number of coins"; list of hashmaps
    */
-  static List<HashMap<Integer, Integer>> findSolutions(int total, List<String> coinsStr) {
-    List<Integer> coins = new ArrayList<>();
-    coinsStr.forEach(coin -> coins.add(Integer.parseInt(coin)));
+  static List<HashMap<Integer, Integer>> findSolutions(int total, List<Integer> coins) {
     List<HashMap<Integer, Integer>> resList = new ArrayList<>();
     HashMap<Integer, Integer> start = new HashMap<>();
     coins.forEach(coin -> start.put(coin, 0));
@@ -49,21 +47,30 @@ public class Task1 {
     return new HashMap<>();
   }
 
-  /*
-   * params: total -- value to exchange
-   *         coins -- exchange values
-   * returns: print total number of solutions and solutions in next format "coin:number of coins".
-   */
   public static void main(String[] args) {
     Scanner scanner = new Scanner(System.in);
 
-    int total = scanner.nextInt();
-    scanner.nextLine();
-    List<String> coinsStr = List.of(scanner.nextLine().split("\\s+"));
+    int total;
+    try {
+       total = scanner.nextInt();
+    } catch (Exception incorrectTotalCoinInput) {
+      throw new IllegalArgumentException("can't parse first line as int");
+    }
 
+    scanner.nextLine();
+
+    List<String> coinsStr;
+    List<Integer> coins;
+    try {
+      coinsStr = List.of(scanner.nextLine().split("\\s+"));
+      coins = new ArrayList<>();
+      coinsStr.forEach(coin -> coins.add(Integer.parseInt(coin)));
+    } catch (Exception incorrectListOfCoinsInput) {
+      throw new IllegalArgumentException("can't parse first line as list of integers");
+    }
     scanner.close();
 
-    List<HashMap<Integer, Integer>> resList = findSolutions(total, coinsStr);
+    List<HashMap<Integer, Integer>> resList = findSolutions(total, coins);
 
     System.out.println(resList.size());
     for (HashMap<Integer, Integer> res : resList) {
