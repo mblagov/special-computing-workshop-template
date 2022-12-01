@@ -36,7 +36,7 @@ class Task4Test {
   }
 
   @Test
-  void multiThreadedOutputSizeCheck() throws IOException, ExecutionException {
+  void multiThreadedOutputSizeCheck() throws IOException {
     long expected = 10000;
     String path = this.outPath2;
     MultiThreadedTan multiThreadedTan = new MultiThreadedTan(this.numsPath, path, expected);

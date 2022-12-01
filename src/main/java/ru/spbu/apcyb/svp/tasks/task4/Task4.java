@@ -1,7 +1,6 @@
 package ru.spbu.apcyb.svp.tasks.task4;
 
 import java.io.IOException;
-import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
@@ -14,7 +13,7 @@ public class Task4 {
     long start = System.nanoTime();
     try {
       algorithm.compute();
-    } catch (IOException | ExecutionException e) {
+    } catch (IOException e) {
       e.printStackTrace();
     }
     long time = System.nanoTime() - start;

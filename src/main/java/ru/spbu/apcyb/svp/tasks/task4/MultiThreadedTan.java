@@ -14,7 +14,7 @@ import java.util.concurrent.Future;
 public class MultiThreadedTan implements Computable {
 
   private int threads = 10;
-  private final TanTask[] buffer = new TanTask[this.threads];
+  private final TanTask[] buffer = new TanTask[threads];
   private final String numsPath;
   private final String outPath;
   private final long total;
@@ -27,31 +27,36 @@ public class MultiThreadedTan implements Computable {
 
   private void readToBuffer(Scanner scanner) {
     int idx = 0;
-    while (idx != 10 && scanner.hasNext()) {
+    while (idx != threads && scanner.hasNext()) {
       String[] pairIntDouble = scanner.next().split(" ");
       int index = Integer.parseInt(pairIntDouble[0]);
       if (index > total) {
         break;
       }
       double num = Double.parseDouble(pairIntDouble[1]);
-      this.buffer[idx] = new TanTask(index, this.total, num);
+      buffer[idx] = new TanTask(index, total, num);
       idx++;
     }
-    if (idx != 10) {
-      this.threads = idx;
+    if (idx != threads) {
+      threads = idx;
     }
   }
 
   private void writeToFile(FileWriter fileWriter, Future<String>[] outBuffer)
-      throws IOException, ExecutionException, InterruptedException {
+      throws IOException {
 
-    for (int i = 0; i < this.threads; i++) {
-      fileWriter.write(outBuffer[i].get());
+    for (int i = 0; i < threads; i++) {
+      try {
+        fileWriter.write(outBuffer[i].get());
+      } catch (InterruptedException | ExecutionException e) {
+        e.printStackTrace();
+        Thread.currentThread().interrupt();
+      }
     }
   }
 
   @Override
-  public void compute() throws IOException, ExecutionException {
+  public void compute() throws IOException {
     File numsFile = new File(numsPath);
     InputStream inputStream = new FileInputStream(numsFile);
     try (Scanner inputScanner = new Scanner(inputStream)) {
@@ -60,25 +65,18 @@ public class MultiThreadedTan implements Computable {
       File outFile = new File(outPath);
       FileWriter fileWriter = new FileWriter(outFile);
 
-      Future<String>[] outBuffer = new Future[this.threads];
+      Future<String>[] outBuffer = new Future[threads];
 
-      ExecutorService executorService = Executors.newFixedThreadPool(this.threads);
+      ExecutorService executorService = Executors.newFixedThreadPool(threads);
       readToBuffer(inputScanner);
-      while (this.threads != 0) {
+      while (threads != 0) {
 
-        for (int i = 0; i < this.threads; i++) {
+        for (int i = 0; i < threads; i++) {
           Future<String> out = executorService.submit(buffer[i]);
           outBuffer[i] = out;
         }
 
-        try {
-          writeToFile(fileWriter, outBuffer);
-        } catch (InterruptedException e) {
-          e.printStackTrace();
-          for (Future<String> stringFuture : outBuffer) {
-            stringFuture.cancel(true);
-          }
-        }
+        writeToFile(fileWriter, outBuffer);
         readToBuffer(inputScanner);
       }
 

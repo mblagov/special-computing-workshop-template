@@ -22,7 +22,7 @@ public class SingleThreadedTan implements Computable {
     try (FileWriter out = new FileWriter(this.outPath)) {
       try (Scanner scanner = new Scanner(new File(this.numsPath))) {
         scanner.useDelimiter("\n");
-        int idx = 0;
+        int idx = 1;
         while (scanner.hasNext()) {
           String[] pairIntDouble = scanner.next().split(" ");
           int index = Integer.parseInt(pairIntDouble[0]);
