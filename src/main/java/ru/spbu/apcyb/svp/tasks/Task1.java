@@ -12,8 +12,8 @@ import java.util.logging.Logger;
 
 public class Task1 {
 
-    private static Logger logger = Logger.getLogger(Task1.class.getName());
-    private static ArrayList<String> combinations = new ArrayList<>();
+    private Logger logger = Logger.getLogger(Task1.class.getName());
+    private ArrayList<String> combinations = new ArrayList<>();
 
     /**
      * Метод для получения числа комбинаций купюр данной суммы.
@@ -24,7 +24,7 @@ public class Task1 {
      * @param nomArr - массив номиналов
      * @return число комбинаций
      */
-    public static int getCombinations(int sum, int prevNominal, String combination, Integer [] nomArr) {
+    public int getCombinations(int sum, int prevNominal, String combination, Integer [] nomArr) {
         int count = 0;
         if (sum == 0) {
             count++;
@@ -46,7 +46,7 @@ public class Task1 {
      * @return сумма
      */
 
-    public  static int parseSum(String str) {
+    public int parseSum(String str) {
         return parseToInteger(str);
     }
 
@@ -57,7 +57,7 @@ public class Task1 {
      * @return отсортированный массив номиналов
      */
 
-    public  static Integer [] parseNominal(String str) {
+    public   Integer [] parseNominal(String str) {
         if(str.equals(" ")){
             throw new IllegalArgumentException("Ошибка! Пустая строка.");
         }
@@ -77,7 +77,7 @@ public class Task1 {
      * @param str - число в типе String
      * @return число типа Integer
      */
-    public static int parseToInteger(String str){
+    public  int parseToInteger(String str){
         int value;
         try{
             value = Integer.parseInt(str);
@@ -91,13 +91,12 @@ public class Task1 {
         return value;
     }
 
-    public static List<String> getCombinations(){
-        return combinations;
+    public List<String> getCombinations(){
+        ArrayList<String> answer = new ArrayList<>(combinations);
+        combinations.clear();
+        return answer;
     }
 
-    public static void clearAnswers(){
-        combinations.clear();
-    }
 
     /**
      * Программа принимает от пользователя две строки из консоли
@@ -107,11 +106,12 @@ public class Task1 {
      */
 
     public static void main(String[] args) {
-        Logger logger = Logger.getLogger(Task1.class.getName());
+        Task1 ts = new Task1();
+        Logger logger = Logger.getLogger(ts.getClass().getName());
         Scanner scanner = new Scanner(System.in);
         String sum = scanner.nextLine();
         String nominal = scanner.nextLine();
-        String str = String.valueOf(getCombinations(parseSum(sum), parseNominal(nominal)[0], " ", parseNominal(nominal)));
+        String str = String.valueOf(ts.getCombinations(ts.parseSum(sum), ts.parseNominal(nominal)[0], " ", ts.parseNominal(nominal)));
         logger.info(str);
     }
 }

@@ -148,7 +148,6 @@ public class LinkedList implements java.util.List<Object> {
         } else {
             current.left.right = current.right;
         }
-
         if (current.right != null) {
             current.right.left = current.left;
         }
