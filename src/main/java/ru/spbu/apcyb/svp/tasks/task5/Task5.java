@@ -6,6 +6,7 @@ import java.io.PrintWriter;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
+import java.util.concurrent.CompletableFuture;
 import java.util.stream.Stream;
 
 /**
@@ -22,10 +23,8 @@ public class Task5 {
               Stream.of(line.toLowerCase().replaceAll("\\p{Punct}", "")
                   .split("\\s+")))
           .forEach(word -> {
-            if (hashMap.get(word) != null) {
-              hashMap.put(word, hashMap.get(word) + 1);
-            } else {
-              hashMap.put(word, 1);
+            if (!word.isEmpty()) {
+              hashMap.merge(word, 1, (oldValue, newValue) -> oldValue + 1);
             }
           });
       return hashMap;
@@ -48,15 +47,17 @@ public class Task5 {
   }
 
 
-  protected void mainLogic(String inDir, String outDir) throws IOException {
+  protected void mainLogic(String inDir, String outDir, String prefix) throws IOException {
     HashMap<String, Integer> hashMap = readFile(inDir);
     writeToFile(hashMap, outDir);
+    hashMap.forEach((key, value) -> CompletableFuture.runAsync(new MyTask(value, key, prefix))
+    );
   }
 
 
   public static void main(String[] args) throws IOException {
     Task5 task5 = new Task5();
-    task5.mainLogic("file1.txt", "outfile.txt");
+    task5.mainLogic("text.txt", "outfile.txt", "src/main/resources/task5_files");
   }
 
 }
