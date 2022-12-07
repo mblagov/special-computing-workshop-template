@@ -1,11 +1,64 @@
 package ru.spbu.apcyb.svp.tasks;
 
+import java.io.*;
+import java.nio.file.Path;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.logging.Logger;
+
 /**
- * Задание 4.
+ * Задание 4. Многопоточность.
  */
 public class Task4 {
+    private static Logger logger = Logger.getLogger(Task4.class.getName());
 
-  public static void main(String[] args) {
+    public static void singleThreadComputation(FileWriter fileWriter, String inputFileName, int numberOfLines) throws IOException {
+        long start = System.currentTimeMillis();
+        Path filePath = Path.of(inputFileName);
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(filePath.toFile()))) {
+            String currentLine;
+            for (int i = 0; i < numberOfLines; i++) {
+                currentLine = bufferedReader.readLine();
+                double value = Math.tan(Double.parseDouble(currentLine));
+                fileWriter.write(value + "\n");
+            }
+        } catch (FileNotFoundException e) {
+            throw new FileNotFoundException("Указанный файл для чтения не найден!");
+        } catch (IOException e) {
+            throw new IOException("Ошибка при чтении/записи файла!");
+        }
+        long finish = System.currentTimeMillis();
+        long time = finish - start;
+        String result = "Время вычисления 1 потока: " + time + " миллисекунды";
+        logger.info(result);
+    }
 
-  }
+    public static void multiThreadComputation(String fileWriterName, String inputFileName, int numberOfLines, int numberOfThreads) {
+        long start = System.currentTimeMillis();
+        ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
+        try {
+            for (int i = 0; i < numberOfLines / numberOfThreads; i++) {
+                for (int j = 1; j <= numberOfThreads; j++) {
+                    executorService.execute(new MultiThread(j + i * numberOfThreads, inputFileName, fileWriterName));
+                }
+            }
+        } finally {
+            executorService.shutdown();
+        }
+        long finish = System.currentTimeMillis();
+        long time = finish - start;
+        String result = "Время вычисления для " + numberOfThreads + " потоков: " + time + " миллисекунды";
+        logger.info(result);
+    }
+
+
+    public static void main(String[] args) throws IOException {
+        String inputFileName = "data.txt";
+        try (FileWriter singleThreadFileWriter = new FileWriter("singleThreadRes.txt", false)) {
+            singleThreadComputation(singleThreadFileWriter, inputFileName, 1000);
+        }
+        String multiThreadFileWriterName = "multiThreadRes.txt";
+        multiThreadComputation(multiThreadFileWriterName, inputFileName, 1000, 10);
+    }
 }
+
