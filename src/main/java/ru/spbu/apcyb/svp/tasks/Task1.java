@@ -1,6 +1,7 @@
 package ru.spbu.apcyb.svp.tasks;
 
 import java.util.*;
+
 import org.apache.logging.log4j.*;
 
 
@@ -32,7 +33,7 @@ public class Task1 {
      * @param stringBanknotes строка со списком доступных номиналов, записанных через пробел.
      * @return массив купюр.
      */
-    public static long[] inputLongList(String stringBanknotes){
+    public static long[] inputLongList(String stringBanknotes) {
 
         String[] splitStr = stringBanknotes.split("\\D+");
 
@@ -41,59 +42,67 @@ public class Task1 {
         for (int i = 0; i < banknotes.length; i++) {
             try {
                 banknotes[i] = Long.parseLong(splitStr[i]);
-                if (banknotes[i] <= 0){throw new NumberFormatException();}
-                }catch(NumberFormatException e) {
+                if (banknotes[i] <= 0) {
+                    throw new NumberFormatException();
+                }
+            } catch (NumberFormatException e) {
                 logger.log(Level.INFO, "incorrect input banknotes");
-                throw e;}
+                throw e;
+            }
         }
-        if (banknotes.length == 0){
+        if (banknotes.length == 0) {
             logger.log(Level.INFO, "incorrect input banknotes");
-            throw new NumberFormatException();}
+            throw new NumberFormatException();
+        }
         return banknotes;
     }
 
     /**
      * Подпрограмма для вывода результата на экран.
      *
-     * @param result число полученных комбинаций.
-     * @param amount размениваемая сумма.
+     * @param result    число полученных комбинаций.
+     * @param amount    размениваемая сумма.
      * @param banknotes массив банкнот.
      */
-    public static void printExchangeOfBanknotes(List<List<Long>> result, long amount, long[] banknotes){
+    public static void printExchangeOfBanknotes(List<List<Long>> result, long amount, long[] banknotes) {
         logger.log(Level.INFO, "----------------------");
 
         logger.log(Level.INFO, "amount: {}", amount);
         logger.log(Level.INFO, "banknotes: ");
 
-        for (long banknote : banknotes){
+        for (long banknote : banknotes) {
             logger.log(Level.INFO, "{} ", banknote);
         }
-        logger.log(Level.INFO,"number of combinations:  {}", result.size());
+        logger.log(Level.INFO, "number of combinations:  {}", result.size());
         if (result.size() != 0) {
-            logger.log(Level.INFO,"combinations:");
+            logger.log(Level.INFO, "combinations:");
             for (List<Long> combination : result) {
                 logger.log(Level.INFO, combination);
             }
-        } else { logger.log(Level.INFO,"Sorry, not today"); }
+        } else {
+            logger.log(Level.INFO, "Sorry, not today");
+        }
     }
+
     /**
      * Размен указанной купюры всеми возможными способами.
      *
      * @param stringBanknotes строка со списком банкнот.
-     * @param stringAmount строка с размениваемой суммой.
+     * @param stringAmount    строка с размениваемой суммой.
      * @return массив массивов всевозможных комбинаций.
      */
-    public static List<List<Long>> exchangeOfBanknotes(String stringAmount, String stringBanknotes){
+    public static List<List<Long>> exchangeOfBanknotes(String stringAmount, String stringBanknotes) {
         List<List<Long>> result = new ArrayList<>();
         List<Long> valueList = new ArrayList<>();
         long amount;
         try {
-        amount = Long.parseLong(stringAmount); } catch(NumberFormatException e){
-            logger.log(Level.INFO,"incorrect input amount");
+            amount = Long.parseLong(stringAmount);
+        } catch (NumberFormatException e) {
+            logger.log(Level.INFO, "incorrect input amount");
             throw e;
         }
-        if (amount<=0){
-            logger.log(Level.INFO,"incorrect input amount");
+        if (amount <= 0) {
+            logger.log(Level.INFO, "incorrect input amount");
             throw new NumberFormatException();
         }
         long[] banknotes = inputLongList(stringBanknotes);
@@ -114,10 +123,10 @@ public class Task1 {
     /**
      * Подпрограмма для размена указанной купюры всеми возможными способами (ввод через с преобразованными параметрами).
      *
-     * @param result массив массивов, в который будет записан результат.
-     * @param amount размениваемая сумма.
+     * @param result    массив массивов, в который будет записан результат.
+     * @param amount    размениваемая сумма.
      * @param valueList массив для хранения одной (текущей) комбинации купюр.
-     * @param minvalue минимальная купюра из имеющихся для размена.
+     * @param minvalue  минимальная купюра из имеющихся для размена.
      * @param banknotes массив купюр.
      */
     private static void exchangeOfBanknotes(long amount, long minvalue, long[] banknotes, List<Long> valueList, List<List<Long>> result) {
@@ -130,7 +139,6 @@ public class Task1 {
         for (i = 0; i < banknotes.length; i++) {
             b = banknotes[i];
             if ((minvalue >= b) && (amount >= b)) {
-//                List<Long> copyValueList = new ArrayList<>(valueList);
                 valueList.add(b);
                 exchangeOfBanknotes(amount - b, b, banknotes, valueList, result);
                 valueList.remove(valueList.size() - 1);
