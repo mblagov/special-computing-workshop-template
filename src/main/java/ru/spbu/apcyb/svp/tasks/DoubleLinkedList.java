@@ -88,7 +88,7 @@ class DoubleLinkedList implements List<Object> {
     for (int i = 0; i < n; i++) {
     
       if (helper.next == null) {
-        return helper.obj;
+        throw new ArrayIndexOutOfBoundsException("Элементов меньше, чем заданное число!");
       }
     
       helper = helper.next;
@@ -183,7 +183,7 @@ class DoubleLinkedList implements List<Object> {
     for (int i = 0; i < n; i++) {
       
       if (helper.next == null) {
-        return null;
+        throw new ArrayIndexOutOfBoundsException("Элементов меньше, чем заданное число!");
       }
       
       helper = helper.next;

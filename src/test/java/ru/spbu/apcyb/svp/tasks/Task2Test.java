@@ -1,11 +1,8 @@
 package ru.spbu.apcyb.svp.tasks;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertNotEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-
 import org.junit.jupiter.api.Test;
+
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Тесты для задания 2.
@@ -90,17 +87,16 @@ class Task2Test {
   }
   
   @Test
-  void testLLException() throws UnsupportedOperationException {
+  void testAllException1() throws UnsupportedOperationException {
+    
     DoubleLinkedList list = new DoubleLinkedList();
     Object data = new Object();
     DoubleLinkedList h = new DoubleLinkedList();
     Object[] a = new Object[10];
-    
-    try {
-      list.size();
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
+  
+    UnsupportedOperationException thrown0 = assertThrows(UnsupportedOperationException.class, list::size);
+  
+    assertEquals("java.lang.UnsupportedOperationException", thrown0.toString());
     
     try {
       list.remove(data);
@@ -234,17 +230,17 @@ class Task2Test {
   }
   
   @Test
-  void testQLException() throws UnsupportedOperationException {
+  void testAllException2() throws UnsupportedOperationException {
+    
     MyQueue  queue = new MyQueue ();
     Object data = new Object();
     MyQueue  h = new MyQueue ();
     Object[] a = new Object[10];
-    
-    try {
-      queue.size();
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
+  
+  
+    UnsupportedOperationException thrown0 = assertThrows(UnsupportedOperationException.class, queue::size);
+  
+    assertEquals("java.lang.UnsupportedOperationException", thrown0.toString());
     
     try {
       queue.add(1);
