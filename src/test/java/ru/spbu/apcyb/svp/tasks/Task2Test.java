@@ -94,105 +94,59 @@ class Task2Test {
     DoubleLinkedList h = new DoubleLinkedList();
     Object[] a = new Object[10];
   
-    UnsupportedOperationException thrown0 = assertThrows(UnsupportedOperationException.class, list::size);
+    UnsupportedOperationException thrown = assertThrows(UnsupportedOperationException.class, list::size);
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
   
-    assertEquals("java.lang.UnsupportedOperationException", thrown0.toString());
+    thrown = assertThrows(UnsupportedOperationException.class, () -> list.remove(data));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
     
-    try {
-      list.remove(data);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
+    thrown = assertThrows(UnsupportedOperationException.class, list::iterator);
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
     
-    try {
-      list.iterator();
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      list.toArray();
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      list.addAll(h);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      list.addAll(0, h);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      list.clear();
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      list.set(0, data);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      list.indexOf(data);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      list.lastIndexOf(data);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      list.listIterator();
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      list.listIterator(0);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      list.subList(0, 2);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      list.retainAll(h);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      list.removeAll(h);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      list.containsAll(h);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      list.toArray(a);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
+    thrown = assertThrows(UnsupportedOperationException.class, list::toArray);
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> list.addAll(h));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, list::clear);
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> list.set(0, data));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> list.indexOf(data));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> list.lastIndexOf(data));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, list::listIterator);
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> list.listIterator(0));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> list.listIterator(0));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> list.subList(0, 2));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> list.retainAll(h));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> list.removeAll(h));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> list.containsAll(h));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> list.containsAll(h));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> list.toArray(a));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
     
   }
   
@@ -235,97 +189,49 @@ class Task2Test {
     MyQueue  queue = new MyQueue ();
     Object data = new Object();
     MyQueue  h = new MyQueue ();
-    Object[] a = new Object[10];
   
   
-    UnsupportedOperationException thrown0 = assertThrows(UnsupportedOperationException.class, queue::size);
+    UnsupportedOperationException thrown = assertThrows(UnsupportedOperationException.class, queue::size);
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
   
-    assertEquals("java.lang.UnsupportedOperationException", thrown0.toString());
+    thrown = assertThrows(UnsupportedOperationException.class, queue::clear);
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> queue.contains(data));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, queue::iterator);
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, queue::toArray);
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> queue.remove(data));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> queue.addAll(h));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> queue.retainAll(h));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> queue.removeAll(h));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> queue.containsAll(h));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, () -> queue.offer(data));
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, queue::remove);
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
+  
+    thrown = assertThrows(UnsupportedOperationException.class, queue::poll);
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
     
-    try {
-      queue.add(1);
-      queue.clear();
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      queue.contains(data);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      queue.iterator();
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      queue.toArray();
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      queue.toArray(a);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      queue.remove(data);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      queue.addAll(h);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      queue.retainAll(h);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      queue.removeAll(h);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      queue.containsAll(h);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      queue.offer(data);
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      queue.remove();
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      queue.poll();
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
-    
-    try {
-      queue.element();
-    } catch (UnsupportedOperationException thrown) {
-      assertNotEquals("", thrown.toString());
-    }
+    thrown = assertThrows(UnsupportedOperationException.class, queue::element);
+    assertEquals("java.lang.UnsupportedOperationException", thrown.toString());
     
   }
 }
