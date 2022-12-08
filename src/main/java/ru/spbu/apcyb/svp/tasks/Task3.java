@@ -23,9 +23,15 @@ public class Task3 {
   private void mainLogic(String root, String output) throws IOException {
     File rootDir = new File(root);
     if (!rootDir.exists() || !rootDir.isDirectory()) {
-      throw new IOException("error with dir");
+      throw new IOException("directory doesn't exist ");
+    }
+    if (!rootDir.isDirectory()) {
+      throw new IOException("input path isn't a directory");
     }
     File outputFile = new File(output);
+    if (outputFile.isDirectory()) {
+      throw new IOException("output file can't be a directory");
+    }
     try (FileWriter fileWriter = new FileWriter(outputFile)) {
       this.printFiles(rootDir, fileWriter);
     } catch (IOException e) {
@@ -43,6 +49,9 @@ public class Task3 {
 
   public static void main(String[] args) throws IOException {
     Task3 task3 = new Task3();
+    if (args.length != 2) {
+      throw new IOException("need 2 parameters in command line");
+    }
     task3.mainLogic(args[0], args[1]);
 
   }
