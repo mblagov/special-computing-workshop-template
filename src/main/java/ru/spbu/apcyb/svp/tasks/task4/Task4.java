@@ -87,7 +87,7 @@ public class Task4 {
       logger.log(Level.INFO, "One thread: {0}", threadOne);
 
     } catch (IOException e) {
-      throw new IOException("problem with files");
+      throw new IOException("problem with input or output file");
 
     }
   }
@@ -113,7 +113,7 @@ public class Task4 {
       Thread.currentThread().interrupt();
       logger.log(Level.SEVERE, "Thread Error");
     } catch (IOException e) {
-      throw new IOException("problem with file");
+      throw new IOException("problem with input or output file");
     }
 
 
