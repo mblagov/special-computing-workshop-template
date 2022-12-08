@@ -16,27 +16,17 @@ class Task3Test {
   @Test
   void fileFinderTest1() {
     
-    String dir1 = "IAmNotExist";
-    File file1 = new File("answer.txt");
+    String[] args = {"IAmNotExist", "answer.txt", "..//", "ans.txt", "..//", "..//"};
     
-    FileNotFoundException thrown = assertThrows(FileNotFoundException.class, () -> Task3.fileFinder(dir1, file1, 0));
-    
+    FileNotFoundException thrown = assertThrows(FileNotFoundException.class, () -> Task3.check(args[0], new File(args[1])));
     assertEquals("java.io.FileNotFoundException: Директория не существует", thrown.toString());
-  
-    String dir2  = "..//";
+    
     //Здесь file вляется директорией
-    File file2 = new File("ans.txt");
-  
-    thrown = assertThrows(FileNotFoundException.class, () -> Task3.fileFinder(dir2, file2, 0));
-  
-    assertEquals("java.io.FileNotFoundException: Записывающий файл является директорией!", thrown.toString());
-  
-    String dir3  = "..//";
-    File file3 = new File("..//");
-  
-    thrown = assertThrows(FileNotFoundException.class, () -> Task3.fileFinder(dir3, file3, 0));
-  
-    assertEquals("java.io.FileNotFoundException: Записывающий файл является директорией!", thrown.toString());
+    thrown = assertThrows(FileNotFoundException.class, () -> Task3.check(args[2], new File(args[3])));
+    assertEquals("java.io.FileNotFoundException: Записываемый файл является директорией!", thrown.toString());
+    
+    thrown = assertThrows(FileNotFoundException.class, () -> Task3.check(args[4], new File(args[5])));
+    assertEquals("java.io.FileNotFoundException: Записываемый файл является директорией!", thrown.toString());
   }
   
   @Test
@@ -47,7 +37,7 @@ class Task3Test {
     boolean isWorking = true;
     
     try {
-      Task3.fileFinder(dir, file, 0);
+      Task3.fileFinder(dir, Task3.check(dir, file), 0);
     } catch (IOException thrown) {
       isWorking = false;
     }
