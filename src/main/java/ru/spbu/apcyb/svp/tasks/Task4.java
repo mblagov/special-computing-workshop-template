@@ -52,7 +52,7 @@ class Task4 {
         }
         fileReader.close();
         fileWriter.flush();
-        System.out.println(format("(One) Executed by %d ns, size : %d",
+        System.out.println(format("(One  ) Executed by %d ns, size : %d",
                 (System.nanoTime() - start), size));
         return true;
     }
@@ -79,11 +79,17 @@ class Task4 {
 
         ExecutorService threadPool = Executors.newFixedThreadPool(nThreads);
         long start = System.nanoTime();
+
+        List<CompletableFuture<Double>> futures = new ArrayList<>();
         for (String integer : tmp) {
             final double i = parseDouble(integer);
-            fileWriter.write(String.valueOf(CompletableFuture.supplyAsync(() -> Math.tan(i), threadPool).get()) + " ");
+            futures.add(CompletableFuture.supplyAsync(() -> Math.tan(i), threadPool));
         }
         fileReader.close();
+        CompletableFuture.allOf(futures.toArray(new CompletableFuture[futures.size()]));
+        for (Future<Double> future : futures) {
+            fileWriter.write(String.valueOf(future.get()) + " ");
+        }
         fileWriter.flush();
         System.out.println(format("(Multi) Executed by %d ns, size : %d",
                 (System.nanoTime() - start), size));

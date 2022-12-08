@@ -20,7 +20,7 @@ public class Task4Test {
         size = 1;
         seqIntToFile("num.txt", size);
         boolean result1 = multithreadedTan("num.txt", "num_tan.txt", size, 10);
-        boolean result2 = oneThreadTan("num.txt", "num_tan.txt", size);
+        boolean result2 = oneThreadTan("num.txt", "num_tan2.txt", size);
         Assertions.assertTrue(result1);
         Assertions.assertTrue(result2);
     }
@@ -30,17 +30,17 @@ public class Task4Test {
         size = 100;
         seqIntToFile("num.txt", size);
         boolean result1 = multithreadedTan("num.txt", "num_tan.txt", size, 10);
-        boolean result2 = oneThreadTan("num.txt", "num_tan.txt", size);
+        boolean result2 = oneThreadTan("num.txt", "num_tan2.txt", size);
         Assertions.assertTrue(result1);
         Assertions.assertTrue(result2);
     }
 
     @Test
     void isOneMillionNumbers() throws IOException, ExecutionException, InterruptedException {
-        size = 1000000;
+        size = 5000000;
         seqIntToFile("num.txt", size);
         boolean result1 = multithreadedTan("num.txt", "num_tan.txt", size, 10);
-        boolean result2 = oneThreadTan("num.txt", "num_tan.txt", size);
+        boolean result2 = oneThreadTan("num.txt", "num_tan2.txt", size);
         Assertions.assertTrue(result1);
         Assertions.assertTrue(result2);
     }
