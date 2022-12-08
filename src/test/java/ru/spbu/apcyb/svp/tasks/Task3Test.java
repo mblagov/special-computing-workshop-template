@@ -17,6 +17,17 @@ import org.junit.jupiter.api.Test;
 class Task3Test {
 
   @Test
+  @DisplayName("outFileErrorTest")
+  void outFileErrorTest() {
+    String rootTest = "src/test";
+    Task3 testclass = new Task3();
+    Assertions.assertThrows(IOException.class,
+        () -> testclass.main(new String[]{rootTest, "src"}));
+
+
+  }
+
+  @Test
   @DisplayName("mainTest")
   void mainTest() throws IOException {
     String rootTest = "src/test";
