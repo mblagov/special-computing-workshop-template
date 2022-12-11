@@ -1,9 +1,10 @@
 package ru.spbu.apcyb.svp.tasks;
 
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 import org.junit.jupiter.api.Test;
@@ -29,32 +30,21 @@ class Task3Test {
 
   @Test
   void fileInInexistingFolder() {
-    boolean thrown = false;
-
-    try {
-      FileWriter file = new FileWriter("ggsgsgsgsdgssdgs");
-      File dir = new File("/afaf/afaf").getAbsoluteFile();
-      Task3.displayDirectoryContents(dir, file);
-    } catch (IOException e) {
-      thrown = true;
-    }
-
-    assertTrue(thrown);
+    assertThrows(
+        FileNotFoundException.class,
+        () -> {
+          FileWriter file = new FileWriter("ggsgsgsgsdgssdgs");
+          File dir = new File("/afaf/afaf").getAbsoluteFile();
+          Task3.displayDirectoryContents(dir, file);
+        }
+    );
   }
 
   @Test
-  void normalRun() {
-    boolean thrown = false;
-
-    try {
-      FileWriter file = new FileWriter("testfile");
-      File dir = new File(".").getAbsoluteFile();
-      Task3.displayDirectoryContents(dir, file);
-    } catch (IOException e) {
-      thrown = true;
-    }
-
-    assertFalse(thrown);
+  void normalRun() throws IOException {
+    FileWriter file = new FileWriter("testfile");
+    File dir = new File(".").getAbsoluteFile();
+    Task3.displayDirectoryContents(dir, file);
   }
 
 }

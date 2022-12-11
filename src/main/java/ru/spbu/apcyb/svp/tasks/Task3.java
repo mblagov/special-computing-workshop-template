@@ -17,19 +17,23 @@ public class Task3 {
     String file2Save = scanner.nextLine();
     scanner.close();
 
-    FileWriter writer = new FileWriter(file2Save);
-    File currentDir = new File(path).getAbsoluteFile();
-    displayDirectoryContents(currentDir, writer);
-    writer.close();
+    try (FileWriter writer = new FileWriter(file2Save)) {
+      File currentDir = new File(path).getAbsoluteFile();
+      displayDirectoryContents(currentDir, writer);
+    }
   }
 
-  public static void displayDirectoryContents(File dir, FileWriter writer)
-      throws IOException {
+  public static void checkDirectory(File dir) throws FileNotFoundException, NotDirectoryException {
     if (!dir.exists()) {
       throw new FileNotFoundException("directory doesn't exists");
     } else if (!dir.isDirectory()) {
       throw new NotDirectoryException("it's not a directory");
     }
+  }
+
+  public static void displayDirectoryContents(File dir, FileWriter writer)
+      throws IOException {
+    checkDirectory(dir);
 
     File[] files = dir.listFiles();
     assert files != null;
