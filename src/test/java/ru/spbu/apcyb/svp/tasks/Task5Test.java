@@ -26,11 +26,10 @@ class Task5Test {
         boolean fileDidNotExist = false;
         boolean fileExists = false;
         boolean check = false;
-        String[] word = {"toyotaravfour", "1"};
         Path path =
-                Path.of(word[0] + ".txt");
+                Path.of("toyotaravfour" + ".txt");
         if (!Files.exists(path)) {
-            Task5.wordsToNonExistingFile(word);
+            Task5.wordsToNonExistingFile("toyotaravfour", 1);
             fileDidNotExist = true;
         }
         if (Files.exists(path)) {
@@ -48,8 +47,7 @@ class Task5Test {
      */
     @Test
     void wordsToExistingFile() throws FileNotFoundException {
-        String[] testWord = {"underdog", "1"};
-        Task5.wordsToExistingFile(testWord);
+        Task5.wordsToExistingFile("underdog", 1);
         Path filePath = Path.of("underdog.txt");
         try (BufferedReader fromUnderdog = new BufferedReader(new FileReader(filePath.toFile()))) {
             String currentLine = fromUnderdog.readLine();
@@ -97,16 +95,5 @@ class Task5Test {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
-    }
-
-    /**
-     * Проверяет ошибку, при чтении исходного текста из несуществующего файла.
-     * Или при выводе результата в несуществующий файл
-     */
-    @Test
-    void textFileSortEx() {
-        FileNotFoundException thrown =
-                assertThrows(FileNotFoundException.class, () -> Task5.textFileSort("NonExistingFile.txt", "countsTestFile.txt"));
-        assertEquals("problems with NonExistingFile.txt or countsTestFile.txt file", thrown.getMessage());
     }
 }

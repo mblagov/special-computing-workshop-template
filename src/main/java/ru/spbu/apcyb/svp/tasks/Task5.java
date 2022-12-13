@@ -19,34 +19,32 @@ public class Task5 {
      * Выводит в существующий для каждого слова файл, с ним же в названии,
      * это слово ровно столько раз, сколько оно встретилось в исходном тексте.
      *
-     * @param MASS - массив, содержащий само слово и число его вхождений в текст.
-     *             MASS[0] - слово.
-     *             MASS[1] - число вхождений.
+     * @param word - слово.
+     * @param wordNumber - число вхождений.
      */
-    public static void wordsToExistingFile(String[] MASS) throws FileNotFoundException {
+    public static void wordsToExistingFile(String word, Integer wordNumber) throws FileNotFoundException {
         try (BufferedWriter wordFile = new BufferedWriter
-                (new OutputStreamWriter(new FileOutputStream((MASS[0] + ".txt"))))) {
-            for (int i = 0; i < Integer.parseInt(MASS[1]); i++) {
-                wordFile.write(MASS[0]);
+                (new OutputStreamWriter(new FileOutputStream((word + ".txt"))))) {
+            for (int i = 0; i < wordNumber; i++) {
+                wordFile.write(word);
                 wordFile.write("\n");
             }
         } catch (IOException e) {
-            throw new FileNotFoundException("file for word " + MASS[0] + "did not open");
+            throw new FileNotFoundException("file for word " + word + "did not open");
         }
     }
 
     /**
      * Создает файл для каждого слова, с ним же в названии.
      *
-     * @param MASS - массив, содержащий само слово и число его вхождений в текст.
-     * Принимает весь массив, чтобы отправить его в wordsToExistingFile.
-     *             MASS[0] - слово.
+     * @param word - слово.
+     * @param wordNumber - число вхождений.
      */
-    public static void wordsToNonExistingFile(String[] MASS) throws FileNotFoundException {
-        try (FileWriter wordFile = new FileWriter(MASS[0] + ".txt", true)) {
-            wordsToExistingFile(MASS);
+    public static void wordsToNonExistingFile(String word, Integer wordNumber) throws FileNotFoundException {
+        try (FileWriter wordFile = new FileWriter(word + ".txt", true)) {
+            wordsToExistingFile(word, wordNumber);
         } catch (IOException ex) {
-            throw new FileNotFoundException("new file for new word " + MASS[0] + "did not open");
+            throw new FileNotFoundException("new file for new word " + word + "did not open");
         }
     }
 
@@ -58,7 +56,7 @@ public class Task5 {
      * @param dataFileName - название файла с исходным текстом.
      * @param countsFileName - название файла для вывода данных.
      */
-    public static void textFileSort(String dataFileName, String countsFileName) throws FileNotFoundException {
+    public static void textFileSort(String dataFileName, String countsFileName) throws FileNotFoundException, IOException {
         try (Stream<String> stream = Files.lines(Paths.get(dataFileName));
              BufferedWriter toCountsFile = new BufferedWriter
                      (new OutputStreamWriter(new FileOutputStream((countsFileName))))) {
@@ -72,13 +70,15 @@ public class Task5 {
                         try {
                             toCountsFile.write(word + "\n");
                         } catch (IOException e) {
-                            e.printStackTrace();
+                            throw new RuntimeException("problems with counts.txt file");
                         }
-                        String[] MASS = String.valueOf(word).split("=");
-                        if (Files.exists(Path.of(MASS[0] + ".txt"))) {
+                        String[] mass = String.valueOf(word).split("=");
+                        String currentWord = mass[0];
+                        Integer currentWordNumber = Integer.parseInt(mass[1]);
+                        if (Files.exists(Path.of(currentWord + ".txt"))) {
                             CompletableFuture.runAsync(() -> {
                                 try {
-                                    wordsToExistingFile(MASS);
+                                    wordsToExistingFile(currentWord,currentWordNumber);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -86,7 +86,7 @@ public class Task5 {
                         } else {
                             CompletableFuture.runAsync(() -> {
                                 try {
-                                    wordsToNonExistingFile(MASS);
+                                    wordsToNonExistingFile(currentWord,currentWordNumber);
                                 } catch (IOException e) {
                                     e.printStackTrace();
                                 }
@@ -99,7 +99,7 @@ public class Task5 {
     }
 
     public static void main(String[] args) throws IOException {
-        textFileSort("aaaaaaaaaa.txt", "counts.txt");
+        textFileSort("aaatask5Reference1.txt", "counts.txt");
     }
 
 
