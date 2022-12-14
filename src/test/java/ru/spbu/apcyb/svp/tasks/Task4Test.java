@@ -6,8 +6,7 @@ import java.io.*;
 import java.nio.file.Path;
 import java.util.logging.Logger;
 
-import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 /**
  * Тесты для задания 4.
@@ -18,7 +17,7 @@ class Task4Test {
 
     @Test
     void singleThreadComputationTest() throws IOException {
-        int numberOfLinesToRead = 500;
+        int numberOfLinesToRead = 5000;
         Path dataPath = Path.of("data.txt");
         Path resPath = Path.of("singleThreadTest.txt");
 
@@ -48,7 +47,7 @@ class Task4Test {
     @Test
     void multiThreadComputationTest() throws IOException {
         String multiThreadFileWriterName = "multiThreadTestRes.txt";
-        int numberOfLinesToRead = 1000;
+        int numberOfLinesToRead = 5000;
         int numberOfThreads = 10;
         Path filePath1 = Path.of("singleThreadTest.txt");
         Path filePath2 = Path.of("multiThreadTestRes.txt");
@@ -56,16 +55,17 @@ class Task4Test {
         String[] answer = new String[numberOfLinesToRead];
         String answerLine;
 
-
+        int numbersInAnswer = 0;
         try (BufferedReader singleThreadResTestReader = new BufferedReader(new FileReader(filePath1.toFile()))) {
-            int i = 0;
+
             while ((answerLine = singleThreadResTestReader.readLine()) != null) {
-                answer[i] = answerLine;
-                ++i;
+                answer[numbersInAnswer] = answerLine;
+                numbersInAnswer++;
             }
         }
 
         Task4.multiThreadComputation(multiThreadFileWriterName, "data.txt", numberOfLinesToRead, numberOfThreads);
+        int viewedNumbers = 0;
         try (BufferedReader multiThreadResTestReader = new BufferedReader(new FileReader(filePath2.toFile()))) {
             while ((resultLine = multiThreadResTestReader.readLine()) != null) {
                 boolean containsAnswer = false;
@@ -79,16 +79,17 @@ class Task4Test {
                     logger.info("Ошибка! Не было найдено в ответе значения " + resultLine);
                 }
                 assertTrue(containsAnswer);
+                viewedNumbers++;
             }
         }
+        assertEquals(numbersInAnswer, viewedNumbers);
     }
 
 
     @Test
     void FileNotFoundTest() throws IOException {
         try (FileWriter fileWriter = new FileWriter("someResFile", false)) {
-            assertThrows(FileNotFoundException.class,
-                    () -> Task4.singleThreadComputation(fileWriter, "wrongData", 1000));
+            assertThrows(FileNotFoundException.class, () -> Task4.singleThreadComputation(fileWriter, "wrongData", 1000));
         }
     }
 
