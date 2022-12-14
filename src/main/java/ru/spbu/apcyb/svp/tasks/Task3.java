@@ -17,21 +17,29 @@ public class Task3 {
         if (startDirectory.isDirectory()) {
             throw new NotDirectoryException("Введенный путь для объекта для записями является директорией!");
         }
-        File root = new File(fileName);
-        File[] list = root.listFiles();
+        var list = getListFiles(fileName);
         if (list == null) {
             throw new FileNotFoundException("Введенной директории не существует!");
         }
         return true;
     }
 
-    private static void directoryTraversal(String path, int tabulation) throws IOException {
+
+    private static File[] getListFiles(String path) {
         File root = new File(path);
-        File[] list = root.listFiles();
+        return root.listFiles();
+    }
+
+    private static void writeTabulation(int tabulation) throws IOException {
+        for (int i = 0; i < tabulation; i++) {
+            fileWriter.write(' ');
+        }
+    }
+
+    private static void directoryTraversal(String path, int tabulation) throws IOException {
+        var list = getListFiles(path);
         for (File f : list) {
-            for (int i = 0; i < tabulation; i++) {
-                fileWriter.write(' ');
-            }
+            writeTabulation(tabulation);
             if (f.isDirectory()) {
                 fileWriter.write("Директория: " + f.getPath() + "\n");
                 directoryTraversal(f.getAbsolutePath(), tabulation + 1);
@@ -39,10 +47,15 @@ public class Task3 {
                 fileWriter.write("Файл: " + f.getName() + "\n");
             }
         }
-
     }
 
     public static void main(String[] args) throws IOException {
+        if (args.length < 2) {
+            throw new ArrayIndexOutOfBoundsException("Введено менее 2 аргументов в функцию");
+        }
+        if (args.length > 2) {
+            throw new ArrayIndexOutOfBoundsException("Введено более 2 аргументов в функцию");
+        }
         File file = new File(args[1]);
         checkInputs(args[0], file);
         fileWriter = new FileWriter(file, false);
