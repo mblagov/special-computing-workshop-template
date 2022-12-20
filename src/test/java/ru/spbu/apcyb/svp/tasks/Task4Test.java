@@ -9,7 +9,7 @@ import java.util.logging.Logger;
 import static org.junit.jupiter.api.Assertions.*;
 
 /**
- * Тесты для задания 4.
+ * Тесты для задания 4
  */
 class Task4Test {
 

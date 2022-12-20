@@ -37,15 +37,17 @@ public class Task4 {
 
         long start = System.currentTimeMillis();
         ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
-        MultiThread[] multiThreads = new MultiThread[numberOfLines];
+        Double[] values = new Double[numberOfLines];
 
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(Path.of(inputFileName).toFile()))) {
             for (int i = 0; i < numberOfLines / numberOfThreads; i++) {
-                for (int j = 1; j <= numberOfThreads; j++) {
+                for (int j = 0; j < numberOfThreads; j++) {
                     String currentLine = bufferedReader.readLine();
-                    var thread = new MultiThread(Double.parseDouble(currentLine));
-                    multiThreads[j - 1 + i * numberOfThreads] = thread;
-                    executorService.execute(thread);
+                    int copyJ = j;
+                    int copyI = i;
+                    executorService.execute(() ->
+                        values[copyJ + copyI * numberOfThreads] = Math.tan(Double.parseDouble(currentLine))
+                    );
                 }
             }
         } catch (FileNotFoundException e) {
@@ -56,8 +58,8 @@ public class Task4 {
             executorService.shutdown();
         }
         try (FileWriter fileWriter = new FileWriter(fileWriterName, false)) {
-            for (var s : multiThreads) {
-                fileWriter.write(s.getResult() + "\n");
+            for (var s : values) {
+                fileWriter.write(s + "\n");
             }
         }
         long finish = System.currentTimeMillis();
@@ -70,10 +72,10 @@ public class Task4 {
     public static void main(String[] args) throws IOException {
         String inputFileName = "data.txt";
         try (FileWriter singleThreadFileWriter = new FileWriter("singleThreadRes.txt", false)) {
-            singleThreadComputation(singleThreadFileWriter, inputFileName, 5000);
+            singleThreadComputation(singleThreadFileWriter, inputFileName, 10000);
         }
         String multiThreadFileWriterName = "multiThreadRes.txt";
-        multiThreadComputation(multiThreadFileWriterName, inputFileName, 5000, 10);
+        multiThreadComputation(multiThreadFileWriterName, inputFileName, 10000, 10);
     }
 }
 
