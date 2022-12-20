@@ -1,6 +1,7 @@
 package ru.spbu.apcyb.svp.tasks;
 
 
+import static ru.spbu.apcyb.svp.tasks.task5.PrintWords.getLowerBound;
 import static ru.spbu.apcyb.svp.tasks.task5.Task5.countAllWords;
 import static ru.spbu.apcyb.svp.tasks.task5.Task5.fillCountsFile;
 import static ru.spbu.apcyb.svp.tasks.task5.Task5.readInputFile;
@@ -62,7 +63,8 @@ class Task5Test {
   @Test
   void countAllWordsTest() throws IOException {
     PrintWriter testWriter = new PrintWriter(testFile);
-    testWriter.write(String.join(" ", Collections.nCopies(200, "get over here")));
+    int num = getLowerBound() + 100;
+    testWriter.write(String.join(" ", Collections.nCopies(num, "get over here")));
     testWriter.close();
     String dir = "src/main/resources";
     countAllWords(dir + "/test.txt", dir + "/counts.txt", dir + "/OutTask5");
@@ -79,15 +81,15 @@ class Task5Test {
     ) {
       Assertions.assertAll(() -> {
         Assertions.assertEquals(
-            String.join(" ", Collections.nCopies(200, "get")),
+            String.join(" ", Collections.nCopies(num, "get")),
             getReader.readLine()
         );
         Assertions.assertEquals(
-            String.join(" ", Collections.nCopies(200, "over")),
+            String.join(" ", Collections.nCopies(num, "over")),
             overReader.readLine()
         );
         Assertions.assertEquals(
-            String.join(" ", Collections.nCopies(200, "here")),
+            String.join(" ", Collections.nCopies(num, "here")),
             hereReader.readLine()
         );
       });

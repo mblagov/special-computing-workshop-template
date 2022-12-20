@@ -10,6 +10,7 @@ public class PrintWords implements Runnable {
   private final String word;
   private final Integer num;
   private final String dir;
+  static final int LOWER_BOUND = 100;
 
 
   public PrintWords(Integer num, String word, String dir) {
@@ -18,12 +19,15 @@ public class PrintWords implements Runnable {
     this.dir = dir;
   }
 
+  public static int getLowerBound() {
+    return LOWER_BOUND;
+  }
+
 
   @Override
   public void run() {
     File out = new File(dir, word);
-    Integer lowerBound = 100;
-    if (num >= lowerBound) {
+    if (num >= LOWER_BOUND) {
       try (FileWriter fileWriter = new FileWriter(out)) {
         fileWriter.write(String.join(" ", Collections.nCopies(num, word)));
       } catch (IOException e) {
