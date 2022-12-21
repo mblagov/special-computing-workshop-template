@@ -4,6 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.*;
 import java.nio.file.Path;
+import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -45,7 +46,7 @@ class Task4Test {
     }
 
     @Test
-    void multiThreadComputationTest() throws IOException {
+    void multiThreadComputationTest() throws IOException, InterruptedException, ExecutionException {
         String multiThreadFileWriterName = "multiThreadTestRes.txt";
         int numberOfLinesToRead = 5000;
         int numberOfThreads = 10;

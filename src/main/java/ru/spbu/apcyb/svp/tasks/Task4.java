@@ -2,8 +2,9 @@ package ru.spbu.apcyb.svp.tasks;
 
 import java.io.*;
 import java.nio.file.Path;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.concurrent.*;
 import java.util.logging.Logger;
 
 /**
@@ -33,21 +34,16 @@ public class Task4 {
         logger.info(result);
     }
 
-    public static void multiThreadComputation(String fileWriterName, String inputFileName, int numberOfLines, int numberOfThreads) throws IOException {
+    public static void multiThreadComputation(String fileWriterName, String inputFileName, int numberOfLines, int numberOfThreads) throws IOException, InterruptedException, ExecutionException {
 
         long start = System.currentTimeMillis();
         ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
-        Double[] values = new Double[numberOfLines];
-
+        List<CompletableFuture<Double>> results = new ArrayList<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(Path.of(inputFileName).toFile()))) {
             for (int i = 0; i < numberOfLines / numberOfThreads; i++) {
                 for (int j = 0; j < numberOfThreads; j++) {
                     String currentLine = bufferedReader.readLine();
-                    int copyJ = j;
-                    int copyI = i;
-                    executorService.execute(() ->
-                        values[copyJ + copyI * numberOfThreads] = Math.tan(Double.parseDouble(currentLine))
-                    );
+                    results.add(CompletableFuture.supplyAsync(() -> Math.tan(Double.parseDouble(currentLine)), executorService));
                 }
             }
         } catch (FileNotFoundException e) {
@@ -58,8 +54,8 @@ public class Task4 {
             executorService.shutdown();
         }
         try (FileWriter fileWriter = new FileWriter(fileWriterName, false)) {
-            for (var s : values) {
-                fileWriter.write(s + "\n");
+            for (var s : results) {
+                fileWriter.write(s.get() + "\n");
             }
         }
         long finish = System.currentTimeMillis();
@@ -69,7 +65,7 @@ public class Task4 {
     }
 
 
-    public static void main(String[] args) throws IOException {
+    public static void main(String[] args) throws IOException, InterruptedException, ExecutionException {
         String inputFileName = "data.txt";
         try (FileWriter singleThreadFileWriter = new FileWriter("singleThreadRes.txt", false)) {
             singleThreadComputation(singleThreadFileWriter, inputFileName, 10000);
