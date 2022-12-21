@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -30,12 +31,12 @@ class Task5Test {
     PrintWriter testWriter = new PrintWriter(testFile);
     testWriter.write("I-am?your!-father");
     testWriter.close();
-    HashMap<String, Integer> exp = new HashMap<>();
+    Map<String, Integer> exp = new HashMap<>();
     exp.put("i", 1);
     exp.put("am", 1);
     exp.put("your", 1);
     exp.put("father", 1);
-    HashMap<String, Integer> testResult = (HashMap<String, Integer>) readInputFile(
+    Map<String, Integer> testResult = readInputFile(
         testFile.getPath());
     Assertions.assertEquals(exp, testResult);
   }
@@ -47,17 +48,14 @@ class Task5Test {
     testWriter.close();
     HashSet<String> expected = new HashSet<>(List.of(new String[]{"get: 1", "over: 1", "here: 2"}));
     HashSet<String> actual = new HashSet<>();
-    HashMap<String, Integer> input = (HashMap<String, Integer>) readInputFile(testFile.getPath());
+    Map<String, Integer> input = readInputFile(testFile.getPath());
     fillCountsFile(input, testFile.getPath());
-    try (BufferedReader bufferedReader = new BufferedReader(new FileReader(testFile))) {
-      for (String line = bufferedReader.readLine(); line != null;
-          line = bufferedReader.readLine()) {
-        actual.add(line);
-      }
-      Assertions.assertEquals(expected, actual);
-    } catch (IOException e) {
-      throw new IOException("fillCountsFileTest Error");
+    BufferedReader bufferedReader = new BufferedReader(new FileReader(testFile));
+    for (String line = bufferedReader.readLine(); line != null;
+        line = bufferedReader.readLine()) {
+      actual.add(line);
     }
+    Assertions.assertEquals(expected, actual);
   }
 
   @Test
@@ -68,35 +66,28 @@ class Task5Test {
     testWriter.close();
     String dir = "src/main/resources";
     countAllWords(dir + "/test.txt", dir + "/counts.txt", dir + "/OutTask5");
-    try (
-        BufferedReader getReader = new BufferedReader(
-            new FileReader(dir + "/OutTask5/get")
-        );
-        BufferedReader overReader = new BufferedReader(
-            new FileReader(dir + "/OutTask5/over")
-        );
-        BufferedReader hereReader = new BufferedReader(
-            new FileReader(dir + "/OutTask5/here")
-        )
-    ) {
-      Assertions.assertAll(() -> {
-        Assertions.assertEquals(
-            String.join(" ", Collections.nCopies(num, "get")),
-            getReader.readLine()
-        );
-        Assertions.assertEquals(
-            String.join(" ", Collections.nCopies(num, "over")),
-            overReader.readLine()
-        );
-        Assertions.assertEquals(
-            String.join(" ", Collections.nCopies(num, "here")),
-            hereReader.readLine()
-        );
-      });
-    } catch (IOException e) {
-      throw new IOException("countAllWordsTest Error");
-    }
+    BufferedReader getReader = new BufferedReader(
+        new FileReader(dir + "/OutTask5/get")
+    );
+    BufferedReader overReader = new BufferedReader(
+        new FileReader(dir + "/OutTask5/over")
+    );
+    BufferedReader hereReader = new BufferedReader(
+        new FileReader(dir + "/OutTask5/here")
+    );
+    Assertions.assertAll(() -> {
+      Assertions.assertEquals(
+          String.join(" ", Collections.nCopies(num, "get")),
+          getReader.readLine()
+      );
+      Assertions.assertEquals(
+          String.join(" ", Collections.nCopies(num, "over")),
+          overReader.readLine()
+      );
+      Assertions.assertEquals(
+          String.join(" ", Collections.nCopies(num, "here")),
+          hereReader.readLine()
+      );
+    });
   }
-
-
 }

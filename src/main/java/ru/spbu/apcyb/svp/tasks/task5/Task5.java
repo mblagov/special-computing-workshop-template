@@ -6,9 +6,9 @@ import java.io.PrintWriter;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Paths;
-import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Stream;
 
 /**
@@ -18,7 +18,7 @@ public class Task5 {
 
   public static Map<String, Integer> readInputFile(String path) throws IOException {
     try (Stream<String> stream = Files.lines(Paths.get(path), StandardCharsets.UTF_8)) {
-      HashMap<String, Integer> hashMap = new HashMap<>();
+      Map<String, Integer> concurrentHashMap = new ConcurrentHashMap<>();
       stream
           .flatMap(
               line -> Stream.of(
@@ -30,10 +30,10 @@ public class Task5 {
           )
           .forEach(word -> {
             if (!word.isEmpty() && !word.equals(" ")) {
-              hashMap.merge(word, 1, (prev, next) -> prev + 1);
+              concurrentHashMap.merge(word, 1, (prev, next) -> prev + 1);
             }
           });
-      return hashMap;
+      return concurrentHashMap;
     } catch (IOException e) {
       throw new IOException("Can't read file: " + path);
     }
@@ -51,9 +51,9 @@ public class Task5 {
 
 
   public static void countAllWords(String inDir, String listDir, String outDir) throws IOException {
-    HashMap<String, Integer> hashMap = (HashMap<String, Integer>) readInputFile(inDir);
-    fillCountsFile(hashMap, listDir);
-    hashMap.forEach((key, value) -> CompletableFuture.runAsync(new PrintWords(value, key, outDir)));
+    Map<String, Integer> map = readInputFile(inDir);
+    fillCountsFile(map, listDir);
+    map.forEach((key, value) -> CompletableFuture.runAsync(new PrintWords(value, key, outDir)));
   }
 
 
