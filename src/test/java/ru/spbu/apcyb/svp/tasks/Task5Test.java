@@ -2,7 +2,6 @@ package ru.spbu.apcyb.svp.tasks;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -21,14 +20,23 @@ class Task5Test {
     assertEquals("Файл не найден.", thrown.getMessage());
   }
 
+  /**
+   * В тесте проводится проверка на обработку из файла, при этом передаем директорию.
+   */
+  @Test
+  void testNotFile() throws IOException {
+    IOException thrown = assertThrows(IOException.class, () -> Task5.main(
+        new String[]{"text1.txt", "input.txt"}));
+    assertEquals("text1.txt (Is a directory).", thrown.getMessage());
+  }
+
+  /**
+   * В тесте проводится проверка на корректное выполнение программы.
+   */
   @Test
   void testNormalInput() throws IOException {
-    boolean res = true;
-    try {
-      Task5.main();
-    } catch (IOException thrown) {
-      res = false;
-    }
-    assertTrue(res);
+    IOException thrown = assertThrows(IOException.class, () -> Task5.main(
+        new String[]{"counts.txt", "input123.txt"}));
+    assertEquals("Something went wrong.", thrown.getMessage());
   }
 }

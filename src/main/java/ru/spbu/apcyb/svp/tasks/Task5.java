@@ -65,7 +65,7 @@ public class Task5 {
       out.write(data.toString().getBytes());
       return file;
     } catch (IOException ex) {
-      throw new FileNotFoundException("Файл не найден.");
+      throw new FileNotFoundException(ex + ", файл не найден");
     }
   }
 
@@ -74,27 +74,33 @@ public class Task5 {
    */
   public static void nameFile(Map<String, Long> stream) {
     ThreadPool threadPool = new ThreadPool(10);
-    stream.forEach((word, count) -> CompletableFuture.supplyAsync(
-        () -> {
-          try {
-            return createFile(word, count);
-          } catch (FileNotFoundException ex) {
-            throw new RuntimeException(ex);
-          }
-        },
-        threadPool
-    ));
-
-    threadPool.shutdown();
+    try {
+      stream.forEach((word, count) -> CompletableFuture.supplyAsync(
+          () -> {
+            try {
+              return createFile(word, count);
+            } catch (FileNotFoundException ex) {
+              throw new RuntimeException(ex);
+            }
+          },
+          threadPool
+      ));
+    }
+    finally {
+      threadPool.shutdown();
+    }
   }
 
   /**
    * Main.
    */
-  public static void main() throws IOException {
-    File file = new File("counts.txt");
+  public static void main(String[] args) throws IOException {
+    File file = new File(args[0]);
+    if (file.isDirectory()) {
+      throw new FileNotFoundException(args[0] + " (Is a directory).");
+    }
     try {
-      Map<String, Long> stream = readFile("input.txt");
+      Map<String, Long> stream = readFile(args[1]);
       countFile(stream, file);
       nameFile(stream);
     } catch (IOException e) {
