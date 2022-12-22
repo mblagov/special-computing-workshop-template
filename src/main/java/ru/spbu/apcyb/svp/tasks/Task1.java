@@ -1,5 +1,7 @@
 package ru.spbu.apcyb.svp.tasks;
 
+import static java.lang.Integer.parseInt;
+
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.Scanner;
@@ -13,7 +15,7 @@ public class Task1 {
   /**
    * Метод для получения комбинаций купюр данной суммы.
    */
-  public static int combinations(int sum, int prevNominal, String combination, Integer[] nomArray) {
+  public static int combinations(int sum, int prevNominal, String combination, int[] nomArray) {
     Logger logger = Logger.getLogger(Task1.class.getName());
     int count = 0;
     if (sum == 0) {
@@ -34,7 +36,7 @@ public class Task1 {
   public static int sum(String str) {
     int sum;
     try {
-      sum = Integer.parseInt(str);
+      sum = parseInt(str);
     } catch (Exception e) {
       throw new IllegalArgumentException("Ошибка при вводе суммы");
     }
@@ -48,12 +50,12 @@ public class Task1 {
   /**
    * Метод для ввода номиналов.
    */
-  public static Integer[] nomIn(String str) {
+  public static int[] nomIn(String str) {
     String[] strMas = str.split(" ");
-    Integer[] nomArr = new Integer[strMas.length];
+    int[] nomArr = new int[strMas.length];
     for (int i = 0; i < nomArr.length; i++) {
       try {
-        nomArr[i] = Integer.parseInt(strMas[i]);
+        nomArr[i] = parseInt(strMas[i]);
         if (nomArr[i] <= 0) {
           throw new ArithmeticException("Ошибка при вводе номиналов");
         }
@@ -61,8 +63,8 @@ public class Task1 {
         throw new IllegalArgumentException("Ошибка при вводе номиналов");
       }
     }
-    Arrays.sort(nomArr, Collections.reverseOrder());
-    return (nomArr);
+    Arrays.sort(nomArr);
+    return Arrays.stream(nomArr).distinct().toArray();
   }
 
   /**

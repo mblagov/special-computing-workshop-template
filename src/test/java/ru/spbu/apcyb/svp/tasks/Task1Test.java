@@ -11,7 +11,7 @@ class Task1Test {
 
   @Test
   void combination1() {
-    Integer[] array = {200, 100, 50};
+    int[] array = {200, 100, 50};
     int actual = Task1.combinations(620, 200, "", array);
     int expected = 0;
     assertEquals(expected, actual);
@@ -19,7 +19,7 @@ class Task1Test {
 
   @Test
   void combination2() {
-    Integer[] array = {10, 6};
+    int[] array = {10, 6};
     int actual = Task1.combinations(5, 10, "", array);
     int expected = 0;
     assertEquals(expected, actual);
@@ -27,7 +27,7 @@ class Task1Test {
 
   @Test
   void combination3() {
-    Integer[] array = {3, 2};
+    int[] array = {3, 2};
     int actual = Task1.combinations(5, 3, "", array);
     int expected = 1;
     assertEquals(expected, actual);
@@ -35,7 +35,7 @@ class Task1Test {
 
   @Test
   void combination4() {
-    Integer[] array = {2, 1};
+    int[] array = {2, 1};
     int actual = Task1.combinations(4, 2, "", array);
     int expected = 3;
     assertEquals(expected, actual);
@@ -43,7 +43,7 @@ class Task1Test {
 
   @Test
   void combination5() {
-    Integer[] array = {1, 2};
+    int[] array = {1, 2};
     int actual = Task1.combinations(4, 2, "", array);
     int expected = 3;
     assertEquals(expected, actual);
