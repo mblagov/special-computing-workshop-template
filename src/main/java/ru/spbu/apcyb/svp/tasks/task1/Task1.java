@@ -52,7 +52,6 @@ public class Task1 {
     }
 
     var set = new HashSet<Long>(banknotes.length);
-    var counter = 0;
     for (var banknote : banknotes) {
       if (banknote <= sum) {
         if (banknote > 0) {
@@ -60,12 +59,7 @@ public class Task1 {
         } else {
           throw new InputMismatchException("Provided a non-positive banknote value");
         }
-      } else {
-        counter++;
       }
-    }
-    if (set.isEmpty() && counter <= 0) {
-      throw new InputMismatchException("Not enough values in the input");
     }
 
     var list = new ArrayList<>(set);

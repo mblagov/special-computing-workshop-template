@@ -1,8 +1,8 @@
 package ru.spbu.apcyb.svp.tasks;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.InputMismatchException;
 import java.util.List;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeAll;
@@ -59,5 +59,35 @@ class Task1Test {
     String input = "5 2 3";
     BanknoteSet expected = new BanknoteSet(5, Arrays.asList(2L, 3L));
     Assertions.assertEquals(expected, Task1.parseInput(input));
+  }
+
+  @Test
+  void task1Test6() {
+    String input = "-5 2 3";
+    InputMismatchException e = Assertions.assertThrows(
+        InputMismatchException.class, () -> Task1.parseInput(input));
+    Assertions.assertEquals("Sum is not a positive number", e.getMessage());
+  }
+
+  @Test
+  void task1Test7() {
+    String input = "5 -2 3";
+    InputMismatchException e = Assertions.assertThrows(
+        InputMismatchException.class, () -> Task1.parseInput(input));
+    Assertions.assertEquals("Provided a non-positive banknote value", e.getMessage());
+  }
+
+  @Test
+  void task1Test8() {
+    String input = "5 j 3";
+    NumberFormatException e = Assertions.assertThrows(
+        NumberFormatException.class, () -> Task1.parseInput(input));
+    Assertions.assertEquals("Incorrect format", e.getMessage());
+  }
+
+  @Test
+  void task1Test9() {
+    var bs = new BanknoteSet(10, List.of(1L));
+    Assertions.assertEquals(10, bs.getSum());
   }
 }
