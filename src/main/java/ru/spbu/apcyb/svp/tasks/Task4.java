@@ -2,8 +2,6 @@ package ru.spbu.apcyb.svp.tasks;
 
 import java.io.*;
 import java.nio.file.Path;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.concurrent.*;
 import java.util.logging.Logger;
 
@@ -38,12 +36,12 @@ public class Task4 {
 
         long start = System.currentTimeMillis();
         ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
-        List<CompletableFuture<Double>> results = new ArrayList<>();
+        ConcurrentHashMap<Integer,CompletableFuture<Double>> results = new ConcurrentHashMap<>();
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(Path.of(inputFileName).toFile()))) {
             for (int i = 0; i < numberOfLines / numberOfThreads; i++) {
                 for (int j = 0; j < numberOfThreads; j++) {
                     String currentLine = bufferedReader.readLine();
-                    results.add(CompletableFuture.supplyAsync(() -> Math.tan(Double.parseDouble(currentLine)), executorService));
+                    results.put(j + i * numberOfThreads,CompletableFuture.supplyAsync(() -> Math.tan(Double.parseDouble(currentLine)), executorService));
                 }
             }
         } catch (FileNotFoundException e) {
@@ -54,7 +52,7 @@ public class Task4 {
             executorService.shutdown();
         }
         try (FileWriter fileWriter = new FileWriter(fileWriterName, false)) {
-            for (var s : results) {
+            for (var s : results.values()) {
                 fileWriter.write(s.get() + "\n");
             }
         }
