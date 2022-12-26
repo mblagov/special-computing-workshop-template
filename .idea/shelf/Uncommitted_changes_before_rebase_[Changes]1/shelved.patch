@@ -1,0 +1,748 @@
+Index: src/main/java/ru/spbu/apcyb/svp/tasks/Task1.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.spbu.apcyb.svp.tasks;\r\n\r\nimport java.util.Scanner;\r\nimport java.util.Arrays;\r\nimport java.util.Collections;\r\nimport java.util.Iterator;\r\nimport java.util.LinkedList;\r\nimport java.util.List;\r\nimport java.io.BufferedReader;\r\nimport java.io.InputStreamReader;\r\nimport java.io.IOException;\r\nimport java.util.ArrayList;\r\n/**\r\n * Задание 1.\r\n */\r\npublic class Task1 {\r\n\t\r\n\tstatic int count =0;\r\n\t\r\n\tpublic static void Print(int arr[], int chast[]) {\r\n\t\tString number = \"\";\r\n\t\tfor (int i=arr.length-1; i>=0;i--)\r\n\t\t{\r\n\t\t\tfor (int j=0; j<chast[i]; j++)\r\n\t\t\t{\r\n\t\t\t\tnumber=number+arr[i]+\" \";\r\n\t\t\t}\r\n\t\t}\r\n\t\tSystem.out.println(number);\r\n\t}\r\n\t\r\n\tpublic static void Inv1(int summ, int[] arr, int[] arr1, int[] chast, int j, int N)\r\n\t{\r\n\t\t\r\n\t\tint s=0;\r\n\t\tfor (int i=chast[j]; i>=0; i--)\r\n\t\t{\r\n\t\t\tarr1[j]=i;\r\n\t\t\r\n\t\tif (j==0)\r\n\t\t{\r\n\t\t\tfor (int k=0; k<N; k++)\r\n\t\t\t{\r\n\t\t\t\ts+=arr[k]*arr1[k];\r\n\t\t\t}\r\n\t\t\tif (s==summ)\r\n\t\t\t{\r\n\t\t\t\tPrint(arr,arr1);\r\n\t\t\t\tcount=count+1;\r\n\t\t\t\t//System.out.println(\"count i = \" +count);\r\n\t\t\t\t\r\n\t\t\t}\r\n\t\t\ts=0;\r\n\t\t}\r\n\t\telse{\r\n\t\t\tInv1(summ, arr, arr1, chast, j-1, N);\r\n\t\t}\r\n\t\t}\r\n\t}\r\n\r\n  public static void main(String[] args) {\r\n\t  ArrayList<String> list = new ArrayList<String>();\r\n\t  // вводим сумму и купюры\r\n\t  //ArrayList<Integer> list = new ArrayList<Integer>();\r\n      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));\r\n      //for (int i = 0; i < 10; i++) \r\n      {\r\n    \t  try {\r\n          list.add(0, br.readLine()); // ввели числа\r\n    \t  } catch (IOException e) { // поймали ошибочку\r\n              e.printStackTrace(); \r\n          }\r\n      }\r\n      String[] arr = new String[list.size()];\r\n      String space = \" \";\r\n      String number = \"\";\r\n      int k=0;\r\n      int i=0;\r\n      //System.out.println(list);\r\n      // разделяем входные данные \r\n      arr[i] = list.get(i);\r\n    \t  int[] arr1 = new int[arr[i].length()];\r\n    \t  for (int j = 0; j < arr[i].length(); j++) {\r\n    \t\t  if (arr[i].charAt(j) != space.charAt(0)) {\r\n    \t\t\t  if ((arr[i].charAt(j)=='0') || (arr[i].charAt(j)=='1') || (arr[i].charAt(j)=='2')|| (arr[i].charAt(j)=='3')|| (arr[i].charAt(j)=='4')|| (arr[i].charAt(j)=='5')|| (arr[i].charAt(j)=='6')|| (arr[i].charAt(j)=='7')|| (arr[i].charAt(j)=='8')|| (arr[i].charAt(j)=='9'))\r\n    \t\t\t\t  number = number + arr[i].charAt(j);\r\n    \t\t\t  else {\r\n    \t\t\t\t  System.out.println(\"ошибка\");\r\n    \t\t\t\t  System.exit(0);\r\n    \t\t\t  }\r\n    \t\t  }\r\n    \t\t  else {\r\n    \t\t\t  arr1[k]=Integer.parseInt(String.valueOf(number));\r\n      \t\t\t  //System.out.println(arr1[k]);\r\n      \t\t\t  k=k+1;\r\n      \t\t\t  number=\"\";\r\n      \t\t\t  }\r\n    \t\t  }\r\n    \t  arr1[k]=Integer.parseInt(String.valueOf(number));\r\n    \t  if (arr1[0]==0)\r\n    \t  {\r\n    \t\t  System.out.println(\"ошибка\");\r\n\t\t\t  System.exit(0);\r\n    \t  }\r\n    \t  //System.out.println(\"this \"+arr1[0]);\r\n    \t  int[] arr2 = new int[k];\r\n    \t  for (int j=0; j<=k-1;j++) {\r\n    \t\t  arr2[j]=arr1[j+1];\r\n    \t  }\r\n    \t  for(int t=0; t<arr2.length-1; t++) {\r\n    \t         for (int j=t+1; j<arr2.length; j++) {\r\n    \t            if(arr2[t] == arr2[j]) {\r\n    \t               //System.out.println(j);\r\n    \t            \tarr2[j]=0;\r\n    \t            }\r\n    \t         }\r\n    \t      }\r\n    \t  //for (int t=0; t<arr2.length; t++)\r\n    \t  //{\r\n    \t//\t  if (arr2[t]==0)\r\n    \t\t//  {\r\n    \t\t//\t  k=k-1;\r\n    \t\t//\t  if (t < arr2.length-1)\r\n    \t\t//\t  {\r\n    \t\t//\t\t  for (int j=t; j<arr2.length-1;j++)\r\n    \t\t//\t\t  {\r\n    \t\t//\t\t\t  arr2[j]=arr2[j+1];\r\n    \t\t//\t\t  \r\n    \t\t//\t\t  }\r\n    \t\t//\t  }\r\n    \t\t//  }\r\n    \t  //}\r\n    \t  \r\n      Integer summ = arr2[i];\r\n      Integer summ1;\r\n      \r\n      //System.out.println(\"15 = \"+arr2[0]);\r\n      \r\n      Arrays.sort(arr2);\r\n      \r\n      for (int t=0; t<arr2.length; t++)\r\n\t  {\r\n\t\t  if (arr2[t]==0)\r\n\t\t  {\r\n\t\t\t  k=k-1;\r\n\t\t\t  if (t < k-1)\r\n\t\t\t  {\r\n\t\t\t\t  for (int j=t; j< arr2.length-1;j++)\r\n\t\t\t\t  {\r\n\t\t\t\t\t  arr2[j]=arr2[j+1];\r\n\t\t\t\t  \r\n\t\t\t\t  }\r\n\t\t\t  }\r\n\t\t  }\r\n\t  }\r\n      if (k==0)\r\n\t  {\r\n\t\t  System.out.println(\"ошибка\");\r\n\t\t  System.exit(0);\r\n\t  }\r\n      \r\n      //System.out.println(arr2[k-1]);\r\n      System.out.println(arr2[0]);\r\n      System.out.println(\"k = \"+ k);\r\n      \r\n      int[] K = new int[k];\r\n      int[] chast = new int[k];\r\n      for (int j = 0; j < k; j++)\r\n      {\r\n    \t  chast[j]=arr1[0]/arr2[j];\r\n      }\r\n      Inv1(arr1[0], arr2, K, chast, k-1, k);\r\n      System.out.println(\"count = \"+count);\r\n      \r\n      \r\n    }\r\n      \r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ru/spbu/apcyb/svp/tasks/Task1.java b/src/main/java/ru/spbu/apcyb/svp/tasks/Task1.java
+--- a/src/main/java/ru/spbu/apcyb/svp/tasks/Task1.java	(revision a1137896987db22c654b07d96802701b539c19ef)
++++ b/src/main/java/ru/spbu/apcyb/svp/tasks/Task1.java	(date 1672002372140)
+@@ -10,13 +10,121 @@
+ import java.io.InputStreamReader;
+ import java.io.IOException;
+ import java.util.ArrayList;
++import org.apache.logging.log4j.Level;
++import org.apache.logging.log4j.LogManager;
++import org.apache.logging.log4j.Logger;
+ /**
+  * Задание 1.
+  */
+ public class Task1 {
++	private static final Logger logger = LogManager.getLogger(Task1.class);
+ 	
+ 	static int count =0;
+-	
++
++  public static void main(String[] args) {
++	  ArrayList<String> list = new ArrayList<String>();
++	  // вводим сумму и купюры
++      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
++
++		//InputStreamReader r = new InputStreamReader(System.in);
++		//BufferedReader br = new BufferedReader(r);
++
++      //for (int i = 0; i < 10; i++)
++		logger.log(Level.INFO, "Введите число для размена и разменные купюры: ");
++    try {
++			list.add(0, br.readLine()); // ввели числа
++		} catch (Exception e) { // поймали ошибочку
++			logger.log(Level.INFO, e.getMessage());
++		}
++
++
++
++      String[] arr = new String[list.size()];
++      String space = " ";
++      String number = "";
++      int k=0;
++      int i=0;
++
++      // разделяем входные данные 
++      arr[i] = list.get(i);
++    	  int[] arr1 = new int[arr[i].length()];
++    	  for (int j = 0; j < arr[i].length(); j++) {
++    		  if (arr[i].charAt(j) != space.charAt(0)) {
++    			  if ((arr[i].charAt(j)=='0') || (arr[i].charAt(j)=='1') || (arr[i].charAt(j)=='2')|| (arr[i].charAt(j)=='3')|| (arr[i].charAt(j)=='4')|| (arr[i].charAt(j)=='5')|| (arr[i].charAt(j)=='6')|| (arr[i].charAt(j)=='7')|| (arr[i].charAt(j)=='8')|| (arr[i].charAt(j)=='9'))
++    				  number = number + arr[i].charAt(j);
++    			  else {
++    				  System.out.println("ошибка");
++    				  System.exit(0);
++    			  }
++    		  }
++    		  else {
++    			  arr1[k]=Integer.parseInt(String.valueOf(number));
++      			  k=k+1;
++      			  number="";
++      			  }
++    		  }
++    	  arr1[k]=Integer.parseInt(String.valueOf(number));
++    	  if (arr1[0]==0)
++    	  {
++    		  System.out.println("ошибка");
++			  System.exit(0);
++    	  }
++
++				int[] arr2 = new int[k];
++    	  for (int j=0; j<=k-1;j++) {
++    		  arr2[j]=arr1[j+1];
++    	  }
++    	  for(int t=0; t<arr2.length-1; t++) {
++    	         for (int j=t+1; j<arr2.length; j++) {
++    	            if(arr2[t] == arr2[j]) {
++    	               //System.out.println(j);
++    	            	arr2[j]=0;
++    	            }
++    	         }
++    	      }
++    	  
++      Integer summ = arr2[i];
++      Integer summ1;
++
++      Arrays.sort(arr2);
++      
++      for (int t=0; t<arr2.length; t++)
++	  {
++		  if (arr2[t]==0)
++		  {
++			  k=k-1;
++			  if (t < k-1)
++			  {
++				  for (int j=t; j< arr2.length-1;j++)
++				  {
++					  arr2[j]=arr2[j+1];
++				  
++				  }
++			  }
++		  }
++	  }
++      if (k==0)
++	  {
++		  System.out.println("ошибка");
++		  System.exit(0);
++	  }
++      
++      //System.out.println(arr2[k-1]);
++      System.out.println(arr2[0]);
++      System.out.println("k = "+ k);
++      
++      int[] K = new int[k];
++      int[] chast = new int[k];
++      for (int j = 0; j < k; j++)
++      {
++    	  chast[j]=arr1[0]/arr2[j];
++      }
++      Inv1(arr1[0], arr2, K, chast, k-1, k);
++      System.out.println("count = "+count);
++      
++      
++    }
++
+ 	public static void Print(int arr[], int chast[]) {
+ 		String number = "";
+ 		for (int i=arr.length-1; i>=0;i--)
+@@ -28,151 +136,120 @@
+ 		}
+ 		System.out.println(number);
+ 	}
+-	
++
+ 	public static void Inv1(int summ, int[] arr, int[] arr1, int[] chast, int j, int N)
+ 	{
+-		
++
+ 		int s=0;
+ 		for (int i=chast[j]; i>=0; i--)
+ 		{
+ 			arr1[j]=i;
+-		
+-		if (j==0)
+-		{
+-			for (int k=0; k<N; k++)
+-			{
+-				s+=arr[k]*arr1[k];
+-			}
+-			if (s==summ)
+-			{
+-				Print(arr,arr1);
+-				count=count+1;
+-				//System.out.println("count i = " +count);
+-				
+-			}
+-			s=0;
+-		}
+-		else{
+-			Inv1(summ, arr, arr1, chast, j-1, N);
+-		}
++
++			if (j==0)
++			{
++				for (int k=0; k<N; k++)
++				{
++					s+=arr[k]*arr1[k];
++				}
++				if (s==summ)
++				{
++					Print(arr,arr1);
++					count=count+1;
++				}
++				s=0;
++			}
++			else{
++				Inv1(summ, arr, arr1, chast, j-1, N);
++			}
+ 		}
+ 	}
+ 
+-  public static void main(String[] args) {
+-	  ArrayList<String> list = new ArrayList<String>();
+-	  // вводим сумму и купюры
+-	  //ArrayList<Integer> list = new ArrayList<Integer>();
+-      BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+-      //for (int i = 0; i < 10; i++) 
+-      {
+-    	  try {
+-          list.add(0, br.readLine()); // ввели числа
+-    	  } catch (IOException e) { // поймали ошибочку
+-              e.printStackTrace(); 
+-          }
+-      }
+-      String[] arr = new String[list.size()];
+-      String space = " ";
+-      String number = "";
+-      int k=0;
+-      int i=0;
+-      //System.out.println(list);
+-      // разделяем входные данные 
+-      arr[i] = list.get(i);
+-    	  int[] arr1 = new int[arr[i].length()];
+-    	  for (int j = 0; j < arr[i].length(); j++) {
+-    		  if (arr[i].charAt(j) != space.charAt(0)) {
+-    			  if ((arr[i].charAt(j)=='0') || (arr[i].charAt(j)=='1') || (arr[i].charAt(j)=='2')|| (arr[i].charAt(j)=='3')|| (arr[i].charAt(j)=='4')|| (arr[i].charAt(j)=='5')|| (arr[i].charAt(j)=='6')|| (arr[i].charAt(j)=='7')|| (arr[i].charAt(j)=='8')|| (arr[i].charAt(j)=='9'))
+-    				  number = number + arr[i].charAt(j);
+-    			  else {
+-    				  System.out.println("ошибка");
+-    				  System.exit(0);
+-    			  }
+-    		  }
+-    		  else {
+-    			  arr1[k]=Integer.parseInt(String.valueOf(number));
+-      			  //System.out.println(arr1[k]);
+-      			  k=k+1;
+-      			  number="";
+-      			  }
+-    		  }
+-    	  arr1[k]=Integer.parseInt(String.valueOf(number));
+-    	  if (arr1[0]==0)
+-    	  {
+-    		  System.out.println("ошибка");
+-			  System.exit(0);
+-    	  }
+-    	  //System.out.println("this "+arr1[0]);
+-    	  int[] arr2 = new int[k];
+-    	  for (int j=0; j<=k-1;j++) {
+-    		  arr2[j]=arr1[j+1];
+-    	  }
+-    	  for(int t=0; t<arr2.length-1; t++) {
+-    	         for (int j=t+1; j<arr2.length; j++) {
+-    	            if(arr2[t] == arr2[j]) {
+-    	               //System.out.println(j);
+-    	            	arr2[j]=0;
+-    	            }
+-    	         }
+-    	      }
+-    	  //for (int t=0; t<arr2.length; t++)
+-    	  //{
+-    	//	  if (arr2[t]==0)
+-    		//  {
+-    		//	  k=k-1;
+-    		//	  if (t < arr2.length-1)
+-    		//	  {
+-    		//		  for (int j=t; j<arr2.length-1;j++)
+-    		//		  {
+-    		//			  arr2[j]=arr2[j+1];
+-    		//		  
+-    		//		  }
+-    		//	  }
+-    		//  }
+-    	  //}
+-    	  
+-      Integer summ = arr2[i];
+-      Integer summ1;
+-      
+-      //System.out.println("15 = "+arr2[0]);
+-      
+-      Arrays.sort(arr2);
+-      
+-      for (int t=0; t<arr2.length; t++)
+-	  {
+-		  if (arr2[t]==0)
+-		  {
+-			  k=k-1;
+-			  if (t < k-1)
+-			  {
+-				  for (int j=t; j< arr2.length-1;j++)
+-				  {
+-					  arr2[j]=arr2[j+1];
+-				  
+-				  }
+-			  }
+-		  }
+-	  }
+-      if (k==0)
+-	  {
+-		  System.out.println("ошибка");
+-		  System.exit(0);
+-	  }
+-      
+-      //System.out.println(arr2[k-1]);
+-      System.out.println(arr2[0]);
+-      System.out.println("k = "+ k);
+-      
+-      int[] K = new int[k];
+-      int[] chast = new int[k];
+-      for (int j = 0; j < k; j++)
+-      {
+-    	  chast[j]=arr1[0]/arr2[j];
+-      }
+-      Inv1(arr1[0], arr2, K, chast, k-1, k);
+-      System.out.println("count = "+count);
+-      
+-      
+-    }
+-      
++	public static int[] ParseArr(List<String> list, int n) {
++
++		String[] arr = new String[list.size()];
++		String space = " ";
++		String number = "";
++		int k=0;
++		int i=0;
++
++		// разделяем входные данные
++		arr[i] = list.get(i);
++		int[] arr1 = new int[arr[i].length()];
++		for (int j = 0; j < arr[i].length(); j++) {
++			if (arr[i].charAt(j) != space.charAt(0)) {
++				if ((arr[i].charAt(j)=='0') || (arr[i].charAt(j)=='1') || (arr[i].charAt(j)=='2')|| (arr[i].charAt(j)=='3')|| (arr[i].charAt(j)=='4')|| (arr[i].charAt(j)=='5')|| (arr[i].charAt(j)=='6')|| (arr[i].charAt(j)=='7')|| (arr[i].charAt(j)=='8')|| (arr[i].charAt(j)=='9'))
++					number = number + arr[i].charAt(j);
++				else {
++					System.out.println("ошибка");
++					System.exit(0);
++				}
++			}
++			else {
++				arr1[k]=Integer.parseInt(String.valueOf(number));
++				k=k+1;
++				number="";
++			}
++		}
++		arr1[k]=Integer.parseInt(String.valueOf(number));
++		if (arr1[0]==0)
++		{
++			System.out.println("ошибка");
++			System.exit(0);
++		}
++
++		int[] arr2 = new int[k];
++		for (int j=0; j<=k-1;j++) {
++			arr2[j]=arr1[j+1];
++		}
++		for(int t=0; t<arr2.length-1; t++) {
++			for (int j=t+1; j<arr2.length; j++) {
++				if(arr2[t] == arr2[j]) {
++					//System.out.println(j);
++					arr2[j]=0;
++				}
++			}
++		}
++
++		Integer summ = arr2[i];
++		Integer summ1;
++
++		Arrays.sort(arr2);
++
++		for (int t=0; t<arr2.length; t++)
++		{
++			if (arr2[t]==0)
++			{
++				k=k-1;
++				if (t < k-1)
++				{
++					for (int j=t; j< arr2.length-1;j++)
++					{
++						arr2[j]=arr2[j+1];
++
++					}
++				}
++			}
++		}
++		if (k==0)
++		{
++			System.out.println("ошибка");
++			System.exit(0);
++		}
++
++		//System.out.println(arr2[k-1]);
++		System.out.println(arr2[0]);
++		System.out.println("k = "+ k);
++
++		int[] K = new int[k];
++		int[] chast = new int[k];
++		for (int j = 0; j < k; j++)
++		{
++			chast[j]=arr1[0]/arr2[j];
++		}
++		Inv1(arr1[0], arr2, K, chast, k-1, k);
++		System.out.println("count = "+count);
++
++	return arr2;
++	}
++
+ }
+Index: src/test/java/ru/spbu/apcyb/svp/tasks/Task1Test.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.spbu.apcyb.svp.tasks;\r\n\r\n/**\r\n * Тесты для задания 1.\r\n */\r\npublic class Task1Test {\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/ru/spbu/apcyb/svp/tasks/Task1Test.java b/src/test/java/ru/spbu/apcyb/svp/tasks/Task1Test.java
+--- a/src/test/java/ru/spbu/apcyb/svp/tasks/Task1Test.java	(revision a1137896987db22c654b07d96802701b539c19ef)
++++ b/src/test/java/ru/spbu/apcyb/svp/tasks/Task1Test.java	(date 1672002372183)
+@@ -5,4 +5,5 @@
+  */
+ public class Task1Test {
+ 
++
+ }
+Index: src/test/java/ru/spbu/apcyb/svp/tasks/Task4Test.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.spbu.apcyb.svp.tasks;\r\n\r\n/**\r\n * Тесты для задания 4.\r\n */\r\npublic class Task4Test {\r\n\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/test/java/ru/spbu/apcyb/svp/tasks/Task4Test.java b/src/test/java/ru/spbu/apcyb/svp/tasks/Task4Test.java
+--- a/src/test/java/ru/spbu/apcyb/svp/tasks/Task4Test.java	(revision a1137896987db22c654b07d96802701b539c19ef)
++++ b/src/test/java/ru/spbu/apcyb/svp/tasks/Task4Test.java	(date 1672002372193)
+@@ -1,8 +1,76 @@
+ package ru.spbu.apcyb.svp.tasks;
+ 
++import static org.junit.jupiter.api.Assertions.assertEquals;
++import static org.junit.jupiter.api.Assertions.assertThrows;
++import static org.junit.jupiter.api.Assertions.assertTrue;
++
++import java.io.BufferedReader;
++import java.io.FileNotFoundException;
++import java.io.FileReader;
++import java.io.FileWriter;
++import java.io.IOException;
++import java.util.concurrent.ExecutionException;
++import org.junit.jupiter.api.Test;
++
+ /**
+  * Тесты для задания 4.
+  */
+-public class Task4Test {
++
++class Task4Test {
++
++  @Test
++  void testException1() {
++
++    FileNotFoundException thrown = assertThrows(FileNotFoundException.class,
++        () -> Task4.singleThread(new FileWriter("error.txt", false), 100));
++
++    assertEquals("Файл.txt не был найден.", thrown.getMessage());
++  }
++
++  @Test
++  void testException2() throws IOException {
++
++    try {
++      FileWriter fw = new FileWriter("error1.txt", false);
++    } catch (FileNotFoundException e) {
++      assertEquals("error1.txt (Is a directory)", e.getMessage());
++    }
++  }
++
++  @Test
++  void testSingleThread() throws IOException {
++
++    Task4.singleThread(new FileWriter("SingleThreads.txt", false), 1000);
++    BufferedReader xFile = new BufferedReader(new FileReader("x.txt"));
++    BufferedReader singleFile = new BufferedReader(new FileReader("SingleThread.txt"));
++    boolean result = true;
++
++    for (int i = 0; i < 1000; i++) {
++      if (Math.tan(Double.parseDouble(xFile.readLine())) != Double.parseDouble(
++          singleFile.readLine())) {
++        result = false;
++        break;
++      }
++    }
++
++    assertTrue(result);
++  }
+ 
++  @Test
++  void testMultiThread() throws IOException, ExecutionException, InterruptedException {
++
++    Task4.multiThread(new FileWriter("MultiTan.txt", false), 1000, 10);
++    BufferedReader xFile = new BufferedReader(new FileReader("x.txt"));
++    BufferedReader multiFile = new BufferedReader(new FileReader("MultiThread.txt"));
++    boolean result = true;
++
++    for (int i = 0; i < 100; i++) {
++      if (Math.tan(Double.parseDouble(xFile.readLine())) != Double.parseDouble(
++          multiFile.readLine())) {
++        result = false;
++        break;
++      }
++    }
++    assertTrue(result);
++  }
+ }
+Index: src/main/java/ru/spbu/apcyb/svp/tasks/Task4.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+>package ru.spbu.apcyb.svp.tasks;\r\n\r\n/**\r\n * Задание 4.\r\n */\r\npublic class Task4 {\r\n\r\n  public static void main(String[] args) {\r\n\r\n  }\r\n}\r\n
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ru/spbu/apcyb/svp/tasks/Task4.java b/src/main/java/ru/spbu/apcyb/svp/tasks/Task4.java
+--- a/src/main/java/ru/spbu/apcyb/svp/tasks/Task4.java	(revision a1137896987db22c654b07d96802701b539c19ef)
++++ b/src/main/java/ru/spbu/apcyb/svp/tasks/Task4.java	(date 1672002372203)
+@@ -1,11 +1,155 @@
+ package ru.spbu.apcyb.svp.tasks;
+ 
++import java.io.BufferedReader;
++import java.io.FileNotFoundException;
++import java.io.FileReader;
++import java.io.FileWriter;
++import java.io.IOException;
++import java.util.ArrayList;
++import java.util.List;
++import java.util.concurrent.CompletableFuture;
++import java.util.concurrent.ExecutionException;
++import java.util.concurrent.Future;
++import org.apache.logging.log4j.Level;
++import org.apache.logging.log4j.LogManager;
++import org.apache.logging.log4j.Logger;
++
+ /**
+  * Задание 4.
+  */
+ public class Task4 {
++  private static final Logger logger = LogManager.getLogger(Task4.class);
++
++  /** Метод вычисления tg.
++   *
++   * @param numbOfLine - номер строки
++   * @return значение tg
++   * @throws FileNotFoundException - если файл был не найден
++   */
++  public static Double tanFromFileLine(int numbOfLine) throws FileNotFoundException {
++
++    try (BufferedReader br = new BufferedReader(new FileReader("x.txt"))) {
++      String line = "";
++
++      for (int i = 0; i < numbOfLine; i++) {
++        line = br.readLine();
++      }
++      return Math.tan(Double.parseDouble(line));
++    } catch (IOException ex) {
++      throw new FileNotFoundException("Файл.txt не был найден.");
++    }
++  }
++
++  /** Метод вычисления tg в многопоточном режиме.
++   *
++   * @param fw - fileWriter для "MultiThread.txt"
++   * @param numbOfLines - количество строк для вычисления
++   * @param numbOfThreads - количество потоков
++   * @return время работы
++   * @throws ExecutionException если не получается получить значение из future
++   * @throws InterruptedException если было прервано получение значения из future
++   * @throws IOException если не удалось открыть файл
++   */
++  public static long multiThread(FileWriter fw, int numbOfLines, int numbOfThreads)
++      throws ExecutionException, InterruptedException, IOException {
++
++    final long start = System.nanoTime();
++    TanThread tanThread = new TanThread(numbOfThreads);
++    List<Future<Double>> futures = new ArrayList<>();
++
++    for (int i = 0; i < numbOfLines / numbOfThreads; i++) {
++      for (int j = 1; j <= numbOfThreads; j++) {
++
++        final int k = j + i * numbOfThreads;
++
++        futures.add(
++            CompletableFuture.supplyAsync(
++                () -> {
++                  try {
++                    return tanFromFileLine(k);
++                  } catch (Exception e) {
++                    throw new RuntimeException(e);
++                  }
++                },
++                tanThread
++            ));
++      }
++    }
++
++    for (Future<Double> future : futures) {
++      fw.write(String.valueOf(future.get()));
++      fw.append("\n");
++    }
++    tanThread.shutdown();
++    return (System.nanoTime() - start);
++  }
++
++  /** Метод вычисления tg в однопоточном режиме.
++   *
++   * @param fw - fileWriter для "SingleThread.txt"
++   * @param numbOfLines - количество строк для вычисления
++   * @return время работы
++   * @throws FileNotFoundException если файл не был найден
++   */
++  public static long singleThread(FileWriter fw, int numbOfLines) throws FileNotFoundException {
++
++    long start = System.nanoTime();
++
++    try (BufferedReader br = new BufferedReader(new FileReader("x.txt"))) {
++
++      String line;
++      long helper = 0;
++
++      while ((line = br.readLine()) != null && helper < numbOfLines) {
++
++        fw.write(String.valueOf(Math.tan(Double.parseDouble(line))));
++        fw.append("\n");
++
++        helper++;
++      }
++    } catch (Exception e) {
++      throw new FileNotFoundException(e.toString());
++    }
++
++    return System.nanoTime() - start;
++  }
++
++
++
++
++  /** Самый обычный main.
++   *
++   * @param args самый обычный args
++   * @throws IOException если FileWriter не создался
++   * @throws ExecutionException если не получается получить значение из future
++   * @throws InterruptedException если было прервано получение значения из future
++   */
++  public static void main(String[] args)
++      throws IOException, ExecutionException, InterruptedException {
++
++    int numbOfLines = 1000;
++    int numbOfThreads = 10;
+ 
+-  public static void main(String[] args) {
++    long timeS = singleThread(new FileWriter("SingleThread.txt", false), numbOfLines);
++    long timeM = multiThread(new FileWriter("MultiThread.txt", false), numbOfLines, numbOfThreads);
+ 
++    StringBuilder str = new StringBuilder();
++    str.append("При количестве строк = ")
++        .append(numbOfLines).append("\n")
++        .append("Количестве потоков = ")
++        .append(numbOfThreads).append("\n")
++        .append("Однопоточное время = ")
++        .append(timeS).append(" наносек\n")
++        .append("Многопоточное время = ")
++        .append(timeM).append(" наносек\n")
++        .append("\nВ данном случае лучше - ");
++
++    if (timeS > timeM) {
++      str.append("Многопоточный режим;\n");
++    } else {
++      str.append("Однопоточный режим;\n");
++    }
++
++    logger.log(Level.INFO, str);
+   }
+ }
+Index: src/main/java/ru/spbu/apcyb/svp/tasks/TanThread.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/src/main/java/ru/spbu/apcyb/svp/tasks/TanThread.java b/src/main/java/ru/spbu/apcyb/svp/tasks/TanThread.java
+new file mode 100644
+--- /dev/null	(date 1672002372254)
++++ b/src/main/java/ru/spbu/apcyb/svp/tasks/TanThread.java	(date 1672002372254)
+@@ -0,0 +1,44 @@
++package ru.spbu.apcyb.svp.tasks;
++import java.util.Queue;
++import java.util.concurrent.ConcurrentLinkedQueue;
++import java.util.concurrent.Executor;
++
++public class TanThread implements Executor {
++
++  private final Queue<Runnable> workQueue = new ConcurrentLinkedQueue<>();
++  private volatile boolean isRunning = true;
++
++  public TanThread(int numbOfThreads) {
++
++    for (int i = 0; i < numbOfThreads; i++) {
++      new Thread(new TaskWorker()).start();
++    }
++  }
++
++  @Override
++  public void execute(Runnable command) {
++
++    if (isRunning) {
++      workQueue.offer(command);
++    }
++  }
++
++  public void shutdown() {
++    isRunning = false;
++  }
++
++  private final class TaskWorker implements Runnable {
++
++    @Override
++    public void run() {
++
++      while (isRunning) {
++        Runnable nextTask = workQueue.poll();
++        if (nextTask != null) {
++          nextTask.run();
++        }
++      }
++    }
++  }
++
++}
+Index: pom.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n<project xmlns=\"http://maven.apache.org/POM/4.0.0\"\r\n  xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\r\n  xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd\">\r\n  <modelVersion>4.0.0</modelVersion>\r\n\r\n  <groupId>ru.spbu.apcyb</groupId>\r\n  <artifactId>untitled</artifactId>\r\n  <version>1.0-SNAPSHOT</version>\r\n\r\n  <properties>\r\n    <maven.compiler.source>11</maven.compiler.source>\r\n    <maven.compiler.target>11</maven.compiler.target>\r\n    <sonar.organization>bas-kirill</sonar.organization>\r\n    <sonar.host.url>https://sonarcloud.io</sonar.host.url>\r\n  </properties>\r\n\r\n  <dependencies>\r\n    <dependency>\r\n      <groupId>org.junit.jupiter</groupId>\r\n      <artifactId>junit-jupiter</artifactId>\r\n      <version>5.9.0</version>\r\n      <scope>test</scope>\r\n    </dependency>\r\n\r\n    <!-- https://mvnrepository.com/artifact/org.jacoco/org.jacoco.core -->\r\n    <dependency>\r\n      <groupId>org.jacoco</groupId>\r\n      <artifactId>org.jacoco.core</artifactId>\r\n      <version>0.8.8</version>\r\n    </dependency>\r\n    <!-- https://mvnrepository.com/artifact/org.jacoco/org.jacoco.agent -->\r\n    <dependency>\r\n      <groupId>org.jacoco</groupId>\r\n      <artifactId>org.jacoco.agent</artifactId>\r\n      <version>0.8.8</version>\r\n      <scope>test</scope>\r\n    </dependency>\r\n    <!-- https://mvnrepository.com/artifact/org.jacoco/org.jacoco.report -->\r\n    <dependency>\r\n      <groupId>org.jacoco</groupId>\r\n      <artifactId>org.jacoco.report</artifactId>\r\n      <version>0.8.8</version>\r\n    </dependency>\r\n    <!-- https://mvnrepository.com/artifact/org.apache.maven.plugins/maven-surefire-plugin -->\r\n    <dependency>\r\n      <groupId>org.apache.maven.plugins</groupId>\r\n      <artifactId>maven-surefire-plugin</artifactId>\r\n      <version>3.0.0-M7</version>\r\n    </dependency>\r\n\r\n  </dependencies>\r\n\r\n  <build>\r\n    <plugins>\r\n      <plugin>\r\n        <groupId>org.apache.maven.plugins</groupId>\r\n        <artifactId>maven-surefire-plugin</artifactId>\r\n        <version>3.0.0-M7</version>\r\n        <configuration>\r\n          <useSystemClassLoader>false</useSystemClassLoader>\r\n        </configuration>\r\n      </plugin>\r\n\r\n      <plugin>\r\n        <groupId>org.jacoco</groupId>\r\n        <artifactId>jacoco-maven-plugin</artifactId>\r\n        <version>0.8.7</version>\r\n        <executions>\r\n          <execution>\r\n            <goals>\r\n              <goal>prepare-agent</goal>\r\n            </goals>\r\n          </execution>\r\n          <execution>\r\n            <id>report</id>\r\n            <phase>prepare-package</phase>\r\n            <goals>\r\n              <goal>report</goal>\r\n            </goals>\r\n          </execution>\r\n        </executions>\r\n      </plugin>\r\n\r\n    </plugins>\r\n  </build>\r\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/pom.xml b/pom.xml
+--- a/pom.xml	(revision a1137896987db22c654b07d96802701b539c19ef)
++++ b/pom.xml	(date 1672002372640)
+@@ -49,6 +49,20 @@
+       <version>3.0.0-M7</version>
+     </dependency>
+ 
++    <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
++    <dependency>
++      <groupId>org.apache.logging.log4j</groupId>
++      <artifactId>log4j-core</artifactId>
++      <version>2.19.0</version>
++    </dependency>
++
++    <!-- https://mvnrepository.com/artifact/org.apache.logging.log4j/log4j-core -->
++    <dependency>
++      <groupId>org.apache.logging.log4j</groupId>
++      <artifactId>log4j-api</artifactId>
++      <version>2.19.0</version>
++    </dependency>
++
+   </dependencies>
+ 
+   <build>
