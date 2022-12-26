@@ -32,6 +32,7 @@ public class ListArrStackTest {
       thrown = false;
     }
     assertFalse(thrown);
+    //assertThrows
   }
 
   @Test

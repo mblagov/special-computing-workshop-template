@@ -7,7 +7,7 @@ import java.util.ListIterator;
 
 
 public class ListArr implements List<Object> {
-  private Object[] DataArr;
+  private Object[] dataArr;
   private int size;
   private int cap;
 
@@ -16,14 +16,14 @@ public class ListArr implements List<Object> {
    */
   public ListArr() {
     int defCap = 10;
-    DataArr = new Object[defCap];
-    cap = DataArr.length;
+    dataArr = new Object[defCap];
+    cap = dataArr.length;
     size = 0;
   }
   public boolean resize() {
     long newcapLong = (cap * 3L) / 2L + 1;
     int newcap = (int) newcapLong;
-    DataArr = Arrays.copyOf(DataArr, newcap);
+    dataArr = Arrays.copyOf(dataArr, newcap);
     cap = newcap;
     return true;
   }
@@ -37,7 +37,7 @@ public class ListArr implements List<Object> {
         throw new ArrayStoreException("Массив не увеличился");
       }
     }
-    DataArr[size] = Value;
+    dataArr[size] = Value;
     size += 1;
     return true;
   }
@@ -49,8 +49,8 @@ public class ListArr implements List<Object> {
     if (index < 0 || index >= size) {
       throw new IndexOutOfBoundsException("Некуда добавлять или неправильный индекс");
     }
-    Object temp = DataArr[index];
-    System.arraycopy(DataArr, index + 1, DataArr, index, size - index);
+    Object temp = dataArr[index];
+    System.arraycopy(dataArr, index + 1, dataArr, index, size - index);
     size -= 1;
     return temp;
   }
@@ -59,7 +59,7 @@ public class ListArr implements List<Object> {
   @Override
   public boolean contains(Object value) {
     boolean res = false;
-    for (Object t : DataArr) {
+    for (Object t : dataArr) {
       if (t == value) {
         res = true;
         break;
@@ -77,7 +77,7 @@ public class ListArr implements List<Object> {
   /** 5. Получение по индексу */
   @Override
   public Object get(int index) {
-    return DataArr[index];
+    return dataArr[index];
   }
 
   /** 6. Добавление в конкретную позицию */
@@ -92,23 +92,23 @@ public class ListArr implements List<Object> {
         throw new ArrayStoreException("Массив не увеличился.");
       }
     }
-    System.arraycopy(DataArr, index, DataArr, index + 1, size - index);
-    DataArr[index] = Value;
+    System.arraycopy(dataArr, index, dataArr, index + 1, size - index);
+    dataArr[index] = Value;
     size += 1;
 
   }
 
-  public void Push(Object o) {
-    System.arraycopy(DataArr, 0, DataArr, 1, size);
-    DataArr[0] = o;
+  public void stackPush(Object o) {
+    System.arraycopy(dataArr, 0, dataArr, 1, size);
+    dataArr[0] = o;
     size += 1;
   }
 
-  public Object Pop() {
+  public Object stackPop() {
     return remove(0);
   }
 
-  public Object Peek() {
+  public Object stackPeek() {
     return get(0);
   }
 

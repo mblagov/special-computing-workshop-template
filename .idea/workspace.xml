@@ -4,20 +4,27 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="11ef30a7-686a-4c79-b958-6105e3bd61f7" name="Changes" comment="Task 1">
-      <change afterPath="$PROJECT_DIR$/bar.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/baz.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/foo.txt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/task5.txt" afterDir="false" />
+    <list default="true" id="11ef30a7-686a-4c79-b958-6105e3bd61f7" name="Changes" comment="Task 5">
+      <change afterPath="$PROJECT_DIR$/ans.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/answ.txt" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/ru/spbu/apcyb/svp/tasks/ThreadPool.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_26_12_2022_0_12__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_26_12_2022_0_12__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_26_12_2022_0_12__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_26_12_2022_0_12__Changes_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_26_12_2022_18_14__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_26_12_2022_18_14__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_1.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_1.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_2.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_rebase__Changes_2.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/1/5/1538f79ceeb0c981ddd556efc3c4af5ae561948e" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/4/74d2b16210309e1fd77a6e9e199adf6d761a8277" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/7/e/7e58fd46977866fade0dd80ee7f3382a3ef316ae" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/8/d/8dbae8802146debeccf2d61c1c1c394655402072" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/sonarlint/issuestore/index.pb" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/spbu/apcyb/svp/tasks/ListArr.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/spbu/apcyb/svp/tasks/ListArr.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/ru/spbu/apcyb/svp/tasks/ListArrStack.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/spbu/apcyb/svp/tasks/ListArrStack.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/main/java/ru/spbu/apcyb/svp/tasks/Task5.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/ru/spbu/apcyb/svp/tasks/Task5.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/test/java/ru/spbu/apcyb/svp/tasks/Task5Test.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/spbu/apcyb/svp/tasks/Task5Test.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ru/spbu/apcyb/svp/tasks/ListArrStackTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/spbu/apcyb/svp/tasks/ListArrStackTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/test/java/ru/spbu/apcyb/svp/tasks/ListArrTest.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/test/java/ru/spbu/apcyb/svp/tasks/ListArrTest.java" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -34,7 +41,7 @@
   <component name="Git.Settings">
     <option name="RECENT_BRANCH_BY_REPOSITORY">
       <map>
-        <entry key="$PROJECT_DIR$" value="main" />
+        <entry key="$PROJECT_DIR$" value="Task-5" />
       </map>
     </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
@@ -257,11 +264,11 @@
     <option name="LAST_COMMIT_MESSAGE" value="Task 1" />
   </component>
   <component name="com.intellij.coverage.CoverageDataManagerImpl">
-    <SUITE FILE_PATH="coverage/special_computing_workshop_template$Task3Test.ic" NAME="Task3Test Coverage Results" MODIFIED="1672072479493" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/special_computing_workshop_template$Task3Test.ic" NAME="Task3Test Coverage Results" MODIFIED="1672093523284" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/special_computing_workshop_template$ListArrStackTest.ic" NAME="ListArrStackTest Coverage Results" MODIFIED="1672072498910" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/special_computing_workshop_template$Task4Test.ic" NAME="Task4Test Coverage Results" MODIFIED="1672077616025" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/special_computing_workshop_template$Task1Test.ic" NAME="Task1Test Coverage Results" MODIFIED="1672082850510" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
-    <SUITE FILE_PATH="coverage/special_computing_workshop_template$Task5Test.ic" NAME="Task5Test Coverage Results" MODIFIED="1672090624547" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+    <SUITE FILE_PATH="coverage/special_computing_workshop_template$Task5Test.ic" NAME="Task5Test Coverage Results" MODIFIED="1672096089251" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/special_computing_workshop_template$ListArrTest.ic" NAME="ListArrTest Coverage Results" MODIFIED="1672072507142" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
     <SUITE FILE_PATH="coverage/special_computing_workshop_template$Task1.ic" NAME="Task1 Coverage Results" MODIFIED="1672057020026" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="idea" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false">
       <FILTER>ru.spbu.apcyb.svp.tasks.*</FILTER>

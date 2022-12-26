@@ -9,18 +9,18 @@ public class ListArrStack extends java.util.Stack<Object>{
 
   @Override
   public Object push(Object data) {
-    stack.Push(data);
+    stack.stackPush(data);
     return data;
   }
 
   @Override
   public synchronized Object pop() {
-    return stack.Pop();
+    return stack.stackPop();
   }
 
   @Override
   public synchronized Object peek() {
-    return stack.Peek();
+    return stack.stackPeek();
   }
 
   @Override

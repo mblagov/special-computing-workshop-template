@@ -153,7 +153,7 @@ public class ListArrTest {
   @Test
   void AddIndexTest() {
     ListArr stack = new ListArr();
-    stack.Push(0);
+    stack.stackPush(0);
     stack.add(0);
     stack.add(1);
     stack.add(2);
@@ -171,11 +171,11 @@ public class ListArrTest {
   @Test
   void PeekTest() {
     ListArr stack = new ListArr();
-    stack.Push(6789);
+    stack.stackPush(6789);
     stack.add(1);
     stack.add(2);
     stack.add(3);
-    assertEquals(6789, stack.Peek());
+    assertEquals(6789, stack.stackPeek());
   }
 
   @Test
@@ -203,8 +203,8 @@ public class ListArrTest {
     stack.add(null);
     stack.add(2);
     stack.add(3);
-    stack.Pop();
-    assertEquals(1, stack.Peek());
+    stack.stackPop();
+    assertEquals(1, stack.stackPeek());
   }
 
   @Test
@@ -216,7 +216,7 @@ public class ListArrTest {
     stack.add(2);
     stack.add(3);
     stack.remove(0);
-    assertEquals(1, stack.Peek());
+    assertEquals(1, stack.stackPeek());
   }
 
 
