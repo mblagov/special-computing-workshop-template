@@ -4,41 +4,40 @@ import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.concurrent.Executor;
 
 public class TanThread implements Executor {
-
   private final Queue<Runnable> workQueue = new ConcurrentLinkedQueue<>();
-  private volatile boolean isRunning = true;
+  private volatile boolean isWorking = true;
 
-  public TanThread(int numbOfThreads) {
-
-    for (int i = 0; i < numbOfThreads; i++) {
-      new Thread(new TaskWorker()).start();
-    }
-  }
-
-  @Override
-  public void execute(Runnable command) {
-
-    if (isRunning) {
-      workQueue.offer(command);
-    }
-  }
-
-  public void shutdown() {
-    isRunning = false;
-  }
-
-  private final class TaskWorker implements Runnable {
+  private final class TaskWork implements Runnable {
 
     @Override
     public void run() {
 
-      while (isRunning) {
+      while (isWorking) {
         Runnable nextTask = workQueue.poll();
         if (nextTask != null) {
           nextTask.run();
         }
       }
     }
+  }
+  
+  public TanThread(int countThreads) {
+
+    for (int i = 0; i < countThreads; i++) {
+      new Thread(new TaskWork()).start();
+    }
+  }
+  
+  @Override
+  public void execute(Runnable command) {
+
+    if (isWorking) {
+      workQueue.offer(command);
+    }
+  }
+
+  public void shutdown() {
+    isWorking = false;
   }
 
 }
