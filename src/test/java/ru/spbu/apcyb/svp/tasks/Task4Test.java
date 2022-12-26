@@ -29,7 +29,7 @@ class Task4Test {
   void SingleExceptionTest() {
 
     FileNotFoundException thrown = assertThrows(FileNotFoundException.class,
-        () -> Task4.SingleThreadTan(new FileWriter("err.txt", false), 100));
+        () -> Task4.singleThreadTan(new FileWriter("err.txt", false), 100));
     assertEquals("Файл с числами не найден.", thrown.getMessage());
   }
 
@@ -45,7 +45,7 @@ class Task4Test {
 
   @Test
   void SingleThreadTest() throws IOException {
-    Task4.SingleThreadTan(new FileWriter("SingleThreads.txt", false), 1000);
+    Task4.singleThreadTan(new FileWriter("SingleThreads.txt", false), 1000);
     BufferedReader numbersFile = new BufferedReader(new FileReader("numbers.txt"));
     BufferedReader singleFile = new BufferedReader(new FileReader("SingleThread.txt"));
     boolean result = true;
@@ -61,7 +61,7 @@ class Task4Test {
 
   @Test
   void MultiThreadTest() throws IOException, ExecutionException, InterruptedException {
-    Task4.MultiThreadTan(new FileWriter("MultiTan.txt", false), 1000, 10);
+    Task4.multiThreadTan(new FileWriter("MultiTan.txt", false), 1000, 10);
     BufferedReader numbersFile = new BufferedReader(new FileReader("numbers.txt"));
     BufferedReader multiFile = new BufferedReader(new FileReader("MultiThread.txt"));
     boolean result = true;
@@ -77,7 +77,7 @@ class Task4Test {
 
   @Test
   void isCompareWork() throws IOException, ExecutionException, InterruptedException {
-    assertTrue(Task4.Compare(1000, 10));
+    assertTrue(Task4.compare(1000, 10));
   }
 
 }

@@ -52,7 +52,7 @@ public class Task4 {
     }
   }
 
-  public static long MultiThreadTan(FileWriter fw, int countLines, int countThreads)
+  public static long multiThreadTan(FileWriter fw, int countLines, int countThreads)
       throws ExecutionException, InterruptedException, IOException {
 
     final long start = System.nanoTime();
@@ -85,7 +85,7 @@ public class Task4 {
     return (System.nanoTime() - start);
   }
 
-  public static long SingleThreadTan(FileWriter fw, int countLines) throws FileNotFoundException {
+  public static long singleThreadTan(FileWriter fw, int countLines) throws FileNotFoundException {
     long start = System.nanoTime();
     try (BufferedReader br = new BufferedReader(new FileReader("numbers.txt"))) {
       String line;
@@ -101,10 +101,10 @@ public class Task4 {
     return System.nanoTime() - start;
   }
 
-  public static boolean Compare(int countLines, int countThreads ) throws IOException, ExecutionException, InterruptedException
+  public static boolean compare(int countLines, int countThreads ) throws IOException, ExecutionException, InterruptedException
   {
-    long SingleTime = SingleThreadTan(new FileWriter("SingleThread.txt", false), countLines);
-    long MultiTime = MultiThreadTan(new FileWriter("MultiThread.txt", false), countLines, countThreads);
+    long SingleTime = singleThreadTan(new FileWriter("SingleThread.txt", false), countLines);
+    long MultiTime = multiThreadTan(new FileWriter("MultiThread.txt", false), countLines, countThreads);
 
     StringBuilder str = new StringBuilder();
     str.append("Количество строк = ")
@@ -132,6 +132,6 @@ public class Task4 {
     int countThreads = 10;
 
     boolean numb = randomNumbers(countLines);
-    boolean work = Compare(countLines, countThreads);
+    boolean work = compare(countLines, countThreads);
   }
 }
