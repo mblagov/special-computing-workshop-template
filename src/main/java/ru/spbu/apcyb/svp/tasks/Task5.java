@@ -14,7 +14,7 @@ import java.nio.file.Path;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
 import java.util.function.Consumer;
 import java.util.regex.Pattern;
 
@@ -43,8 +43,6 @@ public class Task5 {
             writeWordFiles(args[2], counts);
         } catch (IOException e) {
             logger.error(e);
-        } catch (ExecutionException e) {
-            logger.error(e.getCause());
         }
     }
 
@@ -96,36 +94,30 @@ public class Task5 {
      * Creates a file for each word with this word repeated
      * the number of times specified in `counts` map.
      */
-    public static void writeWordFiles(String path, Map<String, Integer> counts) throws ExecutionException {
+    public static void writeWordFiles(String path, Map<String, Integer> counts) {
         var dir = Path.of(path);
         if (!Files.isDirectory(dir)) {
             throw new IllegalArgumentException("Path is not a directory");
         }
 
-        CompletableFuture<Void> future = CompletableFuture.completedFuture(null);
+        try (var executor = Executors.newFixedThreadPool(10)) {
+            for (var entry : counts.entrySet()) {
+                var word = entry.getKey();
+                var count = entry.getValue();
+                var file = dir.resolve(word + ".txt");
 
-        for (var entry : counts.entrySet()) {
-            var word = entry.getKey();
-            var count = entry.getValue();
-            var file = dir.resolve(word + ".txt");
-
-            future = future.thenAccept(ignored -> {
-                try (var stream = Files.newOutputStream(file)) {
-                    var bytes = word.getBytes();
-                    for (int i = 0; i < count; i++) {
-                        stream.write(bytes);
-                        stream.write(" ".getBytes());
+                CompletableFuture.runAsync(() -> {
+                    try (var stream = Files.newOutputStream(file)) {
+                        var bytes = word.getBytes();
+                        for (int i = 0; i < count; i++) {
+                            stream.write(bytes);
+                            stream.write(" ".getBytes());
+                        }
+                    } catch (IOException e) {
+                        throw new UncheckedIOException(e);
                     }
-                } catch (IOException e) {
-                    throw new UncheckedIOException(e);
-                }
-            });
-        }
-
-        try {
-            future.get();
-        } catch (InterruptedException ignored) {
-            Thread.currentThread().interrupt();
+                }, executor);
+            }
         }
     }
 }
