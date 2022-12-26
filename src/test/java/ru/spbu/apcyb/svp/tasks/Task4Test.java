@@ -1,9 +1,9 @@
 package ru.spbu.apcyb.svp.tasks;
 
+import static org.junit.jupiter.api.Assertions.assertDoesNotThrow;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
 import java.io.FileNotFoundException;
-import java.io.IOException;
 import org.junit.jupiter.api.Test;
 
 /**
@@ -27,8 +27,10 @@ class Task4Test {
   }
 
   @Test
-  void normalRun() throws IOException {
-    Task4.multiThreadTan("numbers", "testfile", 10000, 10);
+  void normalRun() {
+    assertDoesNotThrow(
+        () -> Task4.multiThreadTan("numbers", "testfile", 10000, 10)
+    );
   }
 
 }

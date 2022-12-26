@@ -40,11 +40,14 @@ public class Task4 {
       long startTime = System.nanoTime();
 
       ExecutorService executorService = Executors.newFixedThreadPool(numberOfThreads);
-      for (int i = 0; i < numberOfLines; i++) {
-        float val = Float.parseFloat(readBuffer.readLine());
-        executorService.execute(new CalculateTan(val, outFile));
+      try{
+        for (int i = 0; i < numberOfLines; i++) {
+          float val = Float.parseFloat(readBuffer.readLine());
+          executorService.execute(new CalculateTan(val, outFile));
+        }
+      } finally {
+        executorService.shutdown();
       }
-      executorService.shutdown();
 
       long endTime = System.nanoTime();
       long timeDelta = endTime - startTime;
