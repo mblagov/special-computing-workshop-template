@@ -1,6 +1,7 @@
 package ru.spbu.apcyb.svp.tasks;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import org.junit.jupiter.api.Test;
@@ -25,14 +26,9 @@ public class ListArrStackTest {
 
   @Test
   void testPop2() {
-    boolean thrown = true;
-    try {
-      stack.pop();
-    } catch (RuntimeException e) {
-      thrown = false;
-    }
-    assertFalse(thrown);
-    //assertThrows
+    UnsupportedOperationException thrown =
+        assertThrows(UnsupportedOperationException.class, () -> stack.pop());
+    assertEquals("", thrown.getMessage());
   }
 
   @Test

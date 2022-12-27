@@ -24,6 +24,8 @@ public class ListArr implements List<Object> {
     long newcapLong = (cap * 3L) / 2L + 1;
     int newcap = (int) newcapLong;
     dataArr = Arrays.copyOf(dataArr, newcap);
+    if (cap == newcap)
+      return false;
     cap = newcap;
     return true;
   }
