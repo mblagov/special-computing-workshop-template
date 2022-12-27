@@ -28,15 +28,11 @@ class Task1Test {
 
     @Test
     void enterSum1() {
-        boolean thrown = true;
-        try {
-            System.setIn(new ByteArrayInputStream("asadasd".getBytes()));
-            System.setIn(System.in);
-            Task1.enterSum();
-        } catch (Exception e) {
-            thrown = false;
-        }
-        assertFalse(thrown);
+        System.setIn(new ByteArrayInputStream("asadasd".getBytes()));
+        System.setIn(System.in);
+        IllegalArgumentException thrown =
+                assertThrows(IllegalArgumentException.class, () -> Task1.enterSum());
+        assertEquals("Ошибка ввода!", thrown.getMessage());
     }
 
     @Test

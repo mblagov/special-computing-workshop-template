@@ -10,10 +10,10 @@ import org.junit.jupiter.api.Test;
 /**
  * Тесты для линейного списка.
  */
-class LinkedListTest {
+class ArrayListTest {
 
-    LinkedList list = new LinkedList();
-    LinkedList list2 = new LinkedList();
+    ArrayList list = new ArrayList();
+    ArrayList list2 = new ArrayList();
 
     @Test
     void containsAll() throws UnsupportedOperationException {
@@ -73,7 +73,7 @@ class LinkedListTest {
 
     @Test
     void lastIndexOf() throws UnsupportedOperationException {
-        LinkedList list = new LinkedList();
+        ArrayList list = new ArrayList();
         UnsupportedOperationException thrown =
                 assertThrows(UnsupportedOperationException.class, () -> list.lastIndexOf(null));
         assertEquals("", thrown.getMessage());
@@ -88,7 +88,7 @@ class LinkedListTest {
 
     @Test
     void testListIterator() throws UnsupportedOperationException {
-        LinkedList list = new LinkedList();
+        ArrayList list = new ArrayList();
         UnsupportedOperationException thrown =
                 assertThrows(UnsupportedOperationException.class, () -> list.listIterator(0));
         assertEquals("", thrown.getMessage());
@@ -96,7 +96,7 @@ class LinkedListTest {
 
     @Test
     void testSubList() throws UnsupportedOperationException {
-        LinkedList list = new LinkedList();
+        ArrayList list = new ArrayList();
         UnsupportedOperationException thrown =
                 assertThrows(UnsupportedOperationException.class, () -> list.subList(0, 1));
         assertEquals("", thrown.getMessage());
@@ -149,7 +149,7 @@ class LinkedListTest {
 
     @Test
     void getFirstTest() {
-        LinkedList stack = new LinkedList();
+        ArrayList stack = new ArrayList();
         stack.addFirst(232);
         stack.add(1);
         stack.add(3);
@@ -159,7 +159,7 @@ class LinkedListTest {
 
     @Test
     void containsTest() {
-        LinkedList stack = new LinkedList();
+        ArrayList stack = new ArrayList();
         stack.add(2);
         stack.add(2);
         stack.add(null);
@@ -169,7 +169,7 @@ class LinkedListTest {
 
     @Test
     void addIndexTest() {
-        LinkedList stack = new LinkedList();
+        ArrayList stack = new ArrayList();
         stack.addFirst(0);
         stack.add(1);
         stack.add(2);
@@ -183,14 +183,14 @@ class LinkedListTest {
 
     @Test
     void isEmptyTest() {
-        LinkedList stack = new LinkedList();
+        ArrayList stack = new ArrayList();
         stack.add(1);
         assertFalse(stack.isEmpty());
     }
 
     @Test
     void removeTest() {
-        LinkedList stack = new LinkedList();
+        ArrayList stack = new ArrayList();
         stack.add(2);
         stack.add(1);
         stack.add(null);
@@ -202,7 +202,7 @@ class LinkedListTest {
 
     @Test
     void removeFirstTest() {
-        LinkedList stack = new LinkedList();
+        ArrayList stack = new ArrayList();
         stack.add(3);
         stack.add(2);
         stack.add(null);
@@ -214,7 +214,7 @@ class LinkedListTest {
 
     @Test
     void sizeTest() {
-        LinkedList stack = new LinkedList();
+        ArrayList stack = new ArrayList();
         stack.add(2);
         stack.add(1);
         stack.add(null);
@@ -228,7 +228,7 @@ class LinkedListTest {
 
     @Test
     void indexOfTest1() {
-        LinkedList stack = new LinkedList();
+        ArrayList stack = new ArrayList();
         stack.add(1);
         stack.add(2);
         stack.add(3);
@@ -240,7 +240,7 @@ class LinkedListTest {
 
     @Test
     void indexOfTest2() {
-        LinkedList stack = new LinkedList();
+        ArrayList stack = new ArrayList();
         stack.add(1);
         stack.add(2);
         stack.add(3);

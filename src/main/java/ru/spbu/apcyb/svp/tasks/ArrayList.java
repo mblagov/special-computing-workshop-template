@@ -1,7 +1,6 @@
 package ru.spbu.apcyb.svp.tasks;
 
 import java.util.Arrays;
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
@@ -12,13 +11,13 @@ import java.util.ListIterator;
  * Линейный список
  */
 
-public class LinkedList implements List<Object> {
+public class ArrayList implements List<Object> {
 
     private Object[] data;
     private int size;
     private static final int DEFAULT_SIZE = 10;
 
-    public LinkedList() {
+    public ArrayList() {
         data = new Object[DEFAULT_SIZE];
         size = 0;
     }
@@ -91,7 +90,7 @@ public class LinkedList implements List<Object> {
         }
         if (size == data.length)
             increaseSize();
-        ArrayList<Object> tempList = new ArrayList<>(Arrays.asList(data));
+        java.util.ArrayList<Object> tempList = new java.util.ArrayList<>(Arrays.asList(data));
         tempList.add(index, element);
         data = tempList.toArray();
     }
