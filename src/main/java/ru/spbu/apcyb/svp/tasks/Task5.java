@@ -16,7 +16,7 @@ import java.util.stream.Stream;
  */
 public class Task5 {
 
-  public static void wordsSort(String wordsFile, String counts) throws FileNotFoundException, IOException {
+  public static void wordsSort(String wordsFile, String counts) throws FileNotFoundException, RuntimeException, IOException {
     ThreadPool threadPool = new ThreadPool(10);
     try (Stream<String> stream = Files.lines(Paths.get(wordsFile));
         BufferedWriter toCountsFile = new BufferedWriter
@@ -40,17 +40,19 @@ public class Task5 {
               CompletableFuture.runAsync(() -> {
                 try {
                   writeWordsToFile(thisWord,thisWordCount);
-                } catch (IOException e) {
-                  e.printStackTrace();
+                } catch (FileNotFoundException e) {
+                  throw new RuntimeException(e);
                 }
+
               });
             } else {
               CompletableFuture.runAsync(() -> {
                     try {
                       writeWordsToNewFile(thisWord,thisWordCount);
-                    } catch (IOException e) {
-                      e.printStackTrace();
+                    } catch (FileNotFoundException e) {
+                      throw new RuntimeException(e);
                     }
+
                   },
                   threadPool
               );
@@ -59,7 +61,10 @@ public class Task5 {
     } catch (IOException e) {
       throw new FileNotFoundException("Ошибка какого-то файла");
     }
-    threadPool.shutdown();
+    finally
+    {
+      threadPool.shutdown();
+    }
   }
 
   public static void writeWordsToFile(String word, Integer wordCount) throws FileNotFoundException {
