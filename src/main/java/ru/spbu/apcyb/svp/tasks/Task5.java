@@ -24,14 +24,14 @@ public class Task5 {
    *
    * @param args - самый обычный args
    */
-  public static void main(String[] args) {
+  public static void main(String[] args) throws Exception {
     start();
   }
   
   /** Метод запуска программы.
    *
    */
-  public static void start() {
+  public static void start() throws Exception {
     
     try {
       Map<String, Long> stream = readFile("c://ВиМ.txt");
@@ -42,7 +42,7 @@ public class Task5 {
       //Но она работает, честно, но мне не понравилось чистить компьютер от 34тыс txt файлов.
       //toNameFile(stream);
     } catch (Exception e) {
-      e.printStackTrace();
+      throw new Exception(e + ", попробуйте снова!");
     }
   }
   
@@ -108,43 +108,45 @@ public class Task5 {
     
     ThreadPool threadPool = new ThreadPool(10);
   
-    stream.forEach((word, count) ->  CompletableFuture.supplyAsync(
-        () -> {
+    try {
       
-        try {
-          File file = new File(word + ".txt");
-          FileOutputStream out;
-  
+      stream.forEach((word, count) ->  CompletableFuture.supplyAsync(
+          () -> {
+        
+          try {
+            File file = new File(word + ".txt");
+            FileOutputStream out;
+          
             //Если файл существует, то он его очищает
             if (file.createNewFile()) {
               out = new FileOutputStream(file, false);
             } else {
               out = new FileOutputStream(file);
             }
-    
+          
             StringBuilder data = new StringBuilder();
-    
+          
             for (int i = 0; i < count; i++) {
               data.append(word)
-                .append(" ");
+                  .append(" ");
             }
-    
+          
             out.write(data.toString().getBytes());
             out.close();
-    
+          
             return true;
-    
-
-        } catch (Exception e) {
-          throw new RuntimeException("Невозможно выполнить запрос!");
-        }
-      },
-        
-        threadPool
-    ));
-  
-    threadPool.shutdown();
-    
+          
+          
+          } catch (Exception e) {
+            throw new RuntimeException(e + "Невозможно выполнить запрос!");
+          }
+        },
+      
+          threadPool
+      ));
+    } finally {
+      threadPool.shutdown();
+    }
   }
 }
 
