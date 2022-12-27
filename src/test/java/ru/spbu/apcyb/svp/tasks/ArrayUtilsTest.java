@@ -73,25 +73,6 @@ class ArrayUtilsTest {
   }
 
   @Test
-  void chunked_smoke() {
-    Assertions.assertEquals(0, ArrayUtils.chunked(new int[]{}, 10).length);
-
-    Assertions.assertArrayEquals(new int[][]{{1}, {2}, {3}},
-        ArrayUtils.chunked(new int[]{1, 2, 3}, 1));
-    Assertions.assertArrayEquals(new int[][]{{1, 2}, {3}},
-        ArrayUtils.chunked(new int[]{1, 2, 3}, 2));
-    Assertions.assertArrayEquals(new int[][]{{1, 2, 3}},
-        ArrayUtils.chunked(new int[]{1, 2, 3}, 10));
-
-    Assertions.assertArrayEquals(new int[][]{{1, 2}, {3, 4}, {5}},
-        ArrayUtils.chunked(new int[]{1, 2, 3, 4, 5}, 2));
-
-    assertRejectsArgument(() -> ArrayUtils.chunked(null, 1), "Null array should be prohibited!");
-    assertRejectsArgument(() -> ArrayUtils.chunked(new int[]{}, 0), "Chunk size should be > 0");
-    assertRejectsArgument(() -> ArrayUtils.chunked(new int[]{}, -1), "Chunk size should be > 0");
-  }
-
-  @Test
   void mergeSortedArray_smoke() {
     assertArrayIsEmpty(ArrayUtils.mergeSortedArrays(new int[]{}, new int[]{}));
 

@@ -9,10 +9,10 @@ import java.util.EmptyStackException;
  */
 public class MyStack extends java.util.Stack<Object> implements Serializable{
 
-    private final transient LinkedList stack;
+    private final transient ArrayList stack;
 
     public MyStack() {
-        stack = new LinkedList();
+        stack = new ArrayList();
     }
 
     @Override
