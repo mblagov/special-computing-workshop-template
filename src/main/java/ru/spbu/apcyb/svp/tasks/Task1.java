@@ -4,6 +4,7 @@ package ru.spbu.apcyb.svp.tasks;
 import com.google.common.primitives.Longs;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Scanner;
 import java.util.logging.Logger;
 
@@ -36,12 +37,12 @@ public class Task1 {
       try {
         notes[i] = Long.parseLong(dt[i]);
 
-      } catch (NumberFormatException e) {
+      } catch (java.util.InputMismatchException e) {
         throw new RuntimeException("Неверный ввод монет.");
       }
     }
     notes = delete_dupes(notes);
-    ArrayList<long[]> combinations;
+    List<long[]> combinations;
     combinations = find_combinations(amount, notes);
     StringBuilder res = new StringBuilder(("Комбинации:\n"));
     Log.info("Количество кобинаций: " + combinations.size());
@@ -91,8 +92,8 @@ public class Task1 {
   /**
    * Поиск комбинаций.
    */
-  public static ArrayList<long[]> find_combinations(long amount, long[] notes) {
-    ArrayList<long[]> combinations = new ArrayList<>();
+  public static List<long[]> find_combinations(long amount, long[] notes) {
+    List<long[]> combinations = new ArrayList<>();
     long[] currcomb = new long[notes.length];
     int index = 0;
     if (notes.length == 0) {
