@@ -11,6 +11,13 @@ import org.junit.jupiter.api.Test;
 public class Task1Test {
 
   @Test
+  void inputTest() {
+    Assertions.assertArrayEquals(new long[] {1,2,3},Task1.get_notes("2  3 1"));
+    Assertions.assertThrows(NumberFormatException.class,
+        () ->Task1.get_notes("2ts  3 1"));
+  }
+
+  @Test
   void exceptionsTest() {
     long[] dummy = {1, 2};
     Assertions.assertThrows(IllegalArgumentException.class,

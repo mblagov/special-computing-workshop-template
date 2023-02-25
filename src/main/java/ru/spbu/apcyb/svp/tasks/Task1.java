@@ -27,21 +27,7 @@ public class Task1 {
       throw new RuntimeException("Неверный ввод суммы размена.");
     }
     String str = in.nextLine();
-    while (str.contains("  ")) {
-      str = str.replace("  ", " ");
-    }
-    String[] dt = str.trim().split(" ");
-    long[] notes = new long[dt.length];
-
-    for (int i = 0; i < dt.length; i++) {
-      try {
-        notes[i] = Long.parseLong(dt[i]);
-
-      } catch (java.util.InputMismatchException e) {
-        throw new RuntimeException("Неверный ввод монет.");
-      }
-    }
-    notes = delete_dupes(notes);
+    long[] notes = get_notes(str);
     List<long[]> combinations;
     combinations = find_combinations(amount, notes);
     StringBuilder res = new StringBuilder(("Комбинации:\n"));
@@ -53,9 +39,23 @@ public class Task1 {
   }
 
   /**
-   * Удаление одинаковых купюр + сортировка по возрастанию.
+   * Преобразование строки в отсортированный набор купюр.
    */
-  private static long[] delete_dupes(long[] notes) {
+  public static long[] get_notes(String str) {
+    while (str.contains("  ")) {
+      str = str.replace("  ", " ");
+    }
+    String[] dt = str.trim().split(" ");
+    long[] notes = new long[dt.length];
+
+    for (int i = 0; i < dt.length; i++) {
+      try {
+        notes[i] = Long.parseLong(dt[i]);
+
+      } catch (NumberFormatException e) {
+        throw new NumberFormatException("Неверный ввод купюр.");
+      }
+    }
     Arrays.sort(notes);
     ArrayList<Long> newnotes = new ArrayList<>();
     for (long note : notes) {
