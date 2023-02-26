@@ -20,19 +20,19 @@ public class MyStack extends Stack {
   }
 
   @Override
-  public Object pop() {
+  public synchronized Object pop() {
     Object tmp = stack.get(0);
     stack.remove(0);
     return tmp;
   }
 
   @Override
-  public Object peek() {
+  public synchronized Object peek() {
     return stack.get(0);
   }
 
   @Override
-  public boolean isEmpty() {
+  public synchronized boolean  isEmpty() {
     return stack.isEmpty();
   }
 
