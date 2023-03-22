@@ -16,7 +16,7 @@ public class ArrayUtils {
    * @param array массив для печати
    */
   public static void printArray(int[] array) {
-    // TODO
+    //TODO
   }
 
   /**

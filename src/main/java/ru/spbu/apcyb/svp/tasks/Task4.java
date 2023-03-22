@@ -6,6 +6,6 @@ package ru.spbu.apcyb.svp.tasks;
 public class Task4 {
 
   public static void main(String[] args) {
-
+  //Задание 2
   }
 }
