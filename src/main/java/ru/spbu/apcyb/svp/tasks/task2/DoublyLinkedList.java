@@ -40,13 +40,13 @@ public class DoublyLinkedList<E> implements java.util.List<E> {
   //1. добавление в конец
   @Override
   public boolean add(Object o) {
-    ListNode<E> newNode = null;
+    ListNode<E> newNode;
     try {
       newNode = new ListNode<>((E) o);
     } catch (ClassCastException e) {
-      e.printStackTrace();
+      throw new IllegalArgumentException("Неправильный тип аргумента");
     }
-    if (newNode == null) {
+    if (this.contains(o)) {
       return false;
     }
     if (head == null && tail == null) {
@@ -67,9 +67,13 @@ public class DoublyLinkedList<E> implements java.util.List<E> {
   //6. Добавление на конкретную позицию
   @Override
   public void add(int index, Object element) {
-    var newNode = new ListNode<>((E) element);
+    ListNode<E> newNode;
+    try {
+      newNode = new ListNode<>((E) element);
+    } catch (ClassCastException e) {
+      throw new IllegalArgumentException("Некорректный тип аргумента");
+    }
     var tmp = head;
-    ListNode<E> previous = null;
     if (tmp == null) {
       if (index == 0) {
         head = newNode;
@@ -80,33 +84,30 @@ public class DoublyLinkedList<E> implements java.util.List<E> {
         tail.setPrevious(null);
         return;
       }
-      throw new IndexOutOfBoundsException();
+      throw new IndexOutOfBoundsException(
+          "Невозможно произвести добавление в пустой список по ненулевому индексу");
     }
     while (index > 0) {
       if (tmp.getNext() == null) {
         if (index != 1) {
-          throw new IndexOutOfBoundsException();
+          throw new IndexOutOfBoundsException(
+              "Невозможно разместить элемент по индексу, превыщающему длину списка более чем на 1");
         }
         break;
       }
-      previous = tmp;
       tmp = tmp.getNext();
       index--;
     }
-    if (index != 0) {
-      throw new IndexOutOfBoundsException();
+    if (index == 1) { //если после цикла индекс 1, значит добавление происходит в конец
+      this.add(element);
+      return;
     }
     newNode.setNext(tmp);
-    newNode.setPrevious(previous);
-    if (previous == null) {
+    newNode.setPrevious(tmp.getPrevious());
+    if (tmp.getPrevious() == null) {
       head = newNode;
     } else {
-      previous.setNext(newNode);
-    }
-    if (tmp != null) {
-      tmp.setPrevious(newNode);
-    } else {
-      tail = newNode;
+      tmp.getPrevious().setNext(newNode);
     }
   }
 
@@ -132,14 +133,19 @@ public class DoublyLinkedList<E> implements java.util.List<E> {
     return tmp.getData();
   }
 
+  @Override
+  public boolean remove(Object o) {
+    throw new UnsupportedOperationException();
+  }
+
   private ListNode<E> getNodeWithIndex(int index) {
     var tmp = head;
     if (tmp == null) {
-      throw new IndexOutOfBoundsException();
+      throw new IndexOutOfBoundsException("Список пуст");
     }
     while (index > 0) {
       if (tmp.getNext() == null) {
-        throw new IndexOutOfBoundsException();
+        throw new IndexOutOfBoundsException("Индекс превышает длину списка");
       }
       tmp = head.getNext();
       index--;
@@ -147,22 +153,14 @@ public class DoublyLinkedList<E> implements java.util.List<E> {
     return tmp;
   }
 
-  @Override
-  public boolean remove(Object o) {
-    throw new UnsupportedOperationException();
-  }
-
   //3. Проверка наличия по значению
   @Override
   public boolean contains(Object o) {
-    ListNode<E> newNode = null;
+    ListNode<E> newNode;
     try {
       newNode = new ListNode<>((E) o);
     } catch (ClassCastException e) {
-      e.printStackTrace();
-    }
-    if (newNode == null) {
-      return false;
+      throw new IllegalArgumentException("Некорректный тип аргумента");
     }
     var tmp = head;
     if (tmp == null) {
@@ -195,11 +193,6 @@ public class DoublyLinkedList<E> implements java.util.List<E> {
   //_________________________________________________________________
 
   @Override
-  public int hashCode() {
-    return super.hashCode();
-  }
-
-  @Override
   public boolean equals(Object obj) {
     if (obj == null) {
       return false;
@@ -219,6 +212,10 @@ public class DoublyLinkedList<E> implements java.util.List<E> {
     return tmp1.getNext() == null && tmp2.getNext() == null;
   }
 
+  @Override
+  public int hashCode() {
+    return super.hashCode();
+  }
 
   //________________________
 
