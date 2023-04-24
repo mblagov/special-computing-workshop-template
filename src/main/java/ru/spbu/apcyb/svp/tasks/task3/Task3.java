@@ -26,6 +26,9 @@ public class Task3 {
    */
 
   public static void main(String[] args) throws IOException {
+    if (args.length != 2) {
+      throw new IllegalArgumentException("Некорректное количество аргументов программы");
+    }
     String pathString = args[0];
     String filename = args[1];
     getFileTree(pathString, filename);
