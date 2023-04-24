@@ -10,25 +10,41 @@ import java.nio.file.SimpleFileVisitor;
 import java.nio.file.attribute.BasicFileAttributes;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Scanner;
 
 /**
  * Задание 3.
  */
 public class Task3 {
 
+  /**
+   * главный метод программы.
+   *
+   * @param args
+   *     аргументы программы
+   * @throws IOException
+   *
+   */
+
   public static void main(String[] args) throws IOException {
-    var sc = new Scanner(System.in);
-    String pathString = sc.next();
-    String filename = sc.next();
+    String pathString = args[0];
+    String filename = args[1];
     getFileTree(pathString, filename);
   }
 
-
+  /**
+   * метод получения списка каталогов и файлов и записи его в файл.
+   *
+   * @param pathString
+   *     строка, содержащая путь, начиная с которого будет исследоваться дерево каталогов
+   * @param filename
+   *     строка, содержащая имя файла, в который производится запись
+   * @throws IOException
+   *
+   */
 
   public static void getFileTree(String pathString, String filename) throws IOException {
     var cataloguePath = Paths.get(pathString);
-    try (var fileWriter = new FileWriter(filename)) {
+    try (var fileWriter = new FileWriter(filename, false)) {
       for (var element : checkCatalogue(cataloguePath)) {
         fileWriter.write(element + "\n");
       }
@@ -53,7 +69,9 @@ public class Task3 {
         new SimpleFileVisitor<>() {
           @Override
           public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) {
-            answer.add(dir.toString());
+            if (!cataloguePath.equals(dir)) {
+              answer.add(dir.toString());
+            }
             return FileVisitResult.CONTINUE;
           }
 
@@ -64,7 +82,6 @@ public class Task3 {
           }
         }
     );
-    answer.remove(0);
     return answer;
   }
 }

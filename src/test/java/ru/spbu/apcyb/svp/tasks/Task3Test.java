@@ -21,10 +21,8 @@ class Task3Test {
 
   @BeforeAll
   void init() {
-    path = "C:\\Users\\zeron\\programming-projects\\idea-projects"
-        + "\\special-computing-workshop-template\\src\\main\\java\\ru\\spbu\\apcyb\\svp";
-    file = "C:\\Users\\zeron\\programming-projects\\idea-projects"
-        + "\\special-computing-workshop-template\\src\\main\\resources\\task3FileResult";
+    path = ".\\src";
+    file = ".\\src\\test\\resources\\task3FileResult.txt";
   }
 
   @Test
@@ -46,5 +44,6 @@ class Task3Test {
       listContent += string;
     }
     Assertions.assertEquals(fileContent, listContent);
+    scanner.close();
   }
 }
