@@ -4,9 +4,9 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Locale;
 import java.util.Scanner;
-import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
@@ -67,15 +67,15 @@ public class Task4 {
       throws IOException, ExecutionException, InterruptedException {
     var logger = Logger.getLogger("");
 
-    var sStart = System.currentTimeMillis();
+    var singleStart = System.currentTimeMillis();
     countTanSingle(numbersFile, singleAnswerFile);
-    var sEnd = System.currentTimeMillis();
-    logger.log(Level.INFO, () -> "Singlethread time: " + (sEnd - sStart));
+    var singleEnd = System.currentTimeMillis();
+    logger.log(Level.INFO, () -> "Singlethread time: " + (singleEnd - singleStart));
 
-    var mTimeStart = System.currentTimeMillis();
+    var multiStart = System.currentTimeMillis();
     countTanMulti(numbersFile, multiAnswerFile, threadCount);
-    var mTimeEnd = System.currentTimeMillis();
-    logger.log(Level.INFO, () -> "Multithread time: " + (mTimeEnd - mTimeStart));
+    var multiEnd = System.currentTimeMillis();
+    logger.log(Level.INFO, () -> "Multithread time: " + (multiEnd - multiStart));
   }
 
   private static void countTanSingle(String numbersFile, String singleAnswerFile)
@@ -109,12 +109,10 @@ public class Task4 {
   private static void countTanMulti(String numbersFile, String multiAnswerFile, int threadCount)
       throws IOException, ExecutionException, InterruptedException {
     var exService = Executors.newFixedThreadPool(threadCount);
-    Callable<String>[] tasks = new Callable[threadCount];
-    Future<String>[] futures = new Future[threadCount];
+    ArrayList<Future<String>> futures = new ArrayList<>(threadCount);
     for (int i = 1; i <= threadCount; i++) {
       final int number = i;
-      tasks[i - 1] = () -> countTanForOneLine(numbersFile, number);
-      futures[i - 1] = exService.submit(tasks[i - 1]);
+      futures.add(exService.submit(() -> countTanForOneLine(numbersFile, number)));
     }
     try (var fileWriter = new FileWriter(multiAnswerFile)) {
       for (var future : futures) {
