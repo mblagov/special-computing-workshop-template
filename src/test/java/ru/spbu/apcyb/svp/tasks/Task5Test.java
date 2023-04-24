@@ -48,13 +48,14 @@ class Task5Test {
 
   @Test
   void test3Task5() throws IOException, ExecutionException, InterruptedException {
-    var mapOfWOrds = new HashMap<String, Integer>(3);
-    mapOfWOrds.put("foo", 2);
-    mapOfWOrds.put("bar", 1);
-    mapOfWOrds.put("baz", 1);
-    Task5.writeWordsToFiles(mapOfWOrds);
+    var mapOfWords = new HashMap<String, Integer>(3);
+    mapOfWords.put("foo", 2);
+    mapOfWords.put("bar", 1);
+    mapOfWords.put("baz", 1);
+    var path = "./src/test/resources/wordFiles";
+    Task5.writeWordsToFiles(mapOfWords, 10, path);
 
-    try (var sc = new Scanner(new FileReader("./src/main/resources/wordFiles/foo.txt"))) {
+    try (var sc = new Scanner(new FileReader(path + "foo.txt"))) {
       var line = sc.nextLine();
       Assertions.assertFalse(sc.hasNextLine());
       var split = line.split(" ");

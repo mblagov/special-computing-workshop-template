@@ -7,8 +7,8 @@ import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Executors;
 import java.util.concurrent.Future;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
@@ -18,6 +18,19 @@ import java.util.stream.Stream;
  */
 public class Task5 {
 
+
+  /**
+   * главный метод программы.
+   *
+   * @param args
+   *     массив аргументов
+   * @throws IOException
+   *
+   * @throws ExecutionException
+   *
+   * @throws InterruptedException
+   *
+   */
   public static void main(String[] args)
       throws IOException, ExecutionException, InterruptedException {
     var filename = "./src/main/resources/book.txt";
@@ -25,10 +38,20 @@ public class Task5 {
 
     var stream = readFile(filename);
     var map = countWords(stream, outFilename);
-    writeWordsToFiles(map);
+    writeWordsToFiles(map, 10, "./src/main/resources/wordFiles/");
 
   }
 
+  /**
+   * метод, переводящий содержимое файла в поток слов.
+   *
+   * @param filename
+   *     считываемый файл
+   * @return
+   *
+   * @throws IOException
+   *
+   */
   public static Stream<String> readFile(String filename) throws IOException {
     try (var bufferedReader = new BufferedReader(new FileReader(filename))) {
       var stringBuilder = new StringBuilder();
@@ -40,13 +63,27 @@ public class Task5 {
       var finalString = stringBuilder.toString();
       var words = finalString.split("[ .,!()-]");
       var stream = Arrays.stream(words);
-      stream = stream.filter(x -> !x.isEmpty() && x.matches("[a-zA-Z]+"));
-      stream = stream.filter(x -> x.matches("а-яА-Я]+"));
+      stream = stream.filter(x -> !x.isEmpty()
+          && (x.matches("[a-zA-Z]+") || x.matches("[а-яА-Я]+")));
       return stream;
     }
   }
 
-  public static Map<String, Integer> countWords(Stream<String> stream, String outFileName) throws IOException {
+  /**
+   * метод подсчета слов в потоке.
+   *
+   * @param stream
+   *     Поток слов
+   * @param outFileName
+   *     Файл, куда записываются все слова и количество их вхождений
+   * @return
+   *     Возвращает карту слово - количество
+   * @throws IOException
+   *
+   */
+  public static Map<String, Integer> countWords(
+      Stream<String> stream,
+      String outFileName) throws IOException {
     var result = stream.collect(Collectors.groupingBy(x -> x, Collectors.summingInt(x -> 1)));
     try (var fileWriter = new FileWriter(outFileName)) {
       for (var entry : result.entrySet()) {
@@ -57,13 +94,34 @@ public class Task5 {
     return result;
   }
 
-  public static void writeWordsToFiles(Map<String, Integer> mapOfWords)
+  /**
+   * метод многопоточной записи каждого слова в отдельный файл.
+   *
+   * @param mapOfWords
+   *     карта слов и их вхождений
+   * @param threadsMaxCount
+   *     максимальное количество потоков
+   * @param path
+   *     каталог, где будут созданы все эти файлы
+   * @throws IOException
+   *
+   * @throws ExecutionException
+   *
+   * @throws InterruptedException
+   *
+   */
+  public static void writeWordsToFiles(
+      Map<String, Integer> mapOfWords,
+      int threadsMaxCount,
+      String path)
       throws IOException, ExecutionException, InterruptedException {
     Future<String>[] futures = new Future[mapOfWords.size()];
-    Map.Entry<String, Integer>[] arrayOfEntries =  mapOfWords.entrySet().toArray(new Entry[mapOfWords.size()]);
+    var executorService = Executors.newFixedThreadPool(threadsMaxCount);
+    Map.Entry<String, Integer>[] arrayOfEntries
+        =  mapOfWords.entrySet().toArray(new Entry[mapOfWords.size()]);
     for (int i = 0; i < mapOfWords.size(); i++) {
       var entry = arrayOfEntries[i];
-      futures[i] = CompletableFuture.supplyAsync(
+      futures[i] = executorService.submit(
           () -> {
             var sb = new StringBuilder();
             for (int j = 0; j < entry.getValue(); j++) {
@@ -74,7 +132,7 @@ public class Task5 {
     }
     for (int i = 0; i < mapOfWords.size(); i++) {
       var entry = arrayOfEntries[i];
-      String newFileName = "./src/main/resources/wordFiles/" + entry.getKey() + ".txt";
+      String newFileName = path + entry.getKey() + ".txt";
       try (var fileWriter = new FileWriter(newFileName)) {
         fileWriter.write(futures[i].get());
       }
