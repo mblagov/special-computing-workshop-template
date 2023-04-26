@@ -8,16 +8,12 @@ import java.util.Set;
 import java.util.HashSet;
 import java.util.Collections;
 
-/**
- * Задание 1.
- */
+/** Задание 1. */
 public class Task1 {
   public static final Logger logger = Logger.getLogger(Task1.class.getName());
   public static final Scanner scan = new Scanner(System.in);
 
-  /**
-   * Перевод строки в сумму
-   */
+  /** Перевод строки в сумму */
   public static long strToLong(String string) {
     long num;
     try {
@@ -32,54 +28,42 @@ public class Task1 {
     }
   }
 
-  /**
-   * Ввод суммы
-   */
-
+  /** Ввод суммы */
   public static long inputSum() {
     logger.info("Введите сумму: ");
     String string = scan.nextLine();
     return strToLong(string);
   }
 
-  /**
-   * Перевод строки в массив номиналов
-   */
-
+  /** Перевод строки в массив номиналов */
   public static Long[] strToArray(String string) {
-    ArrayList < Long > nominals = new ArrayList < > ();
+    ArrayList<Long> nominals = new ArrayList<>();
     String[] strNumbers = string.split(" ");
-    for (String tmp: strNumbers) {
+    for (String tmp : strNumbers) {
       nominals.add(strToLong(tmp));
     }
-    Set < Long > set = new HashSet < > (nominals);
+    Set<Long> set = new HashSet<>(nominals);
     nominals.clear();
     nominals.addAll(set);
     nominals.sort(Collections.reverseOrder());
     return nominals.toArray(new Long[0]);
   }
 
-  /**
-   * Ввод номиналов
-   */
+  /** Ввод номиналов */
   public static Long[] inputNominals() {
     logger.info("Введите номиналы через пробел: ");
     String string = scan.nextLine();
     return strToArray(string);
-
   }
 
-  /**
-   * Подсчёт комбинаций
-   */
-
+  /** Подсчёт комбинаций */
   public static int combinations(long sum, Long[] nominals, String str, int index) {
     int count = 0;
     if (nominals.length == index + 1) {
 
       if (sum % nominals[index] == 0) {
         count++;
-        str += ((nominals[index]) + " ").repeat((int)(sum / (nominals[index])));
+        str += ((nominals[index]) + " ").repeat((int) (sum / (nominals[index])));
         logger.info(str);
       }
 
@@ -88,8 +72,12 @@ public class Task1 {
 
     for (int i = index; i <= sum / nominals[index]; i++) {
 
-      count += combinations(sum - i * nominals[index], nominals, str + ((nominals[index]) + " ").repeat(i), index + 1);
-
+      count +=
+          combinations(
+              sum - i * nominals[index],
+              nominals,
+              str + ((nominals[index]) + " ").repeat(i),
+              index + 1);
     }
 
     return count;
@@ -100,8 +88,7 @@ public class Task1 {
     Long[] nominals = inputNominals();
     logger.info("Комбинации:");
     int count = combinations(sum, nominals, "", 0);
-    Supplier < String > strSupplier = () -> ("Количество комбинаций: " + count);
+    Supplier<String> strSupplier = () -> ("Количество комбинаций: " + count);
     logger.info(strSupplier);
-
   }
 }
