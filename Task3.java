@@ -1,12 +1,11 @@
 package ru.spbu.apcyb.svp.tasks;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileWriter;
 import java.io.IOException;
 
-/**
- * Задание 3.
- */
+/** Задание 3. */
 public class Task3 {
 
   static void findFiles(String dir, FileWriter fw, int i) throws IOException {
@@ -15,7 +14,7 @@ public class Task3 {
     if (list == null) {
       throw new FileNotFoundException("Директория не существует");
     }
-    for (File f: list) {
+    for (File f : list) {
       if (f.isDirectory()) {
         fw.append(" ");
         for (int k = 0; k < i; k++) {
@@ -36,16 +35,18 @@ public class Task3 {
   }
 
   public static void main(String[] args) throws IOException {
-
-    File file = new File(args[1]);
-    if (new File(args[1]).isDirectory()) {
-      throw new FileNotFoundException("Целевой файл является директорией");
-    }
-
-    try (FileWriter fw = new FileWriter(file, false)) {
-      findFiles(args[0], fw, 0);
-    } catch (IOException e) {
-      throw new IOException("Ошибка при создании FileWriter");
+    if (args.length >= 2) {
+      File file = new File(args[1]);
+      if (new File(args[1]).isDirectory()) {
+        throw new FileNotFoundException("Целевой файл является директорией");
+      }
+      try (FileWriter fw = new FileWriter(file, false)) {
+        findFiles(args[0], fw, 0);
+      } catch (IOException e) {
+        throw new IOException("Ошибка при создании FileWriter");
+      }
+    } else {
+      throw new IOException("Недостаточно аргументов в main");
     }
   }
 }
