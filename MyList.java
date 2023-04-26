@@ -6,10 +6,11 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public class MyList implements List < Object > {
-  private static final String EXCEPT1 = "UnsupportedOperationException";
-  private static final String EXCEPT2 = "IndexOutOfBoundsException";
+public class MyList implements List<Object> {
+  private static final String EXCEPT1 = "Данная операция не поддерживается";
+  private static final String EXCEPT2 = "Индекс должен быть положительным";
   private Node head;
+
   private static class Node {
     Object data;
     Node left;
@@ -21,24 +22,29 @@ public class MyList implements List < Object > {
       right = null;
     }
   }
+
   public MyList() {
     this.head = null;
   }
-  public MyList(Collection < ? > c) {
+
+  public MyList(Collection<?> c) {
     this.head = null;
     this.addAll(c);
   }
+
   @Override
-  public boolean addAll(Collection < ? > col) {
-    for (Object it: col) {
+  public boolean addAll(Collection<?> col) {
+    for (Object it : col) {
       this.add(it);
     }
     return true;
   }
+
   @Override
   public boolean isEmpty() {
     return head == null;
   }
+
   @Override
   public int size() {
     if (isEmpty()) {
@@ -52,6 +58,7 @@ public class MyList implements List < Object > {
       return count;
     }
   }
+
   @Override
   public boolean contains(Object obj) {
     boolean inList = false;
@@ -64,10 +71,13 @@ public class MyList implements List < Object > {
     }
     return inList;
   }
+
   @Override
   public Object get(int index) {
     Node current = head;
-    if (index < 0 || index >= size()) {
+    if (index >= size()) {
+      throw new IndexOutOfBoundsException("Размер листа:" + size() + ", а вы ввели:" + index);
+    } else if (index < 0) {
       throw new IndexOutOfBoundsException(EXCEPT2);
     }
     for (int i = 0; i < index; i++) {
@@ -75,9 +85,7 @@ public class MyList implements List < Object > {
     }
     return current.data;
   }
-  /**
-   * Добавляет элемент в конец списка
-   */
+  /** Добавляет элемент в конец списка */
   @Override
   public boolean add(Object obj) {
     Node added = new Node(obj);
@@ -94,7 +102,7 @@ public class MyList implements List < Object > {
     return true;
   }
 
-  public void addToNotNull(int index, Object obj) {
+  private void addToNotNull(int index, Object obj) {
     Node added = new Node(obj);
     Node current = head;
     if (index == size()) {
@@ -117,23 +125,30 @@ public class MyList implements List < Object > {
       }
     }
   }
+
   @Override
   public void add(int index, Object obj) {
-    if (index < 0 || index > size()) {
+    int s = size();
+    if (index < 0) {
+      throw new IndexOutOfBoundsException("Размер листа:" + s + ", а вы ввели:" + index);
+    } else if (index > s) {
       throw new IndexOutOfBoundsException(EXCEPT2);
     } else {
       Node added = new Node(obj);
-      if (size() == 0) {
+      if (s == 0) {
         head = added;
       } else {
         addToNotNull(index, obj);
       }
     }
   }
+
   @Override
   public Object remove(int index) {
     Node current = head;
-    if (index < 0 || index >= size()) {
+    if (index >= size()) {
+      throw new IndexOutOfBoundsException("Размер листа:" + size() + ", а вы ввели:" + index);
+    } else if (index < 0) {
       throw new IndexOutOfBoundsException(EXCEPT2);
     } else {
       if (index == 0) {
@@ -151,55 +166,59 @@ public class MyList implements List < Object > {
     }
     return current.data;
   }
-  @Override
 
-  public boolean addAll(int index, @Nullable Collection < ? > c) throws UnsupportedOperationException {
+  @Override
+  public boolean addAll(int index, @Nullable Collection<?> c) throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT1);
   }
-  @Override
 
+  @Override
   public void clear() throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT1);
   }
-  @Override
 
-  public boolean containsAll(@Nullable Collection < ? > c) throws UnsupportedOperationException {
+  @Override
+  public boolean containsAll(@Nullable Collection<?> c) throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT1);
   }
+
   @Override
   public int indexOf(Object o) throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT1);
   }
+
   @Override
-  public Iterator < Object > iterator() throws UnsupportedOperationException {
+  public Iterator<Object> iterator() throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT1);
   }
+
   @Override
   public int lastIndexOf(Object o) throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT1);
   }
 
   @Override
-  public ListIterator < Object > listIterator(int index) throws UnsupportedOperationException {
+  public ListIterator<Object> listIterator(int index) throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT1);
   }
+
   @Override
-  public ListIterator < Object > listIterator() throws UnsupportedOperationException {
+  public ListIterator<Object> listIterator() throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT1);
   }
 
   @Override
   public boolean remove(Object o) throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT1);
-
   }
 
   @Override
-  public boolean removeAll(@Nullable Collection < ? > c) throws UnsupportedOperationException {
+  public boolean removeAll(@Nullable Collection<?> c) throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT1);
   }
+
   @Override
-  public boolean retainAll(@Nullable Collection < ? > c) throws UnsupportedOperationException {
+  public boolean retainAll(@Nullable Collection<?> c) throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT1);
   }
 
@@ -207,18 +226,19 @@ public class MyList implements List < Object > {
   public Object set(int index, Object element) throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT1);
   }
+
   @Override
-  public List < Object > subList(int fromIndex, int toIndex) throws UnsupportedOperationException {
+  public List<Object> subList(int fromIndex, int toIndex) throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT1);
   }
+
   @Override
   public Object[] toArray() throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT1);
   }
 
   @Override
-  public < T > T[] toArray(@Nullable T[] a) throws UnsupportedOperationException {
+  public <T> T[] toArray(@Nullable T[] a) throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT1);
   }
-
 }
