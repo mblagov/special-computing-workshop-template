@@ -14,13 +14,11 @@ import java.util.function.Function;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-/**
- * Задание 5.
- */
+/** Задание 5. */
 public class Task5 {
 
-  public static Map < String, Long > readFile(String fileName) throws FileNotFoundException {
-    try (Stream < String > stream = Files.lines(Paths.get(fileName), StandardCharsets.UTF_8)) {
+  public static Map<String, Long> readFile(String fileName) throws FileNotFoundException {
+    try (Stream<String> stream = Files.lines(Paths.get(fileName), StandardCharsets.UTF_8)) {
       return stream
           .flatMap(l -> Stream.of(l.split("[\\p{Punct}«»–…—„“\\s\\w{1}]")))
           .filter(sym -> !sym.equals(""))
@@ -29,7 +27,8 @@ public class Task5 {
       throw new FileNotFoundException("Файл не найден");
     }
   }
-  public static void writeCounts(Map < String, Long > stream, File file) throws IOException {
+
+  public static void writeCounts(Map<String, Long> stream, File file) throws IOException {
 
     FileOutputStream out;
     if (file.createNewFile()) {
@@ -40,7 +39,8 @@ public class Task5 {
     try {
       try {
         StringBuilder sb = new StringBuilder();
-        stream.forEach((word, count) -> sb.append(word).append(": ").append(count.toString()).append("\n"));
+        stream.forEach(
+            (word, count) -> sb.append(word).append(": ").append(count.toString()).append("\n"));
         out.write(sb.toString().getBytes());
       } catch (Exception e) {
         throw new FileSystemException("Невозможно создать файл counts.txt");
@@ -48,57 +48,52 @@ public class Task5 {
     } finally {
       out.close();
     }
-
   }
 
-  public static void writeWords(Map < String, Long > stream) {
+  public static void writeWords(Map<String, Long> stream) {
     ThreadPool threadPool = new ThreadPool(10);
     try {
-      stream.forEach((word, count) -> CompletableFuture.supplyAsync(
-          () -> {
-            try {
+      stream.forEach(
+          (word, count) ->
+              CompletableFuture.supplyAsync(
+                  () -> {
+                    try (FileOutputStream out =
+                        new FileOutputStream(
+                            new File("C:\\Users\\dacen\\Downloads\\МногоСлов\\" + word + ".txt"))) {
 
-              File file = new File("C:\\Users\\dacen\\Downloads\\МногоСлов\\" + word + ".txt");
-              FileOutputStream out;
-              if (file.createNewFile()) {
-                out = new FileOutputStream(file, false);
-              } else {
-                out = new FileOutputStream(file);
-              }
-              StringBuilder sb = new StringBuilder();
-              for (int i = 0; i < count; i++) {
-                sb.append(word).append(" ");
+                      StringBuilder sb = new StringBuilder();
+                      for (int i = 0; i < count; i++) {
+                        sb.append(word).append(" ");
+                      }
+                      out.write(sb.toString().getBytes());
 
-              }
-              out.write(sb.toString().getBytes());
-              out.close();
-              return true;
-            } catch (Exception e) {
-              throw new IllegalArgumentException("Невозможно создать файл word.txt");
-            }
-
-          }, threadPool));
+                      return true;
+                    } catch (Exception e) {
+                      throw new IllegalArgumentException("Невозможно создать файл word.txt");
+                    }
+                  },
+                  threadPool));
     } finally {
 
       threadPool.stop();
     }
   }
+
   public static void run(String s1, String s2) throws IOException {
     File file = new File(s1);
 
     try {
-      Map < String, Long > stream = readFile(s2);
+      Map<String, Long> stream = readFile(s2);
       writeCounts(stream, file);
       writeWords(stream);
     } catch (Exception e) {
       throw new IOException("Что-то пошло не так");
     }
-
   }
+
   public static void main(String[] args) throws Exception {
     String s1 = "counts.txt";
     String s2 = "ВиМ.txt";
     run(s1, s2);
-
   }
 }
