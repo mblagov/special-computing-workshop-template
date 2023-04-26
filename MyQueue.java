@@ -1,23 +1,26 @@
 package ru.spbu.apcyb.svp.tasks;
+
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.Queue;
 import javax.annotation.Nullable;
 
-public class MyQueue implements Queue < Object > {
+public class MyQueue implements Queue<Object> {
 
-  private static final String EXCEPT = "UnsupportedOperationException";
+  private static final String EXCEPT = "Данная операция не поддерживается";
 
   private final MyList head;
 
   public MyQueue() {
     this.head = new MyList();
   }
+
   @Override
   public boolean add(Object o) {
     this.head.add(o);
     return true;
   }
+
   @Override
   public Object peek() {
     Object result = null;
@@ -26,14 +29,17 @@ public class MyQueue implements Queue < Object > {
     }
     return result;
   }
+
   @Override
   public boolean isEmpty() {
     return this.head.isEmpty();
   }
+
   @Override
-  public boolean addAll(@Nullable Collection < ? > c) throws UnsupportedOperationException {
+  public boolean addAll(@Nullable Collection<?> c) throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT);
   }
+
   @Override
   public void clear() throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT);
@@ -43,8 +49,9 @@ public class MyQueue implements Queue < Object > {
   public boolean contains(Object o) throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT);
   }
+
   @Override
-  public boolean containsAll(@Nullable Collection < ? > c) throws UnsupportedOperationException {
+  public boolean containsAll(@Nullable Collection<?> c) throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT);
   }
 
@@ -54,7 +61,7 @@ public class MyQueue implements Queue < Object > {
   }
 
   @Override
-  public Iterator < Object > iterator() throws UnsupportedOperationException {
+  public Iterator<Object> iterator() throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT);
   }
 
@@ -79,12 +86,12 @@ public class MyQueue implements Queue < Object > {
   }
 
   @Override
-  public boolean removeAll(@Nullable Collection < ? > c) throws UnsupportedOperationException {
+  public boolean removeAll(@Nullable Collection<?> c) throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT);
   }
 
   @Override
-  public boolean retainAll(@Nullable Collection < ? > c) throws UnsupportedOperationException {
+  public boolean retainAll(@Nullable Collection<?> c) throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT);
   }
 
@@ -92,14 +99,14 @@ public class MyQueue implements Queue < Object > {
   public int size() throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT);
   }
+
   @Override
   public Object[] toArray() throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT);
   }
 
   @Override
-  public < T > T[] toArray(@Nullable T[] a) throws UnsupportedOperationException {
+  public <T> T[] toArray(@Nullable T[] a) throws UnsupportedOperationException {
     throw new UnsupportedOperationException(EXCEPT);
   }
-
 }
