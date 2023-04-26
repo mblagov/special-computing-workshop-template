@@ -1,54 +1,69 @@
 package ru.spbu.apcyb.svp.tasks;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertThrows;
+
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.io.BufferedReader;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.Future;
 import java.util.logging.Logger;
-import java.util.stream.Stream;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-/**
- * Тесты для задания 4.
- */
+
+/** Тесты для задания 4. */
 class Task4Test {
   public static final Logger logger = Logger.getLogger(Task4Test.class.getName());
   public static final String INPUT = "numbers.txt";
   public static final String OUT_SINGLE = "Single.txt";
-  public static final String OUT_MULTI = "Multi.txt";
 
   @Test
   void generateNumbers() throws IOException {
     assertTrue(Task4.generateNums(10000, INPUT));
   }
 
-  private static Stream < Arguments > provideExceptionInputs() throws IOException {
-    FileWriter res = new FileWriter("Test.txt", false);
-    res.close();
-    FileNotFoundException thrown1 =
-        assertThrows(FileNotFoundException.class, () -> Task4.tanSingle(100, res, INPUT));
-    Tan tan = new Tan(1, 1, res, INPUT);
-    FileNotFoundException thrown2 =
-        assertThrows(FileNotFoundException.class, tan::tanToFile);
-    return Stream.of(
-        Arguments.of(thrown1, "Ошибка чтения файла в однопоточном режиме"),
-        Arguments.of(thrown2, "Ошибка чтения из файла в многопоточном режиме"));
-  }
-  @ParameterizedTest
-  @MethodSource("provideExceptionInputs")
-  void fileNotFoundExceptionTest(FileNotFoundException actual, String expected) {
-    assertEquals(expected, actual.getMessage());
-  }
   @Test
-  void singleThreadTest() throws IOException {
+  void readToBuffer() throws IOException {
+    Task4 testClass = new Task4(10);
+    try (BufferedReader testReader = new BufferedReader(new FileReader("test1.txt"))) {
+      testClass.readToBuffer(testReader);
+      double[] exp = new double[] {1, 2, 3, 4, 5, 6, 7, 8, 8, 8};
+      double[] act = testClass.getBuffer();
+      Assertions.assertArrayEquals(exp, act);
+    } catch (IOException e) {
+      throw new IOException("test error");
+    }
+  }
+
+  void writeForTest() throws IOException {
+    Task4 test = new Task4(1);
+    ExecutorService testExecutor = Executors.newSingleThreadExecutor();
+    Future<Double>[] testInput = new Future[1];
+    testInput[0] = testExecutor.submit(new Tan(0));
+    try (FileWriter testWriter = new FileWriter("test4.txt")) {
+      test.writeToFile(testWriter, testInput);
+    } catch (IOException | ExecutionException | InterruptedException e) {
+      throw new IOException("writeForTest error");
+    }
+  }
+
+  @Test
+  void writeToFileTest() throws IOException {
+    writeForTest();
+    try (BufferedReader expReader = new BufferedReader(new FileReader("test3.txt"));
+        BufferedReader actReader = new BufferedReader(new FileReader("test2.txt"))) {
+      Assertions.assertEquals(
+          Double.parseDouble(expReader.readLine()), Double.parseDouble(actReader.readLine()));
+    } catch (IOException e) {
+      throw new IOException("writeToFileTest error");
+    }
+  }
+
+  @Test
+  void singleTest() throws IOException {
     int numbers = 100;
     Task4.generateNums(numbers, INPUT);
     try (FileWriter outSingle = new FileWriter(OUT_SINGLE, false)) {
@@ -72,42 +87,22 @@ class Task4Test {
       assertTrue(check);
     }
   }
+
   @Test
-  void multiThreadTest() throws IOException {
-    int numbers = 100;
-    Task4.generateNums(numbers, INPUT);
-
-    //Однопоток
-
-    try (FileWriter outSingle = new FileWriter(OUT_SINGLE, false)) {
-      long singleTime = Task4.tanSingle(numbers, outSingle, "numbers.txt");
+  void multiTest() throws IOException {
+    Task4 test = new Task4(10);
+    test.tanThreaded("testin.txt", "testout.txt");
+    try (BufferedReader expReader = new BufferedReader(new FileReader("test3.txt"));
+        BufferedReader actReader = new BufferedReader(new FileReader("testout.txt"))) {
+      String[] exp = new String[2];
+      exp[0] = expReader.readLine();
+      exp[1] = expReader.readLine();
+      String[] act = new String[2];
+      act[0] = actReader.readLine();
+      act[1] = actReader.readLine();
+      Assertions.assertArrayEquals(exp, act);
     } catch (IOException e) {
-      throw new IOException("Ошибка с файлом для вывода в многопоточном режиме");
-    }
-    BufferedReader readerSingle = new BufferedReader(new FileReader(OUT_SINGLE));
-    List < String > expected = new ArrayList < > ();
-    for (int i = 0; i < numbers; i++) {
-      expected.add(readerSingle.readLine());
-    }
-
-    //Многопоток
-    FileWriter writerMulti = new FileWriter(OUT_MULTI, false);
-    Task4.tanThreaded(100, 10, writerMulti, INPUT);
-    writerMulti.close();
-    //Проверка
-    int seen = 0;
-    int checked = 0;
-    try (BufferedReader readerMulti = new BufferedReader(new FileReader(OUT_MULTI))) {
-      String line;
-      while ((line = readerMulti.readLine()) != null) {
-        seen++;
-        if (expected.contains(line)) {
-          checked++;
-        }
-      }
-      assertEquals(seen, checked);
-    } catch (IOException e) {
-      throw new FileNotFoundException("Ошибка с чтением из файла multi.txt");
+      throw new IOException("Multitest error");
     }
   }
 }
