@@ -31,3 +31,22 @@ public class Task4 {
     sc.close();
     numFile.close();
   }
+
+  public String calculate(int upperBound) throws ExecutionException, InterruptedException {
+    ExecutorService executor = Executors.newFixedThreadPool(10);
+    StringBuilder buffer = new StringBuilder();
+    buffer.append(Math.min(upperBound, array.size())).append(" numbers were processed\n");
+    List<CompletableFuture<String>> list = new ArrayList<>();
+    for (int i = 0; (i < array.size()) && (i < upperBound); i++) {
+      Double element = array.get(i);
+      list.add(CompletableFuture
+          .supplyAsync(() -> "val = " + element + "; tan(val) = " + Math.tan(element), executor));
+    }
+    CompletableFuture<String>[] a = new CompletableFuture[0];
+    String result = Stream.of(list.toArray(a)).map(CompletableFuture::join)
+        .collect(Collectors.joining("\n"));
+    buffer.append(result);
+    executor.shutdown();
+    return buffer.toString();
+  }
+}
