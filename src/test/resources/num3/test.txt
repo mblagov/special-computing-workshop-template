@@ -1,0 +1,8 @@
+| File: .\src\test\resources\num3\test.txt
+|-> Folder: .\src\test\resources\thirdproblem\testfolder\testsecondfolder| File: .\src\test\resources\num3\test.txt
+| File: .\src\test\resources\num3\test.txt
+| File: .\src\test\resources\num3\test.txt
+| File: .\src\test\resources\num3\test.txt
+| File: .\src\test\resources\num3\test.txt
+| File: .\src\test\resources\num3\test.txt
+| File: .\src\test\resources\num3\test.txt
