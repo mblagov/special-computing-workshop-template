@@ -17,6 +17,7 @@ import java.util.concurrent.ExecutionException;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
+
 public class Task4Test {
 
   private static final String outputPath =

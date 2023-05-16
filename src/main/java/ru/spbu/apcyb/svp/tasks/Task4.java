@@ -16,6 +16,7 @@ import java.util.concurrent.Executors;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
+
 public class Task4 {
 
   final ArrayList<Double> array = new ArrayList<>();
