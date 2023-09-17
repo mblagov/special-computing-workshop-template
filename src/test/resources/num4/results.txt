@@ -1,0 +1,6 @@
+For numbers = 1
+Execution time: 4.5153 milli
+For numbers = 100
+Execution time: 4.615 milli
+For numbers = 1000000
+Execution time: 1696.8706 milli
