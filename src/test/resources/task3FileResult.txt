@@ -1,0 +1,5 @@
+.\src\test\resources\task3TestFolder\file1.txt
+.\src\test\resources\task3TestFolder\file2.txt
+.\src\test\resources\task3TestFolder\file3.txt
+.\src\test\resources\task3TestFolder\folder1
+.\src\test\resources\task3TestFolder\folder2
