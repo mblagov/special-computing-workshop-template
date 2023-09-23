@@ -46,7 +46,7 @@
     <dependency>
       <groupId>org.apache.maven.plugins</groupId>
       <artifactId>maven-surefire-plugin</artifactId>
-      <version>3.0.0-M6</version>
+      <version>3.0.0-M7</version>
     </dependency>
 
   </dependencies>
@@ -56,7 +56,7 @@
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-surefire-plugin</artifactId>
-        <version>2.19.1</version>
+        <version>3.0.0-M7</version>
         <configuration>
           <useSystemClassLoader>false</useSystemClassLoader>
         </configuration>
