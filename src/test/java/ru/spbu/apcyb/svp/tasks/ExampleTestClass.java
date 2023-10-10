@@ -11,4 +11,11 @@ public class ExampleTestClass {
 
         assertEquals(4, sut.sum(2, 2));
     }
+
+    @Test
+    public void testProduct() {
+        ExampleMainClass sut = new ExampleMainClass();
+
+        assertEquals(4, sut.product(2, 2));
+    }
 }

@@ -5,7 +5,7 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>ru.spbu.apcyb</groupId>
-    <artifactId>special-computing-workshop</artifactId>
+    <artifactId>special-computing-workshop-mblagov</artifactId>
     <version>1.0-SNAPSHOT</version>
 
     <properties>
