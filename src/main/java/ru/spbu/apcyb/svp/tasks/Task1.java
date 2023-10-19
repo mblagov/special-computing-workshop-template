@@ -91,11 +91,4 @@ public class Task1 {
         }
         return k;
     }
-
-    public static void main(String[] args) throws Exception {
-        Task1 tt = new Task1();
-        if (tt.getInput() == -1) return;
-        System.out.println(tt.findPossibleChanges());
-        System.out.println();
-    }
 }

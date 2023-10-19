@@ -186,32 +186,4 @@ public class Task1Tests {
         Assertions.assertEquals(1, k);
         System.out.println();
     }
-
-//    @Test
-//    void LongSum() {
-//        System.out.println("Long sum test (3000000000 2 1)");
-//        Task1 task1 = new Task1();
-//        ByteArrayInputStream in = new ByteArrayInputStream("3000000000 2 1".getBytes());
-//        System.setIn(in);
-//        if (task1.getInput() == 0) {
-//            long k = task1.findPossibleChanges();
-//            System.out.println(k);
-//            Assertions.assertEquals(k, 1);
-//        }
-//        System.out.println();
-//    }
-
-//    @Test
-//    void checkBig() {
-//        System.out.println("Big test (1000 10 5 1 2)");
-//        Task1 task1 = new Task1();
-//        ByteArrayInputStream in = new ByteArrayInputStream("1000 10 5 1 2".getBytes());
-//        System.setIn(in);
-//        if (task1.getInput() == 0) {
-//            long k = task1.findPossibleChanges();
-//            System.out.println(k);
-//            Assertions.assertEquals(k, 1712051);
-//        }
-//        System.out.println();
-//    }
 }

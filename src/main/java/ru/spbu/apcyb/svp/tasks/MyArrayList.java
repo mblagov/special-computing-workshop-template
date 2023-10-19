@@ -175,19 +175,4 @@ public class MyArrayList implements List {
     public boolean containsAll(Collection c) {
         throw new UnsupportedOperationException();
     }
-
-    public static void main(String[] args) {
-        MyArrayList arrayList = new MyArrayList(1);
-        System.out.println(arrayList.isEmpty());
-        arrayList.add(5);
-        arrayList.add("214");
-        System.out.println(arrayList.isEmpty());
-        arrayList.add(new MyArrayList());
-        arrayList.add(3, 244.534);
-        System.out.println(arrayList.contains("214"));
-        System.out.println(arrayList.contains(214));
-        System.out.println(arrayList);
-        arrayList.remove(2);
-        System.out.println(arrayList);
-    }
 }
