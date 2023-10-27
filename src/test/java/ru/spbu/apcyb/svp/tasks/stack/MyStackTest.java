@@ -14,7 +14,6 @@ class MyStackTest {
     MyStack<Integer> stack5 = new MyStack<>();
 
     Assertions.assertEquals(stack1, stack2);
-    Assertions.assertEquals(stack1, stack2);
     Assertions.assertNotEquals(stack1, stack3);
     Assertions.assertNotEquals(stack1, stack4);
     Assertions.assertEquals(stack4, stack5);

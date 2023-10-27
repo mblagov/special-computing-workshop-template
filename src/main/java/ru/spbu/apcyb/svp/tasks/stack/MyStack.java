@@ -108,6 +108,6 @@ public class MyStack<T> extends Stack<T> {
 
   @Override
   public synchronized int hashCode() {
-    return super.hashCode();
+    return size;
   }
 }

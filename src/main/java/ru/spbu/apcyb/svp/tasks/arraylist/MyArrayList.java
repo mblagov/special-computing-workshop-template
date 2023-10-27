@@ -171,7 +171,7 @@ public class MyArrayList<T> implements List<T> {
 
   @Override
   public int hashCode() {
-    return super.hashCode();
+    return size;
   }
 
   @Override

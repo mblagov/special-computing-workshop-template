@@ -17,7 +17,6 @@ class MyArrayListTest {
     ArrayList<Integer> list6 = new ArrayList<>(
         IntStream.range(1, 4).boxed().toList());
 
-    Assertions.assertEquals(list1, list1);
     Assertions.assertEquals(list1, list2);
     Assertions.assertNotEquals(list1, list3);
     Assertions.assertNotEquals(list1, list4);
