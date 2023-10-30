@@ -1,5 +1,7 @@
 package ru.spbu.apcyb.svp.tasks;
 
+import org.apache.commons.lang3.ArrayUtils;
+
 import java.util.*;
 
 public class MyArrayList implements List {
@@ -67,7 +69,14 @@ public class MyArrayList implements List {
             throw new IndexOutOfBoundsException("Element index must be equals to or more than 0 " +
                     "and equals to or less than size, current size: " + this.size + ", index provided: " + index);
         if (index == this.size) this.add(o);
-        else this.data[index] = o;
+        else {
+            if (this.size == this.data.length) this.data = Arrays.copyOf(this.data, this.size * 2);
+            for (int i = this.size; i > index; i--) {
+                this.data[i] = this.data[i - 1];
+            }
+            this.data[index] = o;
+            ++this.size;
+        }
     }
 
     @Override
@@ -175,4 +184,5 @@ public class MyArrayList implements List {
     public boolean containsAll(Collection c) {
         throw new UnsupportedOperationException();
     }
+
 }
