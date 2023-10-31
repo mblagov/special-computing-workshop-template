@@ -1,5 +1,6 @@
 package ru.spbu.apcyb.svp.tasks.stack;
 
+import java.util.EmptyStackException;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -51,7 +52,7 @@ class MyStackTest {
   void testPop() {
     MyStack<Integer> testStack = new MyStack<>();
     MyStack<Integer> expected = new MyStack<>(new Integer[]{3});
-    Assertions.assertThrows(IndexOutOfBoundsException.class, testStack::pop);
+    Assertions.assertThrows(EmptyStackException.class, testStack::pop);
 
     testStack.push(3);
     testStack.push(5);

@@ -15,6 +15,7 @@ import java.util.Objects;
 public class MyArrayList<T> implements List<T> {
 
   private static final int INITIAL_SIZE = 10;
+  public static final String NOT_IMPLEMENTED = "Method not implemented";
   private Object[] data;
   private int currentMaxSize;
   private int size;
@@ -130,7 +131,7 @@ public class MyArrayList<T> implements List<T> {
 
   @Override
   public boolean remove(Object o) {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException(NOT_IMPLEMENTED);
   }
 
   @Override
@@ -165,7 +166,7 @@ public class MyArrayList<T> implements List<T> {
    */
   private void checkIndex(int index) {
     if (index < 0 || index >= size) {
-      throw new IndexOutOfBoundsException();
+      throw new IndexOutOfBoundsException("Index outside the list boundaries");
     }
   }
 
@@ -176,72 +177,72 @@ public class MyArrayList<T> implements List<T> {
 
   @Override
   public Iterator<T> iterator() {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException(NOT_IMPLEMENTED);
   }
 
   @Override
   public Object[] toArray() {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException(NOT_IMPLEMENTED);
   }
 
   @Override
   public <T1> T1[] toArray(T1[] a) {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException(NOT_IMPLEMENTED);
   }
 
   @Override
   public boolean containsAll(Collection<?> c) {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException(NOT_IMPLEMENTED);
   }
 
   @Override
   public boolean addAll(Collection<? extends T> c) {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException(NOT_IMPLEMENTED);
   }
 
   @Override
   public boolean addAll(int index, Collection<? extends T> c) {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException(NOT_IMPLEMENTED);
   }
 
   @Override
   public boolean removeAll(Collection<?> c) {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException(NOT_IMPLEMENTED);
   }
 
   @Override
   public boolean retainAll(Collection<?> c) {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException(NOT_IMPLEMENTED);
   }
 
   @Override
   public void clear() {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException(NOT_IMPLEMENTED);
   }
 
   @Override
   public int indexOf(Object o) {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException(NOT_IMPLEMENTED);
   }
 
   @Override
   public int lastIndexOf(Object o) {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException(NOT_IMPLEMENTED);
   }
 
   @Override
   public ListIterator<T> listIterator() {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException(NOT_IMPLEMENTED);
   }
 
   @Override
   public ListIterator<T> listIterator(int index) {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException(NOT_IMPLEMENTED);
   }
 
   @Override
   public List<T> subList(int fromIndex, int toIndex) {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException(NOT_IMPLEMENTED);
   }
 
 }
