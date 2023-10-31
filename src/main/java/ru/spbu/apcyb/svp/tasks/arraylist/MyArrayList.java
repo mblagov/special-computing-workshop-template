@@ -47,6 +47,8 @@ public class MyArrayList<T> implements List<T> {
     Object[] newData;
     if (data.length == 0) {
       newData = new Object[10];
+    } else if (data.length > Integer.MAX_VALUE / 2) {
+      newData = new Object[Integer.MAX_VALUE];
     } else {
       newData = new Object[data.length * 2];
     }
