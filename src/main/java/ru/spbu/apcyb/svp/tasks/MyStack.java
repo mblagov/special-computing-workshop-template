@@ -44,5 +44,4 @@ public class MyStack extends Stack {
     public boolean isEmpty() {
         return this.elementCount == 0;
     }
-
 }
