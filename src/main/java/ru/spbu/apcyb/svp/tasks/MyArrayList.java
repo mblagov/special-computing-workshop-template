@@ -184,5 +184,4 @@ public class MyArrayList implements List {
     public boolean containsAll(Collection c) {
         throw new UnsupportedOperationException();
     }
-
 }

@@ -25,7 +25,7 @@ public class MyStackTests {
             stack.push(i);
         }
         stack.push(new MyArrayList());
-        stack.remove(stack.size() - 1);
+        stack.pop();
         Assertions.assertEquals(stack, stack1);
     }
 
