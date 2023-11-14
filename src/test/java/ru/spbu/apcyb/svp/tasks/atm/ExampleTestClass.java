@@ -1,4 +1,4 @@
-package ru.spbu.apcyb.svp.tasks;
+package ru.spbu.apcyb.svp.tasks.atm;
 
 import org.junit.jupiter.api.Test;
 
