@@ -24,10 +24,6 @@ public class Main {
     Scanner scan = new Scanner(input);
     System.out.println("Задача 1 \n Банкомат \n Введите количество номиналов: ");
     int numbNomin = scan.nextInt();
-    if (numbNomin <= 0) {
-      System.out.println("Неверные данные. Повторите ввод\n");
-      numbNomin = scan.nextInt();
-    }
     int[] nomin = new int[numbNomin];
     System.out.println("Введите номиналы: ");
     for (int i = 0; i < nomin.length; i++) {
@@ -35,10 +31,6 @@ public class Main {
     }
     System.out.println("Введите целевую сумму: \n");
     int sum = scan.nextInt();
-    if (sum <= 0) {
-      System.out.println("Неверные данные. Повторите ввод\n");
-      sum = scan.nextInt();
-    }
     Atm atm = new Atm(nomin, sum);
     System.out.println("Количество комбинаций: " + atm.getNumberOfCombinations());
     System.out.println("\n Комбинации: \n");
