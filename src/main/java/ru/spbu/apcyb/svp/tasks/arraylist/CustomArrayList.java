@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -53,7 +54,12 @@ public class CustomArrayList<T> implements List<T> {
    * Метод, который увеличивает размер массива.
    */
   public void resize() {
-    Object[] newArray = new Object[(CAPACITY * 3) / 2 + 1];
+    Object[] newArray;
+    if (this.array.length == 0) {
+      newArray = new Object[CAPACITY];
+    } else {
+      newArray = new Object[CAPACITY*2];
+    }
     System.arraycopy(this.array, 0, newArray, 0, this.array.length);
     this.array = newArray;
   }
@@ -66,7 +72,7 @@ public class CustomArrayList<T> implements List<T> {
    */
   @Override
   public boolean add(T object) {
-    if (size >= CAPACITY) {
+    if (size == this.array.length) {
       resize();
     }
     this.array[size] = object;
@@ -136,7 +142,7 @@ public class CustomArrayList<T> implements List<T> {
    */
   @Override
   public boolean isEmpty() {
-    return this.array.length == 0;
+    return size == 0;
   }
 
   /**
@@ -152,9 +158,55 @@ public class CustomArrayList<T> implements List<T> {
     return (T) this.array[index];
   }
 
+  /**
+   * Метод, который сравнивает два списка.
+   *
+   * @param obj the object to be compared for equality with this list
+   * @return - true если они одинаковы, false если различны
+   */
+  @Override
+  @SuppressWarnings("unchecked")
+  public boolean equals(Object obj) {
+
+    if (this == obj) {
+      return true;
+    }
+
+    if (obj == null || getClass() != obj.getClass()) {
+      return false;
+    }
+
+    if (size != ((CustomArrayList<T>) obj).size) {
+      return false;
+    }
+
+    for (int i = 0; i < size; i++) {
+      if (array[i] != ((CustomArrayList<T>) obj).array[i]) {
+        return false;
+      }
+    }
+    return true;
+  }
+
+  /**
+   * Очищает список.
+   */
+  @Override
+  public void clear() {
+    for (int i = 0; i < this.array.length; i++) {
+      array[i] = null;
+    }
+  }
+
+  @Override
+  public int hashCode() {
+    logger.log(Level.INFO, "Не работает");
+    return size;
+  }
+
   @Override
   public int size() {
-    throw new UnsupportedOperationException(ERROR_DESCRIPTION);
+    return size;
   }
 
   @Override
@@ -194,11 +246,6 @@ public class CustomArrayList<T> implements List<T> {
 
   @Override
   public boolean retainAll(Collection<?> c) {
-    throw new UnsupportedOperationException(ERROR_DESCRIPTION);
-  }
-
-  @Override
-  public void clear() {
     throw new UnsupportedOperationException(ERROR_DESCRIPTION);
   }
 
