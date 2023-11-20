@@ -103,7 +103,7 @@ public class CustomArrayList<T> implements List<T> {
     checkBoundaries(index);
     Object[] newArray = Arrays.copyOf(this.array, this.array.length);
     T element = (T) newArray[index];
-    System.arraycopy(this.array, index + 1, newArray, index, size - index);
+    System.arraycopy(this.array, index + 1, newArray, index, size - index - 1);
     size -= 1;
     return element;
   }
