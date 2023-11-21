@@ -45,7 +45,7 @@ public class CustomArrayList<T> implements List<T> {
    *
    * @param index - индекс
    */
-  public void checkBoundaries(int index) {
+  private void checkBoundaries(int index) {
     if (index < 0 || index >= size) {
       throw new IndexOutOfBoundsException();
     }
@@ -54,12 +54,17 @@ public class CustomArrayList<T> implements List<T> {
   /**
    * Метод, который увеличивает размер массива.
    */
-  public void resize() {
+  private void resize() {
     Object[] newArray;
-    if (this.array.length == 0) {
+    if (array.length == 0) {
       newArray = new Object[CAPACITY];
-    } else {
+    } else if (array.length < Integer.MAX_VALUE / 2) {
       newArray = new Object[(array.length * 3) / 2 + 1];
+    } else if (array.length < Integer.MAX_VALUE) {
+      newArray = new Object[Integer.MAX_VALUE];
+    } else {
+      logger.log(Level.INFO, "невозможно увеличить вместимость MyArrayList");
+      throw new IndexOutOfBoundsException("capacity == Integer.MAX_VALUE");
     }
     System.arraycopy(this.array, 0, newArray, 0, this.array.length);
     this.array = newArray;

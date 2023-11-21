@@ -13,7 +13,6 @@ class CustomArrayListTest {
   void testCheckBoundaries() {
     CustomArrayList<Integer> list1 = new CustomArrayList<>(new Integer[]{1, 2, 3});
     Integer a = -10;
-    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> list1.checkBoundaries(6));
     Assertions.assertThrows(IndexOutOfBoundsException.class, () -> list1.remove(5));
   }
 
