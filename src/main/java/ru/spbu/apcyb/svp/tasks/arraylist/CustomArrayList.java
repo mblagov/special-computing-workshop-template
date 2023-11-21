@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -58,7 +59,7 @@ public class CustomArrayList<T> implements List<T> {
     if (this.array.length == 0) {
       newArray = new Object[CAPACITY];
     } else {
-      newArray = new Object[CAPACITY*2];
+      newArray = new Object[(array.length * 3) / 2 + 1];
     }
     System.arraycopy(this.array, 0, newArray, 0, this.array.length);
     this.array = newArray;
@@ -89,7 +90,7 @@ public class CustomArrayList<T> implements List<T> {
   @Override
   public void add(int index, T element) {
     checkBoundaries(index);
-    if (size >= CAPACITY) {
+    if (size == this.array.length) {
       resize();
     }
     System.arraycopy(this.array, index, this.array, index + 1, size - index);
@@ -110,6 +111,7 @@ public class CustomArrayList<T> implements List<T> {
     Object[] newArray = Arrays.copyOf(this.array, this.array.length);
     T element = (T) newArray[index];
     System.arraycopy(this.array, index + 1, newArray, index, size - index - 1);
+    this.array = newArray;
     size -= 1;
     return element;
   }
@@ -127,8 +129,8 @@ public class CustomArrayList<T> implements List<T> {
    */
   @Override
   public boolean contains(Object element) {
-    for (Object o : this.array) {
-      if (o == element) {
+    for (int i = 0; i < size; i++) {
+      if (Objects.equals(this.array[i], element)) {
         return true;
       }
     }
@@ -181,12 +183,13 @@ public class CustomArrayList<T> implements List<T> {
     }
 
     for (int i = 0; i < size; i++) {
-      if (array[i] != ((CustomArrayList<T>) obj).array[i]) {
+      if (!Objects.equals(array[i], ((CustomArrayList<T>) obj).array[i])) {
         return false;
       }
     }
     return true;
   }
+
 
   /**
    * Очищает список.

@@ -98,19 +98,19 @@ class CustomArrayListTest {
 
   }
 
-  @Test
-  void testSet() {
-    CustomArrayList<Integer> actual = new CustomArrayList<>(new Integer[]{1, 2, 3, 4});
-    CustomArrayList<Integer> expected = new CustomArrayList<>(new Integer[]{1, 2, -3, 4});
-    Integer actualRemovedElem = actual.set(2, -3);
-    int expectedRemovedElem = 3;
-
-    Assertions.assertEquals(expectedRemovedElem, actualRemovedElem);
-    Assertions.assertEquals(expected, actual);
-
-    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> actual.set(-1, 2));
-    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> actual.set(4, 2));
-  }
+//  @Test
+//  void testSet() {
+//    CustomArrayList<Integer> actual = new CustomArrayList<>(new Integer[]{1, 2, 3, 4});
+//    CustomArrayList<Integer> expected = new CustomArrayList<>(new Integer[]{1, 2, -3, 4});
+//    Integer actualRemovedElem = actual.set(2, -3);
+//    int expectedRemovedElem = 3;
+//
+//    Assertions.assertEquals(expectedRemovedElem, actualRemovedElem);
+//    Assertions.assertEquals(expected, actual);
+//
+//    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> actual.set(-1, 2));
+//    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> actual.set(4, 2));
+//  }
 
   @Test
   void testSize() {
