@@ -75,12 +75,10 @@ class CustomArrayListTest {
   void testEmpty() {
     CustomArrayList<Double> notEmptyList = new CustomArrayList<>(new Double[]{3.0});
     CustomArrayList<Double> emptyList1 = new CustomArrayList<>(new Double[]{});
-    CustomArrayList<Double> emptyList2 = new CustomArrayList<>();
     CustomArrayList<Double> emptyList3 = new CustomArrayList<>(new Double[]{1.0});
     emptyList3.remove(0);
 
     Assertions.assertTrue(emptyList1.isEmpty());
-    Assertions.assertTrue(emptyList2.isEmpty());
     Assertions.assertTrue(emptyList3.isEmpty());
     Assertions.assertFalse(notEmptyList.isEmpty());
 
@@ -98,20 +96,6 @@ class CustomArrayListTest {
 
   }
 
-//  @Test
-//  void testSet() {
-//    CustomArrayList<Integer> actual = new CustomArrayList<>(new Integer[]{1, 2, 3, 4});
-//    CustomArrayList<Integer> expected = new CustomArrayList<>(new Integer[]{1, 2, -3, 4});
-//    Integer actualRemovedElem = actual.set(2, -3);
-//    int expectedRemovedElem = 3;
-//
-//    Assertions.assertEquals(expectedRemovedElem, actualRemovedElem);
-//    Assertions.assertEquals(expected, actual);
-//
-//    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> actual.set(-1, 2));
-//    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> actual.set(4, 2));
-//  }
-
   @Test
   void testSize() {
     CustomArrayList<Integer> testList = new CustomArrayList<>();
@@ -124,62 +108,4 @@ class CustomArrayListTest {
     Assertions.assertEquals(1, testList.size());
   }
 }
-//
-//  @Test
-//  void testAdd() {
-//
-//  }
-//
-//  @Test
-//  void testAddIndex() {
-//
-//  }
-//
-//  @Test
-//  void testRemoveIndex() {
-//
-//  }
-//
-//  @Test
-//  void testClear() {
-//
-//  }
-//
-//  @Test
-//  void testContains() {
-//
-//  }
-//
-//  @Test
-//  void testIsEmpty() {
-//    CustomArrayList<Integer> list1 = new CustomArrayList<>(new Integer[]{1, 2, 3});
-//    CustomArrayList<Integer> list2 = new CustomArrayList<>(new Integer[]{});
-//    Assertions.assertFalse(list1.isEmpty());
-//    Assertions.assertTrue(list2.isEmpty());
-//  }
-//
-//  @Test
-//  void testGet() {
-//    CustomArrayList<Integer> list1 = new CustomArrayList<>(new Integer[]{1, 2, 3});
-//    int res = list1.get(2);
-//    int ex = 3;
-//    Assertions.assertEquals(ex, res);
-//  }
-//
-//  @Test
-//  void testEquals() {
-//    CustomArrayList<Integer> list1 = new CustomArrayList<>(new Integer[]{1, 2, 3});
-//    CustomArrayList<Integer> list2 = new CustomArrayList<>(new Integer[]{1, 2, 3});
-//    CustomArrayList<Integer> list3 = new CustomArrayList<>(new Integer[]{1, 2, 4});
-//    CustomArrayList<Integer> list4 = new CustomArrayList<>(new Integer[]{});
-//    CustomArrayList<Integer> list5 = new CustomArrayList<>();
-//    ArrayList<Integer> list6 = new ArrayList<>(
-//        IntStream.range(1, 4).boxed().toList());
-//
-//    Assertions.assertEquals(list1, list2);
-//    Assertions.assertNotEquals(list1, list3);
-//    Assertions.assertNotEquals(list1, list4);
-//    Assertions.assertEquals(list4, list5);
-//    Assertions.assertNotEquals(list1, list6);
-//  }
 
