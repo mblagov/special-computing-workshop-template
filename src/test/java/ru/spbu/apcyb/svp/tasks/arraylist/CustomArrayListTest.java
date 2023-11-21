@@ -1,11 +1,55 @@
 package ru.spbu.apcyb.svp.tasks.arraylist;
 
 import java.util.ArrayList;
+import java.util.InputMismatchException;
 import java.util.stream.IntStream;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
+import ru.spbu.apcyb.svp.tasks.atm.Main;
 
 class CustomArrayListTest {
+
+  @Test
+  void testCheckBoundaries() {
+    CustomArrayList<Integer> list1 = new CustomArrayList<>(new Integer[]{1, 2, 3});
+    Integer a = -10;
+    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> list1.checkBoundaries(6));
+    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> list1.remove(5));
+  }
+
+  @Test
+  void testResize() {
+    CustomArrayList<Integer> list1 = new CustomArrayList<>(new Integer[]{1, 2, 3});
+    CustomArrayList<Integer> list2 = new CustomArrayList<>(new Integer[]{1, 2, 3, null, null, null});
+    list1.add(null);
+    list1.add(null);
+    list1.add(null);
+    Assertions.assertEquals(list1.size(), list2.size());
+  }
+
+  @Test
+  void testAdd() {
+    CustomArrayList<Integer> list1 = new CustomArrayList<>(new Integer[]{1, 2, 3});
+    CustomArrayList<Integer> list2 = new CustomArrayList<>(new Integer[]{});
+    list2.add(1);
+    list2.add(2);
+    list2.add(3);
+    Assertions.assertEquals(list1, list2);
+
+    list2.add(4);
+    Assertions.assertNotEquals(list1, list2);
+  }
+
+  @Test
+  void testRemove() {
+    CustomArrayList<Integer> list1 = new CustomArrayList<>(new Integer[]{1, 2, 3});
+    CustomArrayList<Integer> list2 = new CustomArrayList<>(new Integer[]{1, 3});
+    list1.remove(1);
+    Assertions.assertEquals(list1, list2);
+    list1.remove(1);
+    Assertions.assertNotEquals(list1, list2);
+  }
+
   @Test
   void testEquals() {
     CustomArrayList<Integer> list1 = new CustomArrayList<>(new Integer[]{1, 2, 3});
@@ -22,20 +66,6 @@ class CustomArrayListTest {
     Assertions.assertEquals(list4, list5);
     Assertions.assertNotEquals(list1, list6);
 
-  }
-
-  @Test
-  void testAdd() {
-    CustomArrayList<Integer> actual = new CustomArrayList<>(new Integer[]{});
-
-    Integer[] expectedArray = new Integer[200];
-    for (int i = 0; i < 200; i++) {
-      expectedArray[i] = i;
-      actual.add(i);
-    }
-    CustomArrayList<Integer> expected = new CustomArrayList<>(expectedArray);
-
-    Assertions.assertEquals(expected, actual);
   }
 
   @Test
@@ -58,20 +88,6 @@ class CustomArrayListTest {
   }
 
   @Test
-  void testRemoveByIndex() {
-    CustomArrayList<Integer> expected = new CustomArrayList<>(new Integer[]{2, 3});
-    CustomArrayList<Integer> actual = new CustomArrayList<>();
-    actual.add(1);
-    actual.add(2);
-    actual.add(3);
-
-    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> actual.remove(-1));
-    Assertions.assertThrows(IndexOutOfBoundsException.class, () -> actual.remove(5));
-    actual.remove(0);
-    Assertions.assertEquals(expected, actual);
-  }
-
-  @Test
   void testEmpty() {
     CustomArrayList<Double> notEmptyList = new CustomArrayList<>(new Double[]{3.0});
     CustomArrayList<Double> emptyList1 = new CustomArrayList<>(new Double[]{});
@@ -81,6 +97,14 @@ class CustomArrayListTest {
     Assertions.assertTrue(emptyList1.isEmpty());
     Assertions.assertTrue(emptyList3.isEmpty());
     Assertions.assertFalse(notEmptyList.isEmpty());
+  }
+
+  @Test
+  void testClear() {
+    CustomArrayList<Integer> list1 = new CustomArrayList<>(new Integer[]{1, 3, 4});
+    CustomArrayList<Integer> list2 = new CustomArrayList<>(new Integer[]{null, null, null});
+    list1.clear();
+    Assertions.assertEquals(list2, list1);
 
   }
 

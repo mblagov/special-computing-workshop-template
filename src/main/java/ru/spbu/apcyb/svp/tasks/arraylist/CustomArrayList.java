@@ -47,7 +47,7 @@ public class CustomArrayList<T> implements List<T> {
    */
   public void checkBoundaries(int index) {
     if (index < 0 || index >= size) {
-      throw new IndexOutOfBoundsException("Index outside the list boundaries");
+      throw new IndexOutOfBoundsException();
     }
   }
 
