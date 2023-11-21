@@ -203,7 +203,7 @@ public class CustomArrayList<T> implements List<T> {
 
   @Override
   public int hashCode() {
-    logger.log(Level.INFO, "Не работает");
+    logger.log(Level.INFO, "OK");
     return size;
   }
 
