@@ -9,9 +9,21 @@ import org.junit.jupiter.api.Test;
 class DirectoryScannerTest {
 
   @Test
+  void countTest() throws IOException {
+    Path pathRead = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read");
+    Path pathWrite = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\write\\result.txt");
+
+    Directory directory = new Directory(pathRead);
+    int a = 6;
+    int b = directory.traversal().size();
+
+    Assertions.assertEquals(a, b);
+  }
+
+  @Test
   void pathTest() throws IOException {
-    Path pathToScan = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read");
-    Path pathToSave = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\write\\result.txt");
+    Path pathRead = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read");
+    Path pathWrite = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\write\\result.txt");
 
     String expected = """
         C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read\\3.txt
@@ -22,44 +34,53 @@ class DirectoryScannerTest {
         C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read\\dir\\directory\\empty
         """;
 
-    FilePrint.scanToFile(pathToScan, pathToSave);
-    String actual = Files.readString(Path.of(pathToSave.toUri()));
+    FilePrint.scanToFile(pathRead, pathWrite);
+    String actual = Files.readString(Path.of(pathWrite.toUri()));
 
     Assertions.assertEquals(expected, actual);
   }
 
   @Test
   void emptyTest() throws IOException {
-    Path pathToScan = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read\\dir\\directory\\empty");
-    Path pathToSave = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\write\\result.txt");
+    Path pathRead = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read\\dir\\directory\\empty");
+    Path pathWrite = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\write\\result.txt");
 
-    FilePrint.scanToFile(pathToScan, pathToSave);
-    String actual = Files.readString(Path.of(pathToSave.toUri()));
+    FilePrint.scanToFile(pathRead, pathWrite);
+    String actual = Files.readString(Path.of(pathWrite.toUri()));
 
     Assertions.assertEquals("", actual);
   }
 
   @Test
-  void stringScanErrorTest() {
-    String pathToScan = "C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read\\dir\\directory\\empty2";
-    String pathToSave = "C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\write\\result.txt";
+  void pathReadErrorTest() {
+    Path pathRead = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read\\dir\\directory\\empty2");
+    Path pathWrite = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\write\\result.txt");
 
     Exception e = Assertions.assertThrows(RuntimeException.class,
-        () -> FilePrint.scanToFile(pathToScan, pathToSave));
+        () -> FilePrint.scanToFile(pathRead, pathWrite));
 
-    Assertions.assertEquals("The path is not right",
-        e.getMessage());
+    Assertions.assertEquals(null, e.getMessage());
   }
 
   @Test
-  void stringSaveErrorTest() {
-    String pathToScan = "C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read";
-    String pathToSave = "C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\write\\resul2222t.txt";
+  void stringReadErrorTest() {
+    String pathRead = "C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read\\dir\\directory\\empty2";
+    String pathWrite = "C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\write\\result.txt";
 
     Exception e = Assertions.assertThrows(RuntimeException.class,
-        () -> FilePrint.scanToFile(pathToScan, pathToSave));
+        () -> FilePrint.scanToFile(pathRead, pathWrite));
 
-    Assertions.assertEquals("The path is not right",
-        e.getMessage());
+    Assertions.assertEquals("The path is not right", e.getMessage());
+  }
+
+  @Test
+  void stringWriteErrorTest() {
+    String pathRead = "C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read";
+    String pathWrite = "C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\write\\resul2222t.txt";
+
+    Exception e = Assertions.assertThrows(RuntimeException.class,
+        () -> FilePrint.scanToFile(pathRead, pathWrite));
+
+    Assertions.assertEquals("The path is not right", e.getMessage());
   }
 }
