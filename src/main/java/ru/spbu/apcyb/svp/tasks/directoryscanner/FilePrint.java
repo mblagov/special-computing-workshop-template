@@ -23,7 +23,7 @@ public class FilePrint {
    *
    * @param stringPathRead - строка пути к каталогу, который хотим просканирвоать
    * @param stringPathWrite - строка пути к файлу, в который хотим записать информаицию
-   * @throws IOException - исключение
+   * @throws IOException - исключение, если строка не является путём к директории.
    */
   public static void scanToFile(String stringPathRead, String stringPathWrite) throws IOException {
 
