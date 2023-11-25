@@ -21,29 +21,35 @@ public class FilePrint {
    * Метод, который преобразует полученные строки в путь и вызывает метод, который их выписывает в
    * файл.
    *
-   * @param stringPathRead - строка пути к каталогу, который хотим просканирвоать
+   * @param stringPathRead  - строка пути к каталогу, который хотим просканирвоать
    * @param stringPathWrite - строка пути к файлу, в который хотим записать информаицию
    * @throws IOException - исключение, если строка не является путём к директории.
    */
-  public static void scanToFile(String stringPathRead, String stringPathWrite) throws IOException {
+  public static void stringScanToFile(String stringPathRead, String stringPathWrite)
+      throws IOException {
 
     Path readPath = Path.of(stringPathRead).toAbsolutePath();
     Path writePath = Path.of(stringPathWrite).toAbsolutePath();
-    if (!(Files.isDirectory(readPath) && Files.isDirectory(writePath))) {
-      throw new IllegalArgumentException("The path is not right");
+    if (!(Files.isDirectory(readPath))) {
+      throw new IllegalArgumentException(
+          "The path to the directory that needs to be scanned was passed incorrectly.");
     }
-    scanToFile(readPath, writePath);
+    if (!(Files.isDirectory(writePath))) {
+      throw new IllegalArgumentException(
+          "The path to the directory or file in which the scan result should be written was passed incorrectly.");
+    }
+    pathScanToFile(readPath, writePath);
   }
 
   /**
    * Метод, который записывает в файл все каталоги(файлы), которые были обнаружены при
    * сканировании.
    *
-   * @param pathRead - путь к каталогу, который нужно просканировать
+   * @param pathRead  - путь к каталогу, который нужно просканировать
    * @param pathWrite - путь к файлу, в который записывается информация
    * @throws IOException - исключение
    */
-  public static void scanToFile(Path pathRead, Path pathWrite) throws IOException {
+  public static void pathScanToFile(Path pathRead, Path pathWrite) throws IOException {
     Directory scan = new Directory(pathRead);
     List<Path> result = scan.traversal();
     String savePath = String.valueOf(pathWrite);

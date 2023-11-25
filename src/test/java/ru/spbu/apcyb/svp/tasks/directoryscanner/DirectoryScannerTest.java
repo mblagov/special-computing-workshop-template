@@ -10,8 +10,8 @@ class DirectoryScannerTest {
 
   @Test
   void countTest() throws IOException {
-    Path pathRead = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read");
-    Path pathWrite = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\write\\result.txt");
+    Path pathRead = Path.of("src/test/resources/read");
+    Path pathWrite = Path.of("src/test/resources/write/result.txt");
 
     Directory directory = new Directory(pathRead);
     int a = 6;
@@ -22,8 +22,8 @@ class DirectoryScannerTest {
 
   @Test
   void pathTest() throws IOException {
-    Path pathRead = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read");
-    Path pathWrite = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\write\\result.txt");
+    Path pathRead = Path.of("src/test/resources/read");
+    Path pathWrite = Path.of("src/test/resources/write/result.txt");
 
     String expected = """
         C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read\\3.txt
@@ -34,7 +34,7 @@ class DirectoryScannerTest {
         C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read\\dir\\directory\\empty
         """;
 
-    FilePrint.scanToFile(pathRead, pathWrite);
+    FilePrint.pathScanToFile(pathRead, pathWrite);
     String actual = Files.readString(Path.of(pathWrite.toUri()));
 
     Assertions.assertEquals(expected, actual);
@@ -42,10 +42,10 @@ class DirectoryScannerTest {
 
   @Test
   void emptyTest() throws IOException {
-    Path pathRead = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read\\dir\\directory\\empty");
-    Path pathWrite = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\write\\result.txt");
+    Path pathRead = Path.of("src/test/resources/read/dir/directory/empty");
+    Path pathWrite = Path.of("src/test/resources/write/result.txt");
 
-    FilePrint.scanToFile(pathRead, pathWrite);
+    FilePrint.pathScanToFile(pathRead, pathWrite);
     String actual = Files.readString(Path.of(pathWrite.toUri()));
 
     Assertions.assertEquals("", actual);
@@ -53,34 +53,34 @@ class DirectoryScannerTest {
 
   @Test
   void pathReadErrorTest() {
-    Path pathRead = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read\\dir\\directory\\empty2");
-    Path pathWrite = Path.of("C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\write\\result.txt");
+    Path pathRead = Path.of("src/test/resources/read/dir/directory/empty2");
+    Path pathWrite = Path.of("src/test/resources/write/result.txt");
 
     Exception e = Assertions.assertThrows(RuntimeException.class,
-        () -> FilePrint.scanToFile(pathRead, pathWrite));
+        () -> FilePrint.pathScanToFile(pathRead, pathWrite));
 
     Assertions.assertEquals(null, e.getMessage());
   }
 
   @Test
   void stringReadErrorTest() {
-    String pathRead = "C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read\\dir\\directory\\empty2";
-    String pathWrite = "C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\write\\result.txt";
+    String pathRead = "src/test/resources/read/dir/directory/empty2";
+    String pathWrite = "src/test/resources/write/result.txt";
 
     Exception e = Assertions.assertThrows(RuntimeException.class,
-        () -> FilePrint.scanToFile(pathRead, pathWrite));
+        () -> FilePrint.stringScanToFile(pathRead, pathWrite));
 
-    Assertions.assertEquals("The path is not right", e.getMessage());
+    Assertions.assertEquals("The path to the directory that needs to be scanned was passed incorrectly.", e.getMessage());
   }
 
   @Test
   void stringWriteErrorTest() {
-    String pathRead = "C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\read";
-    String pathWrite = "C:\\Users\\HOME\\IdeaProjects\\special-computing-workshop-templateee\\src\\test\\resources\\write\\resul2222t.txt";
+    String pathRead = "src/test/resources/read";
+    String pathWrite = "src\\test\\resources\\write\\resul2222t.txt";
 
     Exception e = Assertions.assertThrows(RuntimeException.class,
-        () -> FilePrint.scanToFile(pathRead, pathWrite));
+        () -> FilePrint.stringScanToFile(pathRead, pathWrite));
 
-    Assertions.assertEquals("The path is not right", e.getMessage());
+    Assertions.assertEquals("The path to the directory or file in which the scan result should be written was passed incorrectly.", e.getMessage());
   }
 }
