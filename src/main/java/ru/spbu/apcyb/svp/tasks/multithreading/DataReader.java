@@ -9,14 +9,23 @@ import java.util.List;
 import java.util.Scanner;
 import java.util.StringTokenizer;
 
-
+/**
+ * Класс для чтения и сохранения в List данных из файла.
+ */
 public class DataReader {
+
   private final Path path;
 
   public DataReader(Path path) {
     this.path = path;
   }
 
+  /**
+   * Метод, для чтения и сохранения данных из файла.
+   *
+   * @return - List данных
+   * @throws IOException - в случае, если путь не ведёт к файлу
+   */
   public List<Double> readFile() throws IOException {
     if (Files.isDirectory(Path.of(path.toUri()))) {
       throw new IOException("Provided file is a directory");

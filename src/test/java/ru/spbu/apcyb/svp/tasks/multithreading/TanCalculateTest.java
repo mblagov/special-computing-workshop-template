@@ -61,7 +61,7 @@ class TanCalculateTest {
     Path fileRead = Path.of("src/test/resources/multithreading/read1000000.txt");
     List<Double> dataList = new DataReader(fileRead).readFile();
     int test = 1;
-    TanCalculate test1 = new TanCalculate(9);
+    TanCalculate test1 = new TanCalculate(1);
     TanCalculate test9 =  new TanCalculate(9);
 
     Instant startOneThread = Instant.now();
