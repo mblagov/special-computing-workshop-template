@@ -13,7 +13,7 @@ import java.util.List;
 
 public class DataWriter {
   private final Path pathFile;
-  private final static String EXEPTION = "Not file.";
+  private static final String EXEPTION_NOT_FILE = "Not file.";
 
   public DataWriter(Path path) {
     this.pathFile = path;
@@ -23,8 +23,8 @@ public class DataWriter {
     if (Files.isDirectory(pathFile)) {
       throw new IOException(EXEPTION);
     }
-    double[] data = new double[10000];
-    for (int i = 0; i < 10000; i++) {
+    double[] data = new double[1000000];
+    for (int i = 0; i < data.length; i++) {
       data[i] = Math.random() * 100;
     }
     List<String> dataList = Arrays.stream(data).mapToObj(String::valueOf).toList();
