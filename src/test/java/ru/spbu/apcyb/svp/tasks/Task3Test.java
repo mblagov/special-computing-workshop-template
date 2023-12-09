@@ -21,7 +21,8 @@ class Task3Test {
     args[0] = "con";
     args[1] = "answer.txt";
     FileWriter writer = new FileWriter(args[1], false);
-    FileNotFoundException thrown = assertThrows(FileNotFoundException.class, () -> Task3.walk(args[0], writer, 0));
+    FileNotFoundException thrown = assertThrows(FileNotFoundException.class, () -> Task3
+        .walk(args[0], writer, 0));
     assertEquals("java.io.FileNotFoundException", thrown.toString());
   }
 
