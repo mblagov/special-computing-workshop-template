@@ -1,6 +1,6 @@
 package ru.spbu.apcyb.svp.tasks.multithreading;
 
-
+import java.io.BufferedWriter;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
@@ -13,6 +13,7 @@ import java.util.List;
 
 public class DataWriter {
   private final Path pathFile;
+  private final static String EXEPTION = "Not file.";
 
   public DataWriter(Path path) {
     this.pathFile = path;
@@ -20,7 +21,7 @@ public class DataWriter {
 
   public void writeRandomToFile() throws IOException {
     if (Files.isDirectory(pathFile)) {
-      throw new IOException("Not file.");
+      throw new IOException(EXEPTION);
     }
     double[] data = new double[10000];
     for (int i = 0; i < 10000; i++) {
@@ -32,19 +33,20 @@ public class DataWriter {
 
   public void writeArrayToFile(double[] dataArray) throws IOException {
     if (Files.isDirectory(pathFile)) {
-      throw new IOException("Not file.");
+      throw new IOException(EXEPTION);
     }
     List<String> dataList = Arrays.stream(dataArray).mapToObj(String::valueOf).toList();
     Files.write(pathFile, dataList, StandardCharsets.UTF_8, StandardOpenOption.CREATE, StandardOpenOption.APPEND);
   }
 
   public void writeListToFile(List<Double> dataList) throws IOException {
-    try (FileWriter writer = new FileWriter(String.valueOf(pathFile))) {
+    try (BufferedWriter writer = new BufferedWriter(new FileWriter(pathFile.toFile()))) {
       for (Double listElem : dataList) {
-        writer.write(String.valueOf(listElem) + "\n");
+        writer.write(listElem.toString());
+        writer.newLine();
       }
     } catch (IOException ex) {
-      throw new IOException("Not file.");
+      throw new IOException(EXEPTION);
     }
   }
 }
