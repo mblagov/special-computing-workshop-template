@@ -1,4 +1,4 @@
-package ru.spbu.apcyb.svp.tasks.task_1;
+package ru.spbu.apcyb.svp.tasks.bankomat;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -14,10 +14,10 @@ import java.util.logging.Logger;
 /**
  * This is the main class.
  */
-public class Task_1 {
+public class bankomat {
 
   public static final Logger logger =
-      Logger.getLogger(ru.spbu.apcyb.svp.tasks.task_1.Task_1.class.getName());
+      Logger.getLogger(ru.spbu.apcyb.svp.tasks.bankomat.bankomat.class.getName());
 
 
   /**
@@ -129,5 +129,3 @@ public class Task_1 {
     }
   }
 }
-
-
