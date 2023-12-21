@@ -1,6 +1,5 @@
 package ru.spbu.apcyb.svp.tasks.task1;
 
-import static java.nio.file.Files.size;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertThrows;
 
