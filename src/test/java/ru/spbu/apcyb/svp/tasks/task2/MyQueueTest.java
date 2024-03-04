@@ -57,7 +57,79 @@ class MyQueueTest {
     @Test
     void containsUnsupportedOperationException() {
         assertThrows(UnsupportedOperationException.class, () -> myQueue.contains(" "));
+    }
 
+    @Test
+    void iteratorUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> myQueue.iterator());
+    }
+
+    @Test
+     void toArrayUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> myQueue.toArray());
+    }
+
+    @Test
+    void toArrayWithObjectUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> myQueue.toArray(new Object[0]));
+    }
+
+    @Test
+    void removeUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class, () -> myQueue.remove(" "));
+    }
+
+    @Test
+    void addAllUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> myQueue.addAll(new MyQueue<String>()));
+    }
+
+    @Test
+    void clearUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> myQueue.clear());
+    }
+
+    @Test
+    void retainAllUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> myQueue.retainAll(new MyQueue<String>()));
+    }
+
+    @Test
+    void removeAllUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> myQueue.removeAll(new MyQueue<String>()));
+    }
+
+    @Test
+    void containsAllUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> myQueue.containsAll(new MyQueue<String>()));
+    }
+
+    @Test
+    void offerUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> myQueue.offer(""));
+    }
+
+    @Test
+    void removeTheHeadUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> myQueue.remove());
+    }
+    @Test
+    void pollUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> myQueue.poll());
+    }
+
+    @Test
+    void elementUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> myQueue.element());
     }
 
 

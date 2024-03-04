@@ -151,12 +151,6 @@ public  class MyLinkedList<T> implements List<T>  {
         }
     }
 
-
-
-
-
-
-
     @Override
     public Iterator iterator() {
         throw  new  UnsupportedOperationException();

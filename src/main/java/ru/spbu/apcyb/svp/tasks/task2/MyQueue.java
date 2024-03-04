@@ -41,7 +41,6 @@ public class MyQueue<T> implements Queue<T> {
         throw new UnsupportedOperationException();
     }
 
-
     @Override
     public Iterator iterator() {
         throw new UnsupportedOperationException();

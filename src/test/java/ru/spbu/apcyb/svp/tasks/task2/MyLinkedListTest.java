@@ -2,7 +2,6 @@ package ru.spbu.apcyb.svp.tasks.task2;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
 import static org.junit.jupiter.api.Assertions.*;
 
 class MyLinkedListTest {
@@ -11,7 +10,7 @@ class MyLinkedListTest {
 
     @BeforeEach
     void setUp(){
-        linkedList = new MyLinkedList<String>();
+        linkedList = new MyLinkedList<>();
     }
 
     @Test
@@ -82,7 +81,8 @@ class MyLinkedListTest {
 
     @Test
     void removeIfListIsEmpty() {
-        assertThrows(IndexOutOfBoundsException.class, () -> linkedList.remove(2));
+        assertThrows(IndexOutOfBoundsException.class
+                , () -> linkedList.remove(2));
     }
 
     @Test
@@ -102,5 +102,102 @@ class MyLinkedListTest {
         linkedList.add("element");
         assertEquals(1, linkedList.size());
 
+    }
+
+    @Test
+    void iteratorUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> linkedList.iterator());
+    }
+
+    @Test
+    void toArrayUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> linkedList.toArray());
+    }
+
+    @Test
+    void toArrayWithArgumentsUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> linkedList.toArray(new Object[0]));
+    }
+
+    @Test
+    void removeUnsupportedOperationException() {
+        String str = " ";
+        assertThrows(UnsupportedOperationException.class,
+                () -> linkedList.remove(str));
+
+    }
+
+    @Test
+    void addAllUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> linkedList.addAll(new MyLinkedList<String>()));
+    }
+
+    @Test
+    void addAllWithIndexUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> linkedList.addAll(0, new MyLinkedList<String>()));
+    }
+
+    @Test
+    void clearUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> linkedList.clear());
+    }
+
+    @Test
+    void retainAllUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> linkedList.retainAll(new MyLinkedList<String>()));
+    }
+
+    @Test
+    void removeAllUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> linkedList.removeAll(new MyLinkedList<String>()));
+    }
+
+    @Test
+    void containsAllUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> linkedList.containsAll(new MyLinkedList<String>()));
+    }
+
+    @Test
+    void setUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> linkedList.set(0, " "));
+    }
+
+    @Test
+    void indexOfUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> linkedList.indexOf(" "));
+    }
+
+    @Test
+    void lastIndexOfUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> linkedList.lastIndexOf(" "));
+    }
+
+    @Test
+    void listIteratorUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> linkedList.listIterator());
+    }
+    @Test
+    void listIteratorWithIndexUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> linkedList.listIterator(0));
+    }
+
+    @Test
+    void subListUnsupportedOperationException() {
+        assertThrows(UnsupportedOperationException.class,
+                () -> linkedList.subList(0, 10));
     }
 }
