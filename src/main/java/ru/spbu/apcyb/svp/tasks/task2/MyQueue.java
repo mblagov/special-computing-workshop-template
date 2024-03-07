@@ -38,73 +38,73 @@ public class MyQueue<T> implements Queue<T> {
 
     @Override
     public boolean contains(Object o) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method contains  is not overridden");
     }
 
     @Override
     public Iterator iterator() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method iterator is not overridden");
     }
 
     @Override
     public Object[] toArray() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method toArray is not overridden");
     }
 
     @Override
     public Object[] toArray(Object[] a) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method toArray is not overridden");
     }
 
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method remove is not overridden");
     }
 
     @Override
     public boolean addAll(Collection c) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method addAll is not overridden");
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method clear is not overridden");
     }
 
     @Override
     public boolean retainAll(Collection c) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method retainAll is not overridden");
     }
 
     @Override
     public boolean removeAll(Collection c) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method removeAll is not overridden");
     }
 
     @Override
     public boolean containsAll(Collection c) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method containsAll is not overridden");
     }
 
     @Override
     public boolean offer(Object o) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method offer is not overridden");
     }
 
     @Override
     public T remove() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method remove is not overridden");
     }
 
     @Override
     public T poll() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method poll is not overridden");
     }
 
     @Override
     public T element() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method element is not overridden");
     }
 }
 

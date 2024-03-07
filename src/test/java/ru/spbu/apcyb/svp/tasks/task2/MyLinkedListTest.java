@@ -27,13 +27,15 @@ class MyLinkedListTest {
     @Test
     void getIfIndexIsNegative() {
         linkedList.add("element");
-        assertNull(linkedList.get(-1));
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> linkedList.get(-1));
     }
 
     @Test
     void getIfIndexIsBiggerThanTailIndex() {
         linkedList.add("element");
-        assertNull(linkedList.get(1));
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> linkedList.get(1));;
     }
 
     @Test
@@ -81,8 +83,8 @@ class MyLinkedListTest {
 
     @Test
     void removeIfListIsEmpty() {
-        assertThrows(IndexOutOfBoundsException.class
-                , () -> linkedList.remove(2));
+        assertThrows(IndexOutOfBoundsException.class,
+                () -> linkedList.remove(2));
     }
 
     @Test

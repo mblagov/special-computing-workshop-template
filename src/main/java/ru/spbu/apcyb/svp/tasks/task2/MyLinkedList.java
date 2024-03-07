@@ -1,17 +1,15 @@
 package ru.spbu.apcyb.svp.tasks.task2;
 
-
+import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public  class MyLinkedList<T> implements List<T>  {
-    Node<T> head;
-    Node<T> tail;
-
-    int size = 0;
-
+public  class MyLinkedList<T> implements List<T>, Serializable {
+    transient Node<T> head;
+    transient Node<T> tail;
+    transient int size = 0;
 
     @Override
     public boolean isEmpty() {//проверка пустоты
@@ -20,117 +18,118 @@ public  class MyLinkedList<T> implements List<T>  {
 
     @Override
     public T get(int index) { //получение по индексу
-        Node<T> head1 = head;
-        if (index < 0 || index > tail.index) {
-            return null;
-        } else {
-            while(true) {
-                if (head1.index == index) {
-                    return head1.value;
-                } else {
-                    head1 = head1.next;
+        if (isIndexIn(index)) {
+            Node<T> x;
+            if (index < size / 2) {
+                x = head;
+                for (int i = 0; i < index; i++) {
+                    x = x.next;
+                }
+            } else {
+                x = tail;
+                for (int i = size - 1; i > index; i--) {
+                    x = x.prev;
                 }
             }
-        }
+            return x.item;
+        } else throw new IndexOutOfBoundsException("Index is not correct");
     }
 
     @Override
     public boolean contains(Object o) { //Проверка наличия по значению
-        Node<T> head1 = head;
-        for (int i = 0; i <= tail.index; i++) {
-            if (o == head1.value) {return true;}
-            else {
-                head1 = head1.next;
-            }
+        Node<T> x = head;
+        for (int i = 0; i < size; i++) {
+            if (o == x.item) {return true;}
+            else {x = x.next;}
         }
         return false;
     }
 
     @Override
     public boolean add(T o) {//добавление в конец
-        if (head == null) {
-            Node<T> element = new Node<>();
-            element.value = o;
-            head = element;
-            tail = element;
-            element.index = 0;
+        Node<T> x;
+        if (size == 0) {
+            x = new Node<>(null, o, null);
+            head = x;
         } else {
-            Node<T> element = new Node<>();
-            element.value = o;
-            tail.next = element;
-            element.prev = tail;
-            element.index = tail.index + 1;
-            tail = element;
+            x = new Node<>(tail, o, null);
+            tail.next = x;
         }
+        tail = x;
         size++;
         return true;
     }
 
     @Override
     public void add(int index, T element) { //добавление в конкретную позицию
-        if (index < 0 || index > tail.index + 1) {
-            throw new IndexOutOfBoundsException();
-        } else if (index == tail.index + 1) {
-            add(element);
-        } else if (index == 0) {
-            Node<T> oldHead = new Node<>();
-            oldHead.value = head.value;
-            oldHead.index = 1;
-            oldHead.next = head.next;
-            head.value = element;
-            oldHead.prev = head;
-            head.next = oldHead;
-            changeIndex(oldHead.next);
-            size++;
-        } else {
-            Node<T> head1 = head.next;
-            while (head1.index != index) {
-                head1 = head1.next;
+        if (index >= 0 && index <= size) {
+            Node<T> x;
+            if (index == 0) {
+                x = head;
+                Node<T> newElement = new Node<>(null, element, x);
+                x.prev = newElement;
+                head = newElement;
+                if (size == 1) {tail = newElement;};
+                size++;
+            } else if (index == size) {
+                add(element);
+            } else if (index <= size/2) {
+                x = head;
+                for (int i = 0; i < index; i++) {
+                    x = x.next;
+                }
+                Node<T> newElement = new Node<>(x.prev, element, x);
+                (x.prev).next = newElement;
+                x.prev = newElement;
+                size++;
+            } else {
+                x = tail;
+                for (int i = size - 1; i > index; i--){
+                    x = x.prev;
+                }
+                Node<T> newElement = new Node<>(x.prev, element, x);
+                (x.prev).next = newElement;
+                x.prev = newElement;
+                size++;
             }
-
-            Node<T> newElement = new Node<>();
-            newElement.index = index;
-            newElement.value = element;
-            newElement.prev = head1.prev;
-            newElement.next = head1;
-            head1.prev.next = newElement;
-            changeIndex(head1);
-            size++;
-        }
+        } else throw new IndexOutOfBoundsException("The index is not correct");
     }
 
     @Override
     public T remove(int index) {//удаление по индексу
-        if (head == null) {
-            throw new IndexOutOfBoundsException();
-        }else {
-            Node<T> head1 = head;
+        if (isIndexIn(index)) {
+            Node<T> x;
             if (index == 0) {
-                head = head.next;
-            } else if (index == tail.index) {
-                tail = tail.prev;
-            } else if (index < 0 || index > tail.index) {
-                throw new IndexOutOfBoundsException();
+                if (size == 1) {
+                    head = null;
+                    tail = null;
+                } else{
+                    x = head;
+                    head = x.next;
+                    head.prev = null;
+                }
+            } else if(index == size - 1) {
+                x = tail;
+                tail = x.prev;
+                tail.next = null;
             } else {
-                while (true) {
-                    if (head1.index == index) {
-                        Node<T> memory = head1;
-                        for (int i = head1.index + 1; i <= tail.index; i++) {
-                            memory = memory.next;
-                            memory.index -= 1;
-                        }
-                        memory = head1.prev;
-                        memory.next = head1.next;
-                        memory = head.next;
-                        memory.prev = head1.prev;
-                        return null;
-                    } else {
-                        head1 = head1.next;
+                if (index <= size / 2) {
+                    x = head;
+                    for (int i = 0; i < index; i++) {
+                        x = x.next;
+                    }
+                } else {
+                    x = tail;
+                    for (int i = size - 1; i > index; i--) {
+                        x = x.prev;
                     }
                 }
+                (x.prev).next = x.next;
+                (x.next).prev = x.prev;
             }
-        }
-        return null;
+            size--;
+        } else {throw new IndexOutOfBoundsException("The index is not correct");}
+    return null;
     }
 
     @Override
@@ -138,108 +137,101 @@ public  class MyLinkedList<T> implements List<T>  {
         return size;
     }
 
-    private void changeIndex(Node<T> element) {
-        boolean flag = false;
-        while(!flag) {
-            if (element.index == tail.index) {
-                element.index++;
-                flag = true;
-            } else {
-                element.index++;
-                element = element.next;
-            }
-        }
+    private boolean isIndexIn(int index) { //Проверка корректности индекса
+        return (index >= 0 && index < size);
     }
 
     @Override
     public Iterator iterator() {
-        throw  new  UnsupportedOperationException();
+        throw  new  UnsupportedOperationException("the method iterator is not overridden");
     }
 
     @Override
     public Object[] toArray() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method toArray is not overridden");
     }
 
     @Override
     public Object[] toArray(Object[] a) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method toArray is not overridden");
     }
-
 
     @Override
     public boolean remove(Object o) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method remove is not overridden");
     }
 
     @Override
     public boolean addAll(Collection c) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method addAll is not overridden");
     }
 
     @Override
     public boolean addAll(int index, Collection c) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method toArray is not overridden");
     }
 
     @Override
     public void clear() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method clear is not overridden");
     }
 
     @Override
     public boolean retainAll(Collection c) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method retainAll is not overridden");
     }
 
     @Override
     public boolean removeAll(Collection c) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method removeAll is not overridden");
     }
 
     @Override
     public boolean containsAll(Collection c) {
-        throw new UnsupportedOperationException();
-    }
 
+        throw new UnsupportedOperationException("the method containsAll is not overridden");
+    }
 
     @Override
     public Object set(int index, Object element) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method set is not overridden");
     }
-
-
 
     @Override
     public int indexOf(Object o) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method indexOf is not overridden");
     }
 
     @Override
     public int lastIndexOf(Object o) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method lastIndexOf is not overridden");
     }
 
     @Override
     public ListIterator listIterator() {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method listIterator is not overridden");
     }
 
     @Override
     public ListIterator listIterator(int index) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method listIterator is not overridden");
     }
 
     @Override
     public List subList(int fromIndex, int toIndex) {
-        throw new UnsupportedOperationException();
+        throw new UnsupportedOperationException("the method subList is not overridden");
     }
 
     private static class Node<T>{
-        T value;
+        T item;
         Node<T> next = null;
         Node<T> prev = null;
-        int index;
+
+        Node(Node<T> prev, T element, Node<T> next) {
+            this.item = element;
+            this.prev = prev;
+            this.next = next;
+        }
     }
 }
 
