@@ -17,12 +17,12 @@ public class MyQueue<T> implements Queue<T> {
 
     @Override
     public boolean isEmpty() {
-        return queue.head == null;
+        return queue.isEmpty();
     }
 
     @Override
     public T peek() {
-        if (queue.head == null) {
+        if (queue.isEmpty()) {
             return null;
         } else {
             return queue.get(0);

@@ -1,15 +1,14 @@
 package ru.spbu.apcyb.svp.tasks.task2;
 
-import java.io.Serializable;
 import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.ListIterator;
 
-public  class MyLinkedList<T> implements List<T>, Serializable {
-    transient Node<T> head;
-    transient Node<T> tail;
-    transient int size = 0;
+public  class MyLinkedList<T> implements List<T> {
+    private  Node<T> head;
+    private  Node<T> tail;
+    private int size = 0;
 
     @Override
     public boolean isEmpty() {//проверка пустоты
@@ -32,7 +31,7 @@ public  class MyLinkedList<T> implements List<T>, Serializable {
                 }
             }
             return x.item;
-        } else throw new IndexOutOfBoundsException("Index is not correct");
+        } else {throw new IndexOutOfBoundsException("The index is not correct");}
     }
 
     @Override
@@ -92,7 +91,7 @@ public  class MyLinkedList<T> implements List<T>, Serializable {
                 x.prev = newElement;
                 size++;
             }
-        } else throw new IndexOutOfBoundsException("The index is not correct");
+        } else {throw new IndexOutOfBoundsException("The index is not correct");}
     }
 
     @Override
