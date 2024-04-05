@@ -1,0 +1,8 @@
+task3foldersandfiles/
+  file1.txt
+  file2.txt
+  folder1/
+    file3.txt
+    file4.txt
+  folder2/
+    file5.txt
