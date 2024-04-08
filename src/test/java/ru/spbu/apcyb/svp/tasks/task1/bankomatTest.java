@@ -115,5 +115,4 @@ class bankomatTest {
         List<List<Long>> res = bankomat.coinChange("5", "10 6");
         assertEquals(res.size(), 0);
     }
-
 }

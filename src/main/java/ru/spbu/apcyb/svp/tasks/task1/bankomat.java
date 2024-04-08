@@ -20,6 +20,7 @@ public class bankomat {
         System.out.println(answer.size());
         logger.info("Комбинации: ");
         answer.forEach(System.out::println);
+
     }
 
     public static long[] inputLongList(String stringCoins) {
