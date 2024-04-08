@@ -2,24 +2,23 @@ package ru.spbu.apcyb.svp.tasks.task1;
 
 import java.util.*;
 import java.util.Scanner;
+import java.util.logging.Logger;
 
 public class bankomat {
-
+    private static final Logger logger = Logger.getLogger(bankomat.class.getName());
     public static void main(String[] args) {
 
         Scanner scanner = new Scanner(System.in);
-        System.out.print("Введите сумму монет: ");
+        logger.info("Введите сумму монет: ");
         String stringAmount = scanner.nextLine();
-        System.out.print("Введите номиналы монет: ");
+        logger.info("Введите номиналы монет: ");
         String stringCoins = scanner.nextLine();
         scanner.close();
 
         List<List<Long>> answer = coinChange(stringAmount, stringCoins);
-        System.out.println("---------------------");
-        System.out.print("Число комбинаций: ");
+        logger.info("Число комбинаций: ");
         System.out.println(answer.size());
-        System.out.println("---------------------");
-        System.out.println("Комбинации: ");
+        logger.info("Комбинации: ");
         answer.forEach(System.out::println);
     }
 
@@ -51,8 +50,8 @@ public class bankomat {
         long [] coins = inputLongList(stringCoins);
         coins = Arrays.stream(coins).distinct().toArray();
         List<Long> denominations = new ArrayList<>();
-        for (int i = 0; i < coins.length; i++) {
-            denominations.add(coins[i]);
+        for (long coin : coins) {
+            denominations.add(coin);
         }
         Collections.sort(denominations);
 

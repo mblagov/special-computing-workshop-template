@@ -2,17 +2,13 @@ package ru.spbu.apcyb.svp.tasks.task1;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertThrows;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static ru.spbu.apcyb.svp.tasks.task1.bankomat.inputLongList;
@@ -97,13 +93,13 @@ class bankomatTest {
     @Test
     void Thousand() {
         List<List<Long>> res =  bankomat.coinChange("1000", "1");
-        assertFalse(res.size() == 0);
+        assertNotEquals(res.size(), 0);
     }
 
     @Test
     void ThousandAndBanknotes() {
         List<List<Long>> res =  bankomat.coinChange("1000", "500 1");
-        assertFalse(res.size() == 0);
+        assertNotEquals(res.size(), 0);
     }
 
     @Test
@@ -117,7 +113,7 @@ class bankomatTest {
     @Test
     void OneOfBanknotesIsBiggerThanAmount() {
         List<List<Long>> res = bankomat.coinChange("5", "10 6");
-        assertTrue(res.size() == 0);
+        assertEquals(res.size(), 0);
     }
 
 }
