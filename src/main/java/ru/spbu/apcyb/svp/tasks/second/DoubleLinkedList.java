@@ -130,19 +130,6 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
     addFirst(el);
   }
 
-  private void insertBefore(T el, Node<T> node) {
-    final Node<T> newNode = new Node<>(node.prev, el, node);
-
-    if (node.prev == null) {
-      head = newNode;
-    } else {
-      node.prev.next = newNode;
-    }
-    node.prev = newNode;
-
-    size++;
-  }
-
   // Remove operations
 
   @Override
@@ -150,15 +137,7 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
     return removeFirst();
   }
 
-  /**
-   * Removes the element at the specified position in this list.
-   * Returns the removed element from the deque.
-   *
-   * @param index the index of the element to be removed
-   * @return the removed element
-   * @throws IndexOutOfBoundsException {@inheritDoc}
-   * @apiNote Method makes search
-   */
+  @Override
   public T remove(int index) {
     if (index < 0 || index >= size) {
       throw new IndexOutOfBoundsException();
@@ -260,12 +239,7 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
     return tail == null ? null : tail.item;
   }
 
-  /**
-   * Search and return element by index.
-   *
-   * @param index index of element
-   * @throws IndexOutOfBoundsException {@inheritDoc}
-   */
+  @Override
   public T get(int index) {
     if (index < 0 || index >= size) {
       throw new IndexOutOfBoundsException();
@@ -399,6 +373,19 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
       }
 
       index++; // size changed
+    }
+
+    private void insertBefore(T el, Node<T> node) {
+      final Node<T> newNode = new Node<>(node.prev, el, node);
+
+      if (node.prev == null) {
+        head = newNode;
+      } else {
+        node.prev.next = newNode;
+      }
+      node.prev = newNode;
+
+      size++;
     }
   }
 

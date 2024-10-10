@@ -24,7 +24,7 @@ public class QueueTest {
 
   @Test
   public void getFirstTest() {
-    var queue = new DoubleLinkedList<Integer>();
+    var queue = new MyQueue<Integer>();
 
     queue.addAll(List.of(1, 2, 300, 4, 5));
 
@@ -33,7 +33,7 @@ public class QueueTest {
 
   @Test
   public void isEmptyTest() {
-    var queue = new DoubleLinkedList<Integer>();
+    var queue = new MyQueue<Integer>();
     assertTrue(queue.isEmpty());
 
     queue.addAll(List.of(1, 2, 300, 4, 5));
