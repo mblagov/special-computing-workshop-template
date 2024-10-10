@@ -14,7 +14,7 @@
         <maven.compiler.target>${maven.compiler.source}</maven.compiler.target>
         <junit.jupiter.version>5.9.1</junit.jupiter.version>
         <junit.platform.version>1.9.1</junit.platform.version>
-        <maven.compiler.target>17</maven.compiler.target>
+<!--        <maven.compiler.target>17</maven.compiler.target>-->
     </properties>
 
     <dependencies>
@@ -81,9 +81,9 @@
                     <includes>
                         <include>*</include>
                     </includes>
-                    <argLine>
-                        @{surefireArgLine} --illegal-access=permit
-                    </argLine>
+<!--                    <argLine>-->
+<!--                        @{surefireArgLine} &#45;&#45;illegal-access=permit-->
+<!--                    </argLine>-->
                     <testFailureIgnore>true</testFailureIgnore>
                 </configuration>
             </plugin>
