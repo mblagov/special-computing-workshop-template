@@ -121,8 +121,7 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
 
   @Override
   public boolean offerLast(T el) {
-    addLast(el);
-    return true;
+    return add(el);
   }
 
   @Override
@@ -412,5 +411,41 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
   @Override
   public boolean removeLastOccurrence(Object o) {
     throw new UnsupportedOperationException();
+  }
+
+  @Override
+  public boolean equals(Object o) {
+    if (this == o) {
+      return true;
+    }
+    if (!(o instanceof DoubleLinkedList<?> other)) {
+      return false;
+    }
+    if (this.size != other.size) {
+      return false;
+    }
+
+    Iterator<T> thisIterator = this.iterator();
+    Iterator<?> otherIterator = other.iterator();
+
+    while (thisIterator.hasNext() && otherIterator.hasNext()) {
+      T thisElement = thisIterator.next();
+      Object otherElement = otherIterator.next();
+
+      if (!thisElement.equals(otherElement)) {
+        return false;
+      }
+    }
+
+    return true;
+  }
+
+  @Override
+  public int hashCode() {
+    int hash = 1;
+    for (T el : this) {
+      hash *= el.hashCode();
+    }
+    return hash;
   }
 }

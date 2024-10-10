@@ -8,30 +8,30 @@ import static org.junit.jupiter.api.Assertions.*;
 /**
  * Test class for {@link DoubleLinkedList}.
  */
-public class DoubleLinkedListTest {
+class DoubleLinkedListTest {
   @Test
-  public void add2EndTest() {
+  void add2EndTest() {
     var list = new DoubleLinkedList<Integer>();
 
     list.addLast(2);
     list.addFirst(1);
     list.addLast(3);
 
-    assertEquals(list.getLast(), 3);
+    assertEquals(3, list.getLast());
   }
 
   @Test
-  public void deleteByIndexTest() {
+  void deleteByIndexTest() {
     var list = new DoubleLinkedList<Integer>();
 
     list.addAll(List.of(1, 2, 300, 4, 5));
 
-    assertEquals(list.remove(2), 300);
-    assertEquals(list.size(), 4);
+    assertEquals(300, list.remove(2));
+    assertEquals(4, list.size());
   }
 
   @Test
-  public void hasByValueTest() {
+  void hasByValueTest() {
     var list = new DoubleLinkedList<Integer>();
 
     list.addAll(List.of(1, 2, 300, 4, 5));
@@ -40,7 +40,7 @@ public class DoubleLinkedListTest {
   }
 
   @Test
-  public void isEmptyTest() {
+  void isEmptyTest() {
     var list = new DoubleLinkedList<Integer>();
     assertTrue(list.isEmpty());
 
@@ -49,26 +49,26 @@ public class DoubleLinkedListTest {
   }
 
   @Test
-  public void getByIndexTest() {
+  void getByIndexTest() {
     var list = new DoubleLinkedList<Integer>();
 
     list.addAll(List.of(1, 2, 300, 4, 5));
 
-    assertEquals(list.get(2), 300);
+    assertEquals(300, list.get(2));
   }
 
   @Test
-  public void insertByIndexTest() {
+  void insertByIndexTest() {
     var list = new DoubleLinkedList<Integer>();
     list.addAll(List.of(1, 2, 4, 5));
 
     list.add(2, 300);
 
-    assertEquals(list.get(2), 300);
+    assertEquals(300, list.get(2));
   }
 
   @Test
-  public void notImplementedTest() {
+  void notImplementedTest() {
     var list = new DoubleLinkedList<Integer>();
     list.addAll(List.of(1, 2, 4, 1));
 
@@ -76,12 +76,12 @@ public class DoubleLinkedListTest {
     assertThrows(UnsupportedOperationException.class, () -> list.removeFirstOccurrence(1));
     assertThrows(UnsupportedOperationException.class, () -> list.removeLastOccurrence(1));
 
-    assertEquals(list.getFirst(), 1);
-    assertEquals(list.getLast(), 1);
+    assertEquals(1, list.getFirst());
+    assertEquals(1, list.getLast());
   }
 
   @Test
-  public void CRUDTest() {
+  void CRUDTest() {
     var list = new DoubleLinkedList<Integer>();
 
     list.addAll(List.of(1, 2, 4, 1));
@@ -91,24 +91,24 @@ public class DoubleLinkedListTest {
     list.set(2, 300);
 
     list.remove(1);
-    assertEquals(list.get(1), 300);
+    assertEquals(300, list.get(1));
 
-    assertEquals(list.getLast(), 10);
+    assertEquals(10, list.getLast());
     list.removeLast();
-    assertEquals(list.peekLast(), 1);
+    assertEquals(1, list.peekLast());
 
-    assertEquals(list.element(), -10);
+    assertEquals(-10, list.element());
 
     list.clear();
     //noinspection ConstantValue
     assertNull(list.peek());
 
     list.add(100);
-    assertEquals(list.peekFirst(), 100);
+    assertEquals(100, list.peekFirst());
   }
 
   @Test
-  public void listIteratorTest() {
+  void listIteratorTest() {
     var list = new DoubleLinkedList<Integer>();
     list.addAll(List.of(1, 2, 3, 4, 5));
 
@@ -116,7 +116,7 @@ public class DoubleLinkedListTest {
     var it = list.listIterator(1);
 
     while (it.hasNext()) {
-      assertEquals(it.next(), i++);
+      assertEquals(i++, it.next());
     }
   }
 }
