@@ -9,9 +9,9 @@ import org.junit.jupiter.api.Test;
  * ATM test class.
  */
 @SuppressWarnings("checkstyle:AbbreviationAsWordInName")
-public class ATMTest {
+class ATMTest {
   @Test
-  public void test5_2_3() {
+  void test5_2_3() {
     var sut = new AutomatedTellerMachine(new int[]{2, 3});
     int amount = 5;
 
@@ -23,7 +23,7 @@ public class ATMTest {
   }
 
   @Test
-  public void test4_2_1() {
+  void test4_2_1() {
     var sut = new AutomatedTellerMachine(new int[]{2, 1});
     int amount = 4;
 

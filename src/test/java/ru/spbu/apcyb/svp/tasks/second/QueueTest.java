@@ -10,29 +10,29 @@ import org.junit.jupiter.api.Test;
 /**
  * Test class for {@link MyQueue}.
  */
-public class QueueTest {
+class QueueTest {
   @Test
-  public void add2QueueTest() {
+  void add2QueueTest() {
     var queue = new MyQueue<Integer>();
 
     queue.add(1);
     queue.add(2);
     queue.add(3);
 
-    assertEquals(queue.peekLast(), 3);
+    assertEquals(3, queue.peekLast());
   }
 
   @Test
-  public void getFirstTest() {
+  void getFirstTest() {
     var queue = new MyQueue<Integer>();
 
     queue.addAll(List.of(1, 2, 300, 4, 5));
 
-    assertEquals(queue.getFirst(), 1);
+    assertEquals(1, queue.getFirst());
   }
 
   @Test
-  public void isEmptyTest() {
+  void isEmptyTest() {
     var queue = new MyQueue<Integer>();
     assertTrue(queue.isEmpty());
 
