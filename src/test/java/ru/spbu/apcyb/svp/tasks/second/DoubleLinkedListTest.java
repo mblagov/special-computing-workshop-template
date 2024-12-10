@@ -81,23 +81,60 @@ class DoubleLinkedListTest {
   }
 
   @Test
-  void CRUDTest() {
+  void AddTest() {
     var list = new DoubleLinkedList<Integer>();
-
     list.addAll(List.of(1, 2, 4, 1));
-    list.offerFirst(-10);
-    list.offerLast(10);
 
-    list.set(2, 300);
+    list.offerFirst(-10); // -10, 1, 2, 4, 1
+    assertEquals(-10, list.getFirst());
 
-    list.remove(1);
-    assertEquals(300, list.get(1));
+    // offer is equivalent offerLast
+    list.offer(5); // -10, 1, 2, 4, 1, 5
+    assertEquals(5, list.getLast());
 
+    list.offerLast(10); // -10, 1, 2, 4, 1, 5, 10
     assertEquals(10, list.getLast());
-    list.removeLast();
-    assertEquals(1, list.peekLast());
+  }
 
-    assertEquals(-10, list.element());
+  @Test
+  void SetTest() {
+    var list = new DoubleLinkedList<Integer>();
+    list.addAll(List.of(1, 2, 4, 1));
+
+    list.set(2, 300); // 1, 2, 300, 1
+    assertEquals(300, list.get(2));
+
+    list.set(0, 100); // 100, 2, 300, 1
+    assertEquals(100, list.getFirst());
+
+    list.set(3, 500); // 100, 2, 300, 500
+    assertEquals(500, list.getLast());
+  }
+
+  @Test
+  void RemoveTest() {
+    var list = new DoubleLinkedList<Integer>();
+    list.addAll(List.of(1, 2, 4, 1));
+
+    list.remove(1); // 1, 4, 1
+
+    assertEquals(1, list.getFirst());
+    assertEquals(4, list.get(1));
+
+    list.removeLast(); // 1, 4
+    assertEquals(4, list.peekLast()); // peekLast doesn't throw exception if no element
+
+    list.removeFirst(); // 4
+    assertEquals(4, list.peekFirst());
+
+    list.removeLast(); // nothing left
+    assertNull(list.peek());
+  }
+
+  @Test
+  void ClearTest() {
+    var list = new DoubleLinkedList<Integer>();
+    list.addAll(List.of(1, 2, 4, 1));
 
     list.clear();
     //noinspection ConstantValue

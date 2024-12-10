@@ -17,8 +17,9 @@ import java.util.NoSuchElementException;
 public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements List<T>, Deque<T> {
   private int size = 0;
 
-  Node<T> head = null;
-  Node<T> tail = null;
+  // Do not allow modifying from another scope
+  private Node<T> head = null;
+  private Node<T> tail = null;
 
   /**
    * Unlinks non-null node.
@@ -371,17 +372,17 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
 
   @Override
   public Iterator<T> descendingIterator() {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Descending iterator is not supported for DoubleLinkedList");
   }
 
   @Override
   public boolean removeFirstOccurrence(Object o) {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Removing first occurrence is not supported for DoubleLinkedList");
   }
 
   @Override
   public boolean removeLastOccurrence(Object o) {
-    throw new UnsupportedOperationException();
+    throw new UnsupportedOperationException("Removing last occurrence is not supported for DoubleLinkedList");
   }
 
   @Override

@@ -20,8 +20,8 @@ public class WordCounter {
     private WordCounter() {
     }
 
-    private static final String STATISTIC_FILENAME = "counts.txt";
-    private static final String WORDS_DIRECTORY = "words";
+    public static final String STATISTIC_FILENAME = "counts.txt";
+    public static final String WORDS_DIRECTORY = "words";
 
 
     /**
@@ -52,7 +52,7 @@ public class WordCounter {
             }
         }
 
-        //noinspection ResultOfMethodCallIgnored
+        //noinspection ResultOfMethodCallIgnored bcs folder structure can be already created, and we don't care.
         Path.of(WORDS_DIRECTORY).toFile().mkdirs(); // create directory for words txt files
 
         ExecutorService executor = Executors.newFixedThreadPool(Runtime.getRuntime().availableProcessors());

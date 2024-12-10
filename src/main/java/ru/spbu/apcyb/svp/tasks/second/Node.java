@@ -1,5 +1,10 @@
 package ru.spbu.apcyb.svp.tasks.second;
 
+/**
+ * Node is auxiliary class for store value and manipulate of {@link DoubleLinkedList} cell.
+ * It's final class for using only within {@link DoubleLinkedList}
+ * @param <T> is type of value inside node
+ */
 final class Node<T> {
     T item;
     Node<T> next;
