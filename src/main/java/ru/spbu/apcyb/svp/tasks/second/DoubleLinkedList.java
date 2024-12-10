@@ -15,35 +15,6 @@ import java.util.NoSuchElementException;
  *           that implements some methods by using {@link Iterator}.
  */
 public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements List<T>, Deque<T> {
-  private static class Node<T> {
-    T item;
-    Node<T> next;
-    Node<T> prev;
-
-    Node(Node<T> prev, T element, Node<T> next) {
-      this.prev = prev;
-      this.item = element;
-      this.next = next;
-    }
-
-    Node(T element) {
-      this(null, element, null);
-    }
-
-    /**
-     * Returns item and set all fields to null.
-     */
-    public T destruct() {
-      final T el = item;
-
-      prev = null;
-      next = null;
-      item = null;
-
-      return el;
-    }
-  }
-
   private int size = 0;
 
   Node<T> head = null;
@@ -139,7 +110,7 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
   @Override
   public T remove(int index) {
     if (index < 0 || index >= size) {
-      throw new IndexOutOfBoundsException();
+      throw new IndexOutOfBoundsException("Index is outside of the list");
     }
     return unlink(search(index));
   }
@@ -241,7 +212,7 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
   @Override
   public T get(int index) {
     if (index < 0 || index >= size) {
-      throw new IndexOutOfBoundsException();
+      throw new IndexOutOfBoundsException("Index is outside of the list");
     }
     return search(index).item;
   }
@@ -391,7 +362,7 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
   @Override
   public ListIterator<T> listIterator(int index) {
     if (index < 0 || index > size) {
-      throw new IndexOutOfBoundsException();
+      throw new IndexOutOfBoundsException("Can not start iterator from last or out of bounds index");
     }
     return new DoubleLinkedListIterator(index);
   }

@@ -206,8 +206,8 @@ public class YandexDiskClient {
      * If the target path already exists and the overwrite flag is set to true, the existing resource will be
      * replaced.
      *
-     * @param from     The source path of the file or folder to be copied.
-     * @param path     The target path where the resource will be copied.
+     * @param from      The source path of the file or folder to be copied.
+     * @param path      The target path where the resource will be copied.
      * @param overwrite If true, the existing resource at the target path will be overwritten.
      * @return true if the copy operation was successful.
      * @throws IOException          if an I/O error occurs when sending or receiving, or if the client has

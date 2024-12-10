@@ -3,7 +3,11 @@ package ru.spbu.apcyb.svp.tasks.first;
 import java.util.ArrayList;
 import java.util.List;
 
-/** Simple ATM. */
+/**
+ * Simple ATM.
+ * It could throw MemoryOverflow if the number of combinations is too big.
+ * Possible improvements: creating getNextCombination method that returns an implementation of Iterator<List<Integer>>
+ * */
 public class AutomatedTellerMachine {
   private final int[] denominations;
 
@@ -24,8 +28,7 @@ public class AutomatedTellerMachine {
     findCombinations(amount, result, new ArrayList<>(), 0);
   }
 
-  private void findCombinations(
-      int amount, List<List<Integer>> result, List<Integer> combination, int start) {
+  private void findCombinations(int amount, List<List<Integer>> result, List<Integer> combination, int start) {
     if (amount < 0) {
       return;
     }
