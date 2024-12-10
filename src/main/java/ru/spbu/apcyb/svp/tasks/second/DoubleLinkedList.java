@@ -27,21 +27,15 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
   private T unlink(Node<T> cur) {
     assert cur != null;
 
-    final Node<T> next = cur.next;
-    final Node<T> prev = cur.prev;
+    final Node<T> next = cur.getNext();
+    final Node<T> prev = cur.getPrev();
 
     if (prev == null) {
       head = next;
-    } else {
-      prev.next = next;
-      cur.prev = null;
     }
 
     if (next == null) {
       tail = prev;
-    } else {
-      next.prev = prev;
-      cur.next = null;
     }
 
     size--;
@@ -63,7 +57,6 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
       tail = head;
     } else {
       head = new Node<>(null, el, head);
-      head.next.prev = head;
     }
     size++;
   }
@@ -75,7 +68,6 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
       head = tail;
     } else {
       tail = new Node<>(tail, el, null);
-      tail.prev.next = tail;
     }
     size++;
   }
@@ -120,14 +112,13 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
   public T removeFirst() {
     final Node<T> f = head;
     if (f == null) {
-      throw new NoSuchElementException();
+      throw new NoSuchElementException("The list is empty");
     }
 
-    if (f.next == null) {
+    if (f.getNext() == null) {
       head = tail = null;
     } else {
-      head = f.next;
-      head.prev = null;
+      head = f.getNext();
     }
 
     size--;
@@ -138,14 +129,13 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
   public T removeLast() {
     final Node<T> l = tail;
     if (l == null) {
-      throw new NoSuchElementException();
+      throw new NoSuchElementException("The list is empty");
     }
 
-    if (l.prev == null) {
+    if (l.getPrev() == null) {
       head = tail = null;
     } else {
-      tail = l.prev;
-      tail.next = null;
+      tail = l.getPrev();
     }
 
     size--;
@@ -182,17 +172,17 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
   @Override
   public T getFirst() {
     if (head == null) {
-      throw new NoSuchElementException();
+      throw new NoSuchElementException("The list is empty");
     }
-    return head.item;
+    return head.getItem();
   }
 
   @Override
   public T getLast() {
     if (tail == null) {
-      throw new NoSuchElementException();
+      throw new NoSuchElementException("The list is empty");
     }
-    return tail.item;
+    return tail.getItem();
   }
 
   @Override
@@ -202,12 +192,12 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
 
   @Override
   public T peekFirst() {
-    return head == null ? null : head.item;
+    return head == null ? null : head.getItem();
   }
 
   @Override
   public T peekLast() {
-    return tail == null ? null : tail.item;
+    return tail == null ? null : tail.getItem();
   }
 
   @Override
@@ -215,7 +205,7 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
     if (index < 0 || index >= size) {
       throw new IndexOutOfBoundsException("Index is outside of the list");
     }
-    return search(index).item;
+    return search(index).getItem();
   }
 
   /**
@@ -230,12 +220,12 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
     if (index < size / 2) {
       node = head;
       for (int i = 0; i < index; i++) {
-        node = node.next;
+        node = node.getNext();
       }
     } else {
       node = tail;
       for (int i = size - 1; i > index; i--) {
-        node = node.prev;
+        node = node.getPrev();
       }
     }
 
@@ -268,16 +258,16 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
     @Override
     public T next() {
       if (!hasNext()) {
-        throw new NoSuchElementException();
+        throw new NoSuchElementException("The list is empty");
       }
 
       assert next != null;
 
       lastReturned = next;
-      next = lastReturned.next;
+      next = lastReturned.getNext();
       index++;
 
-      return lastReturned.item;
+      return lastReturned.getItem();
     }
 
     @Override
@@ -288,14 +278,14 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
     @Override
     public T previous() {
       if (!hasPrevious()) {
-        throw new NoSuchElementException();
+        throw new NoSuchElementException("The list is empty");
       }
 
       // next() can set next to null
-      lastReturned = next = (next == null) ? tail : next.prev;
+      lastReturned = next = (next == null) ? tail : next.getPrev();
       index--;
 
-      return lastReturned.item;
+      return lastReturned.getItem();
     }
 
     @Override
@@ -311,11 +301,11 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
     @Override
     public void remove() {
       if (lastReturned == null) {
-        throw new IllegalStateException();
+        throw new IllegalStateException("No selected element to remove");
       }
 
       if (lastReturned == next) {
-        next = lastReturned.next;
+        next = lastReturned.getNext();
       } else {
         index--;
       }
@@ -327,10 +317,10 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
     @Override
     public void set(T el) {
       if (lastReturned == null) {
-        throw new IllegalStateException();
+        throw new IllegalStateException("No selected element to set");
       }
 
-      lastReturned.item = el;
+      lastReturned.setItem(el);
     }
 
     @Override
@@ -347,14 +337,11 @@ public class DoubleLinkedList<T> extends AbstractSequentialList<T> implements Li
     }
 
     private void insertBefore(T el, Node<T> node) {
-      final Node<T> newNode = new Node<>(node.prev, el, node);
+      final Node<T> newNode = new Node<>(node.getPrev(), el, node);
 
-      if (node.prev == null) {
+      if (node.getPrev() == null) {
         head = newNode;
-      } else {
-        node.prev.next = newNode;
       }
-      node.prev = newNode;
 
       size++;
     }
